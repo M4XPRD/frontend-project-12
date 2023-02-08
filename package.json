@@ -4,7 +4,8 @@
   "description": "[![Actions Status](https://github.com/M4XPRD/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/M4XPRD/frontend-project-12/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start-server -s ./frontend/build"
   },
   "repository": {
     "type": "git",
