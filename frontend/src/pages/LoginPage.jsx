@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { Link } from 'react-router-dom';
 import Login from '../images/Login.jpg';
 
 const LoginPage = () => (
@@ -53,7 +54,7 @@ const LoginPage = () => (
             <div className="text-center">
               <span>Нет аккаунта?</span>
               {' '}
-              <a href="/signup">Регистрация</a>
+              <Link to="/signup">Регистрация</Link>
             </div>
           </div>
         </div>

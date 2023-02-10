@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const ErrorPage = () => (
   <div className="text-center">
     <img
@@ -9,7 +11,7 @@ const ErrorPage = () => (
     <p className="text-muted">
       Но вы можете перейти
       {' '}
-      <a href="/">на главную страницу</a>
+      <Link to="/">на главную страницу</Link>
     </p>
   </div>
 );
