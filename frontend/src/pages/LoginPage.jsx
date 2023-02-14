@@ -1,11 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable functional/no-expression-statements */
 /* eslint-disable jsx-a11y/label-has-associated-control */
+// import React, { useEffect } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
+import axios from 'axios';
 import Login from '../images/Login.jpg';
 
 const signUpSchema = yup.object().shape({
@@ -19,11 +21,15 @@ const signUpSchema = yup.object().shape({
     .required('Required'),
 });
 
-const onSubmit = () => {
-  console.log('submitted!');
-};
+// const onSubmit = () => {
+//   console.log('submitted!');
+// };
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  // useEffect(() => {
+  //   const getToken = axios.get('/')
+  // });
+
   const {
     values, errors, handleChange, handleSubmit,
   } = useFormik({
@@ -33,7 +39,9 @@ const LoginPage = () => {
     },
     validationSchema: signUpSchema,
     validateOnChange: false,
-    onSubmit,
+    onSubmit: async () => {
+      await axios.post('http://localhost:5001/login', { username: values.username, password: values.password });
+    },
   });
 
   const inputClassnames = cn('form-control', {
