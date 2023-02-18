@@ -1,14 +1,12 @@
-/* eslint-disable max-len */
-/* eslint-disable functional/no-expression-statements */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-// import React, { useEffect } from 'react';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
+import { React, useEffect } from 'react';
 import Login from '../images/Login.jpg';
+import routes from '../routes/routes.js';
 
 const signUpSchema = yup.object().shape({
   username: yup.string()
@@ -21,14 +19,14 @@ const signUpSchema = yup.object().shape({
     .required('Required'),
 });
 
-// const onSubmit = () => {
-//   console.log('submitted!');
-// };
+const LoginPage = () => {
+  const navigate = useNavigate();
 
-const LoginPage = async () => {
-  // useEffect(() => {
-  //   const getToken = axios.get('/')
-  // });
+  useEffect(() => {
+    if (!localStorage.authToken) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const {
     values, errors, handleChange, handleSubmit,
@@ -40,12 +38,25 @@ const LoginPage = async () => {
     validationSchema: signUpSchema,
     validateOnChange: false,
     onSubmit: async () => {
-      await axios.post('http://localhost:5001/login', { username: values.username, password: values.password });
+      await axios.post(routes.loginPath(), { username: values.username, password: values.password })
+        .then((responce) => {
+          const { token } = responce.data;
+          console.log(responce.data);
+          localStorage.clear();
+          localStorage.setItem('authToken', token);
+          navigate('/');
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status >= 400) {
+            errors.token = true;
+          }
+        });
     },
   });
 
   const inputClassnames = cn('form-control', {
-    'is-invalid': errors.username || errors.password,
+    'is-invalid': errors.username || errors.password || errors.token,
   });
 
   return (
@@ -89,7 +100,7 @@ const LoginPage = async () => {
                     onChange={handleChange}
                   />
                   <label className="form-label" htmlFor="password">Пароль</label>
-                  {(errors.username || errors.password) && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
+                  {(errors) && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
                 </div>
                 <button
                   type="submit"
