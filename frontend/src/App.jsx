@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ChatMain from './pages/ChatMain';
+import Main from './pages/Main';
 
 const App = () => (
-  <ChatMain />
+  <Main />
 );
 
 export default App;
