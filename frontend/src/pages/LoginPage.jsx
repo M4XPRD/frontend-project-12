@@ -7,6 +7,7 @@ import axios from 'axios';
 import { React, useEffect } from 'react';
 import Login from '../images/Login.jpg';
 import routes from '../routes/routes.js';
+// import useAuth from './../hooks/index';
 
 const signUpSchema = yup.object().shape({
   username: yup.string()
@@ -20,16 +21,17 @@ const signUpSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
+  // const auth = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.authToken) {
-      navigate('/login');
+    if (localStorage.getItem('authToken')) {
+      navigate('/');
     }
   }, [navigate]);
 
   const {
-    values, errors, handleChange, handleSubmit,
+    values, errors, handleChange, handleSubmit, setSubmitting,
   } = useFormik({
     initialValues: {
       username: '',
@@ -38,20 +40,22 @@ const LoginPage = () => {
     validationSchema: signUpSchema,
     validateOnChange: false,
     onSubmit: async () => {
+      setSubmitting(true);
       await axios.post(routes.loginPath(), { username: values.username, password: values.password })
         .then((responce) => {
-          const { token } = responce.data;
-          console.log(responce.data);
+          // eslint-disable-next-line max-len
+          // {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…M2MX0.AZxACqKsoCWitmYYzgzyHh5i5W9oWX6ualKLKI-MqsE', username: 'admin'}
           localStorage.clear();
-          localStorage.setItem('authToken', token);
+          localStorage.setItem('authToken', JSON.stringify(responce.data));
+          // useAuth();
           navigate('/');
         })
         .catch((error) => {
-          console.log(error);
           if (error.response.status >= 400) {
             errors.token = true;
           }
         });
+      setSubmitting(false);
     },
   });
 
@@ -100,7 +104,7 @@ const LoginPage = () => {
                     onChange={handleChange}
                   />
                   <label className="form-label" htmlFor="password">Пароль</label>
-                  {(errors) && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
+                  {errors && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
                 </div>
                 <button
                   type="submit"
