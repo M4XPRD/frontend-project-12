@@ -1,13 +1,13 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Link, useNavigate } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
-import { React, useEffect } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import Login from '../images/Login.jpg';
 import routes from '../routes/routes.js';
-// import useAuth from './../hooks/index';
+import useAuth from '../hooks/index';
 
 const signUpSchema = yup.object().shape({
   username: yup.string()
@@ -21,7 +21,8 @@ const signUpSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  // const auth = useAuth();
+  const [authError, setAuthError] = useState(false);
+  const auth = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const LoginPage = () => {
   }, [navigate]);
 
   const {
-    values, errors, handleChange, handleSubmit, setSubmitting,
+    values, errors, handleChange, handleSubmit, isSubmitting,
   } = useFormik({
     initialValues: {
       username: '',
@@ -40,27 +41,26 @@ const LoginPage = () => {
     validationSchema: signUpSchema,
     validateOnChange: false,
     onSubmit: async () => {
-      setSubmitting(true);
+      setAuthError(false);
       await axios.post(routes.loginPath(), { username: values.username, password: values.password })
         .then((responce) => {
-          // eslint-disable-next-line max-len
-          // {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiO…M2MX0.AZxACqKsoCWitmYYzgzyHh5i5W9oWX6ualKLKI-MqsE', username: 'admin'}
           localStorage.clear();
-          localStorage.setItem('authToken', JSON.stringify(responce.data));
-          // useAuth();
+          localStorage.setItem('userInfo', JSON.stringify(responce.data));
+          console.log(localStorage.getItem('userInfo'));
+          auth.logIn();
+          console.log(auth.isLoggedIn);
           navigate('/');
         })
         .catch((error) => {
           if (error.response.status >= 400) {
-            errors.token = true;
+            setAuthError(true);
           }
         });
-      setSubmitting(false);
     },
   });
 
-  const inputClassnames = cn('form-control', {
-    'is-invalid': errors.username || errors.password || errors.token,
+  const inputClassNames = cn('form-control', {
+    'is-invalid': errors.username || errors.password || authError,
   });
 
   return (
@@ -76,48 +76,54 @@ const LoginPage = () => {
                   alt="Войти"
                 />
               </div>
-              <form onSubmit={handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form onSubmit={handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
                 <h1 className="text-center mb-4">Войти</h1>
-                <div className="form-floating mb-3">
-                  <input
+                <Form.Group className="form-floating mb-3">
+                  <Form.Control
                     name="username"
                     autoComplete="username"
                     required=""
                     placeholder="Ваш ник"
                     id="username"
-                    className={inputClassnames}
+                    className={inputClassNames}
                     value={values.username}
                     onChange={handleChange}
                   />
-                  <label htmlFor="username">Ваш ник</label>
-                </div>
-                <div className="form-floating mb-4">
-                  <input
+                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                </Form.Group>
+                <Form.Group className="form-floating mb-4">
+                  <Form.Control
                     name="password"
                     autoComplete="current-password"
                     required=""
                     placeholder="Пароль"
                     type="password"
                     id="password"
-                    className={inputClassnames}
+                    className={inputClassNames}
                     value={values.password}
                     onChange={handleChange}
                   />
-                  <label className="form-label" htmlFor="password">Пароль</label>
-                  {errors && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
-                </div>
-                <button
+                  <Form.Label className="form-label" htmlFor="password">
+                    Пароль
+                  </Form.Label>
+                  {(errors || authError) && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
+                </Form.Group>
+                <Button
                   type="submit"
-                  className="w-100 mb-3 btn btn-outline-primary"
+                  className="w-100 mb-3 btn-outline-primary btn-light"
+                  disabled={isSubmitting}
+                  style={{
+                    position: 'relative',
+                    marginTop: '10px',
+                  }}
                 >
                   Войти
-                </button>
-              </form>
+                </Button>
+              </Form>
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
-                {' '}
+                <span>Нет аккаунта? </span>
                 <Link to="/signup">Регистрация</Link>
               </div>
             </div>
