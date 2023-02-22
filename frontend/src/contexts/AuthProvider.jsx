@@ -34,14 +34,20 @@ export default AuthProvider;
 const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const toggleAuth = useCallback(() => {
-    setIsLoggedIn(!isLoggedIn);
-  }, [isLoggedIn]);
+  const logIn = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
+
+  const logOut = useCallback(() => {
+    localStorage.removeItem('userInfo');
+    setIsLoggedIn(false);
+  }, []);
 
   const providedData = useMemo(() => ({
     isLoggedIn,
-    toggleAuth,
-  }), [isLoggedIn, toggleAuth]);
+    logIn,
+    logOut,
+  }), [isLoggedIn, logIn, logOut]);
 
   return (
     <AuthContext.Provider value={providedData}>
