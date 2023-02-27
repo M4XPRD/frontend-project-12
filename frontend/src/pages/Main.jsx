@@ -22,7 +22,9 @@ const Main = () => (
     <div className="h-100" id="chat">
       <div className="d-flex flex-column h-100">
         <Nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
-          <div className="container"><a className="navbar-brand" href="/">Hexlet Chat</a></div>
+          <div className="container">
+            <a className="navbar-brand" href="/">Hexlet Chat</a>
+          </div>
         </Nav>
         <Routes>
           <Route path="/" element={<ChatPage />} />
