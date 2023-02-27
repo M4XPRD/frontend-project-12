@@ -26,7 +26,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('authToken')) {
+    if (localStorage.getItem('userInfo')) {
       navigate('/');
     }
   }, [navigate]);
@@ -46,9 +46,7 @@ const LoginPage = () => {
         .then((responce) => {
           localStorage.clear();
           localStorage.setItem('userInfo', JSON.stringify(responce.data));
-          console.log(localStorage.getItem('userInfo'));
           auth.logIn();
-          console.log(auth.isLoggedIn);
           navigate('/');
         })
         .catch((error) => {
