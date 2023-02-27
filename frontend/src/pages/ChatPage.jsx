@@ -1,19 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import axios from 'axios';
 import useAuth from '../hooks/index';
-
-// eslint-disable-next-line max-len
-// Сделайте проверку существования токена в localStorage и редирект на форму входа в случае его отсутствия.
 
 const ChatPage = () => {
   const navigate = useNavigate();
   const auth = useAuth();
 
-  console.log(auth.isLoggedIn);
-
-  const deleteToken = () => {
-    localStorage.removeItem('userInfo');
-  };
+  useEffect(() => {
+    axios.get('/api/v1/data', {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')).token}`,
+      },
+    }).then((responce) => console.log(responce.data));
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('userInfo')) {
@@ -21,9 +22,16 @@ const ChatPage = () => {
     }
   }, [navigate]);
 
+  const deleteToken = () => {
+    auth.logOut();
+  };
+
   return (
     <div>
-      {localStorage.getItem('userInfo') ? (<Link to="/login">Back</Link>) : null}
+      <br />
+      {auth.isLoggedIn && (<button type="button"><Link to="/login">Выход</Link></button>)}
+      <br />
+      <button type="button"><Link to="/login">Просто назад</Link></button>
       <br />
       <br />
       <br />
