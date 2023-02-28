@@ -23,13 +23,12 @@ const SignUpPage = () => (
                   className="form-control is-invalid"
                   value=""
                 />
-                <label
-                  className="form-label"
-                  htmlFor="username"
-                >
+                <label className="form-label" htmlFor="username">
                   Имя пользователя
                 </label>
-                <div placement="right" className="invalid-tooltip">Обязательное поле</div>
+                <div placement="right" className="invalid-tooltip">
+                  Обязательное поле
+                </div>
               </div>
               <div className="form-floating mb-3">
                 <input
@@ -44,10 +43,7 @@ const SignUpPage = () => (
                   value=""
                 />
                 <div className="invalid-tooltip">Обязательное поле</div>
-                <label
-                  className="form-label"
-                  htmlFor="password"
-                >
+                <label className="form-label" htmlFor="password">
                   Пароль
                 </label>
               </div>
@@ -64,11 +60,12 @@ const SignUpPage = () => (
                 />
                 <div className="invalid-tooltip" />
                 <label className="form-label" htmlFor="confirmPassword">
-                  Подтвердите
-                  пароль
+                  Подтвердите пароль
                 </label>
               </div>
-              <button type="submit" className="w-100 btn btn-outline-primary">Зарегистрироваться</button>
+              <button type="submit" className="w-100 btn btn-outline-primary">
+                Зарегистрироваться
+              </button>
             </form>
           </div>
         </div>
