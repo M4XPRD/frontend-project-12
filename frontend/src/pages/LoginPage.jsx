@@ -10,11 +10,13 @@ import routes from '../routes/routes.js';
 import useAuth from '../hooks/index';
 
 const signUpSchema = yup.object().shape({
-  username: yup.string()
+  username: yup
+    .string()
     .min(5, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  password: yup.string()
+  password: yup
+    .string()
     .min(5, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -42,7 +44,11 @@ const LoginPage = () => {
     validateOnChange: false,
     onSubmit: async () => {
       setAuthError(false);
-      await axios.post(routes.loginPath(), { username: values.username, password: values.password })
+      await axios
+        .post(routes.loginPath(), {
+          username: values.username,
+          password: values.password,
+        })
         .then((responce) => {
           localStorage.clear();
           localStorage.setItem('userInfo', JSON.stringify(responce.data));
@@ -68,13 +74,12 @@ const LoginPage = () => {
           <div className="card shadow-sm">
             <div className="card-body row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img
-                  src={Login}
-                  className="rounded-circle"
-                  alt="Войти"
-                />
+                <img src={Login} className="rounded-circle" alt="Войти" />
               </div>
-              <Form onSubmit={handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form
+                onSubmit={handleSubmit}
+                className="col-12 col-md-6 mt-3 mt-mb-0"
+              >
                 <h1 className="text-center mb-4">Войти</h1>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
@@ -104,7 +109,11 @@ const LoginPage = () => {
                   <Form.Label className="form-label" htmlFor="password">
                     Пароль
                   </Form.Label>
-                  {(errors || authError) && <div className="invalid-tooltip">Неверные имя пользователя или пароль</div>}
+                  {(errors || authError) && (
+                    <div className="invalid-tooltip">
+                      Неверные имя пользователя или пароль
+                    </div>
+                  )}
                 </Form.Group>
                 <Button
                   type="submit"
