@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
@@ -27,12 +27,6 @@ const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem('userInfo')) {
-      navigate('/');
-    }
-  }, [navigate]);
-
   const {
     values, errors, handleChange, handleSubmit, isSubmitting,
   } = useFormik({
@@ -50,9 +44,10 @@ const LoginPage = () => {
           password: values.password,
         })
         .then((responce) => {
+          const data = JSON.stringify(responce.data);
           localStorage.clear();
-          localStorage.setItem('userInfo', JSON.stringify(responce.data));
-          auth.logIn();
+          localStorage.setItem('userInfo', data);
+          auth.logIn(data);
           navigate('/');
         })
         .catch((error) => {
