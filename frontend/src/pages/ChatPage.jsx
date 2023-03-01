@@ -22,7 +22,7 @@ const ChatPage = () => {
     }).then((responce) => {
       // {channels: Array(2), messages: Array(0), currentChannelId: 1}
       dispatch(setInfo(responce.data));
-    });
+    }).catch((error) => console.log(error));
   }, [dispatch]);
 
   useEffect(() => {
@@ -53,6 +53,13 @@ const ChatPage = () => {
   //     <button type="button"><Link to="/login">Просто назад</Link></button>
   //     <br />
   //     <br />
+  //     <button type="button">
+  //       <Link to="/login">
+  //         ПРОЧИТАТЬ СОСТОЯНИЕ
+  //         {' '}
+  //         {console.log(auth.isLoggedIn)}
+  //       </Link>
+  //     </button>
   //     <br />
   //     <button type="button" onClick={deleteToken}>Удалить токен</button>
   //   </div>
