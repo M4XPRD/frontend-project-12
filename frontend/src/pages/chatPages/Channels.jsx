@@ -1,6 +1,12 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setActiveChannel } from '../../store/channelSlice';
+
 const Channels = () => {
-  const filler = 1;
-  console.log(filler);
+  const channels = useSelector((state) => state.chat.chatInfo.channels);
+  // [{{id: 1, name: 'general', removable: false}}
+  // , {{id: 2, name: 'random', removable: false}}]
+  const activeChannel = useSelector((state) => state.channel.activeChannel);
+  const dispatch = useDispatch();
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -16,31 +22,28 @@ const Channels = () => {
 
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-        <li className="nav-item w-100">
-          <button type="button" className="w-100 rounded-0 text-start btn btn-secondary">
-            <span className="me-1">#</span>
-            general
-          </button>
-        </li>
-        <li className="nav-item w-100">
-          <button type="button" className="w-100 rounded-0 text-start btn">
-            <span className="me-1">#</span>
-            random
-          </button>
+        {channels && channels.map(({ id, name, removable }) => (removable ? (
+          <li className="nav-item w-100" key={id}>
+            <div role="group" className="d-flex dropdown btn-group">
+              <button onClick={() => dispatch(setActiveChannel(name))} type="button" className={`w-100 rounded-0 text-start text-truncate btn ${activeChannel === name ? 'btn-secondary' : ''}`}>
+                <span className="me-1">#</span>
+                {name}
+              </button>
+              <button type="button" id="react-aria601620090-1" aria-expanded="false" className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn">
+                <span className="visually-hidden">Управление каналом</span>
+              </button>
 
-        </li>
-        <li className="nav-item w-100">
-          <div role="group" className="d-flex dropdown btn-group">
-            <button type="button" className="w-100 rounded-0 text-start text-truncate btn">
+            </div>
+          </li>
+        ) : (
+          <li className="nav-item w-100" key={id}>
+            <button onClick={() => dispatch(setActiveChannel(name))} type="button" className={`w-100 rounded-0 text-start btn ${activeChannel === name ? 'btn-secondary' : ''}`}>
               <span className="me-1">#</span>
-              321
-            </button>
-            <button type="button" id="react-aria601620090-1" aria-expanded="false" className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn">
-              <span className="visually-hidden">Управление каналом</span>
+              {name}
             </button>
 
-          </div>
-        </li>
+          </li>
+        )))}
       </ul>
     </div>
   );
