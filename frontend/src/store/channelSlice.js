@@ -4,14 +4,19 @@ import { createSlice } from '@reduxjs/toolkit';
 const channelSlice = createSlice({
   name: 'channel',
   initialState: {
-    activeChannel: 'general',
+    activeChannel: {
+      name: 'general',
+      id: 1,
+    },
   },
   reducers: {
     setActiveChannel: (state, action) => {
-      state.activeChannel = action.payload;
+      const { name, id } = action.payload;
+      state.activeChannel.name = name;
+      state.activeChannel.id = id;
     },
   },
 });
 
-export const { setActiveChannel } = channelSlice.actions;
+export const { setActiveChannel, addMessage } = channelSlice.actions;
 export default channelSlice.reducer;
