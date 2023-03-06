@@ -2,12 +2,14 @@ import { useMemo, useCallback } from 'react';
 import SocketContext from './SocketContext';
 
 const SocketProvider = ({ socket, children }) => {
-  const getMessages = useCallback((data) => {
-    socket.on('getMessages', data);
+  const getMessages = useCallback(() => {
+    socket.on('get messages', (data) => {
+      console.log(data);
+    });
   }, [socket]);
 
-  const sendMessage = useCallback((message) => {
-    socket.emit('sendMessage', message);
+  const sendMessage = useCallback((data) => {
+    socket.emit('send message', data);
   }, [socket]);
 
   const providedData = useMemo(() => ({
