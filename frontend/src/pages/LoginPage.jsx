@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
 import Login from '../images/Login.jpg';
 import routes from '../routes/routes.js';
-import useAuth from '../hooks/index';
+import useAuth from '../hooks/authHook';
 
 const signUpSchema = yup.object().shape({
   username: yup
