@@ -3,9 +3,11 @@ import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import { addMessage } from '../../store/messagesSlice';
+import useSocket from '../../hooks/socketHook';
 
 const Messages = () => {
   const [currentMessage, setCurrectMessage] = useState('');
+  const socket = useSocket();
   const activeChannel = useSelector((state) => state.channel.activeChannel);
   const allMessages = useSelector((state) => state.messages.messages);
   const activeId = activeChannel.id;
@@ -22,6 +24,7 @@ const Messages = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addMessage({ id: activeId, text: currentMessage }));
+    socket.sendMessage(currentMessage);
     setCurrectMessage('');
   };
 
@@ -33,14 +36,15 @@ const Messages = () => {
           <span className="text-muted">{`${filteredMessages.length} сообщений`}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {filteredMessages.length > 0 && filteredMessages.map((message) => (
+          {/* {filteredMessages.length > 0 && filteredMessages.map((message) => (
             <div className="text-break mb-2" key={_.uniqueId()}>
               <b>{username}</b>
               :
               {' '}
               {message}
             </div>
-          ))}
+          ))} */}
+          {console.log(socket.getMessages())}
         </div>
         <div className="mt-auto px-5 py-3">
           <form noValidate="" className="py-1 border rounded-2" onSubmit={handleSubmit}>
