@@ -6,7 +6,7 @@ import ErrorPage from './ErrorPage';
 import SignUpPage from './SignUpPage';
 import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
-import useAuth from '../hooks/index';
+import useAuth from '../hooks/authHook';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
