@@ -8,8 +8,8 @@ const messagesSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      const { id, text } = action.payload;
-      state.messages.push({ id, text });
+      const { channelId, body } = action.payload;
+      state.messages.push({ channelId, body });
     },
   },
 });
