@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { addMessage } from '../../store/messagesSlice';
 import useSocket from '../../hooks/socketHook';
 
 const Messages = () => {
@@ -12,10 +11,9 @@ const Messages = () => {
   const allMessages = useSelector((state) => state.messages.messages);
   const activeId = activeChannel.id;
   const filteredMessages = allMessages
-    .filter(({ id }) => id === activeId)
-    .map(({ text }) => text);
+    .filter(({ channelId }) => channelId === activeId)
+    .map(({ body }) => body);
   const { username } = JSON.parse(localStorage.getItem('userInfo'));
-  const dispatch = useDispatch();
 
   const inputClassNames = cn('input-group', {
     'has-validation': currentMessage.length < 1,
@@ -23,8 +21,8 @@ const Messages = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addMessage({ id: activeId, text: currentMessage }));
-    socket.sendMessage(currentMessage);
+    socket.sendMessage({ body: currentMessage, channelId: activeId, username });
+    // dispatch(addMessage({ channelId: activeId, body: currentMessage, username }));
     setCurrectMessage('');
   };
 
@@ -36,15 +34,14 @@ const Messages = () => {
           <span className="text-muted">{`${filteredMessages.length} сообщений`}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-          {/* {filteredMessages.length > 0 && filteredMessages.map((message) => (
+          {filteredMessages.length > 0 && filteredMessages.map((message) => (
             <div className="text-break mb-2" key={_.uniqueId()}>
               <b>{username}</b>
               :
               {' '}
               {message}
             </div>
-          ))} */}
-          {console.log(socket.getMessages())}
+          ))}
         </div>
         <div className="mt-auto px-5 py-3">
           <form noValidate="" className="py-1 border rounded-2" onSubmit={handleSubmit}>
