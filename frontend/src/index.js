@@ -1,20 +1,10 @@
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import React from 'react';
 import { io } from 'socket.io-client';
-import App from './App';
-import store from './store';
 import './index.css';
+import Init from './init.js';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
 const socket = io();
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App socket={socket} />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  Init(socket),
 );
