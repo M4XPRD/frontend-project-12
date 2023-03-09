@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -7,6 +7,7 @@ import useSocket from '../../hooks/socketHook';
 const Messages = () => {
   const [currentMessage, setCurrectMessage] = useState('');
   const socket = useSocket();
+  const messageScroll = useRef(null);
   const activeChannel = useSelector((state) => state.channel.activeChannel);
   const allMessages = useSelector((state) => state.messages.messages);
   const activeId = activeChannel.id;
@@ -19,10 +20,13 @@ const Messages = () => {
     'has-validation': currentMessage.length < 1,
   });
 
+  useEffect(() => {
+    messageScroll.current.scrollIntoView({ behavior: 'smooth' });
+  }, [filteredMessages]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.sendMessage({ body: currentMessage, channelId: activeId, username });
-    // dispatch(addMessage({ channelId: activeId, body: currentMessage, username }));
     setCurrectMessage('');
   };
 
@@ -42,6 +46,7 @@ const Messages = () => {
               {message}
             </div>
           ))}
+          <div ref={messageScroll} />
         </div>
         <div className="mt-auto px-5 py-3">
           <form noValidate="" className="py-1 border rounded-2" onSubmit={handleSubmit}>
