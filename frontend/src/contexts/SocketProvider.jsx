@@ -3,7 +3,11 @@ import SocketContext from './SocketContext';
 
 const SocketProvider = ({ socket, children }) => {
   const sendMessage = useCallback((payload) => {
-    socket.emit('newMessage', payload);
+    socket.emit('newMessage', payload, (callback) => {
+      callback({
+        status: 'ok',
+      });
+    });
     // { body: "message text", channelId: 1, username: 'admin' }
   }, [socket]);
 
