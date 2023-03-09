@@ -4,6 +4,7 @@ import axios from 'axios';
 import { setInfo } from '../store/chatSlice';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
+import { addMessage } from '../store/messagesSlice';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,11 @@ const ChatPage = () => {
       },
     }).then((responce) => {
       // {channels: Array(2), messages: Array(0), currentChannelId: 1}
+      // console.log(responce.data.messages);
       dispatch(setInfo(responce.data));
+      responce.data.messages.forEach((message) => {
+        dispatch(addMessage(message));
+      });
     }).catch((error) => console.log(error));
   }, [dispatch]);
 
