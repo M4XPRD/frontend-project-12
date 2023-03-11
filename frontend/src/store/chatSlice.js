@@ -1,13 +1,15 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState: {
-    chatInfo: {},
-    // [{{id: 1, name: 'general', removable: false}}, {{id: 2, name: 'random', removable: false}}]
+    chatInfo: [],
   },
   reducers: {
-    setInfo: (state, action) => ({ ...state, chatInfo: action.payload }),
+    setInfo: (state, action) => {
+      state.chatInfo = action.payload;
+    },
   },
 });
 
