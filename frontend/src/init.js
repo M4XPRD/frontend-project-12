@@ -1,13 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
-
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import React from 'react';
 import App from './App';
 import './index.css';
 import { addMessage } from './store/messagesSlice';
-import store from './store/index';
 import { setInfo } from './store/chatSlice';
+import store from './store/index';
 
 const Init = (socket) => {
   socket.on('newMessage', (data) => {
