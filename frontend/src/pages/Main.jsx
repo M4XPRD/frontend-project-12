@@ -12,10 +12,8 @@ const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
   const location = useLocation();
 
-  return hasToken ? (
-    children
-  ) : (
-    <Navigate to="/login" state={{ from: location }} />
+  return (
+    hasToken ? (children) : (<Navigate to="/login" state={{ from: location }} />)
   );
 };
 
@@ -38,7 +36,7 @@ const Main = () => {
                   className="btn btn-primary"
                   onClick={() => {
                     auth.logOut();
-                    navigate('/');
+                    navigate('/login');
                   }}
                 >
                   Выйти
