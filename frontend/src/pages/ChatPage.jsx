@@ -1,14 +1,12 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import axios from 'axios';
-import { setInfo } from '../store/chatSlice';
+import { useEffect } from 'react';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
-import { addMessage } from '../store/messagesSlice';
+import { addMessages } from '../store/messagesSlice';
+import { setInfo } from '../store/chatSlice';
+import store from '../store/index';
 
 const ChatPage = () => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     axios.get('/api/v1/data', {
       headers: {
@@ -16,13 +14,17 @@ const ChatPage = () => {
       },
     }).then((responce) => {
       // {channels: Array(2), messages: Array(0), currentChannelId: 1}
-      // console.log(responce.data.messages);
-      dispatch(setInfo(responce.data));
-      responce.data.messages.forEach((message) => {
-        dispatch(addMessage(message));
-      });
+      const { channels, messages, currentChannelId } = responce.data;
+      // console.log('КАНАЛЫ');
+      // console.log(channels);
+      // console.log('СООБЩЕНИЯ');
+      // console.log(messages);
+      console.log('ТЕКУЩИЙ ID');
+      console.log(currentChannelId);
+      store.dispatch(setInfo(channels));
+      store.dispatch(addMessages(messages));
     }).catch((error) => console.log(error));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
