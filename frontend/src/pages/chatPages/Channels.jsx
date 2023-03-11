@@ -2,9 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setActiveChannel } from '../../store/channelSlice';
 
 const Channels = () => {
-  const channels = useSelector((state) => state.chat.chatInfo.channels);
-  // [{{id: 1, name: 'general', removable: false}}
-  // , {{id: 2, name: 'random', removable: false}}]
+  const channels = useSelector((state) => state.chat.chatInfo);
   const activeChannelName = useSelector((state) => state.channel.activeChannel.name);
   const dispatch = useDispatch();
 
