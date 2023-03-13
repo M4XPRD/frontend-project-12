@@ -2,11 +2,13 @@ import {
   Routes, Route, useLocation, useNavigate, Navigate,
 } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 import ErrorPage from './ErrorPage';
 import SignUpPage from './SignUpPage';
 import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
 import useAuth from '../hooks/authHook';
+import NetworkError from '../images/NetworkError.png';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
@@ -18,9 +20,19 @@ const PrivateRoute = ({ children }) => {
 };
 
 const Main = () => {
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
   const parseToken = JSON.parse(localStorage.getItem('userInfo'));
   const navigate = useNavigate();
   const auth = useAuth();
+
+  useEffect(() => {
+    const handleNetworkChange = () => {
+      setIsOnline(window.navigator.onLine);
+    };
+    window.addEventListener('online', handleNetworkChange);
+    window.addEventListener('offline', handleNetworkChange);
+  }, []);
+
   return (
     <div className="h-100">
       <div className="h-100" id="chat">
@@ -30,6 +42,14 @@ const Main = () => {
               <a className="navbar-brand" href="/">
                 Hexlet Chat
               </a>
+              <img
+                alt="Network error"
+                src={NetworkError}
+                className="d-inline-block img-fluid mr-3 ml-auto"
+                style={{
+                  width: 22, marginRight: 20, marginLeft: 'auto', opacity: isOnline ? 0 : 1,
+                }}
+              />
               {parseToken && (
                 <button
                   type="button"
