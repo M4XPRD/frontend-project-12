@@ -11,7 +11,6 @@ const Messages = () => {
   const inputFocus = useRef();
   const activeChannel = useSelector((state) => state.channel.activeChannel);
   const allMessages = useSelector((state) => state.messages.allMessages);
-  console.log(allMessages);
   const activeId = activeChannel.id;
   const filteredMessages = allMessages
     .filter(({ channelId }) => channelId === activeId);
