@@ -1,37 +1,41 @@
 import {
-  Routes, Route, useLocation, useNavigate, Navigate,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Navigate,
 } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ErrorPage from './ErrorPage';
 import SignUpPage from './SignUpPage';
 import ChatPage from './ChatPage';
 import LoginPage from './LoginPage';
 import useAuth from '../hooks/authHook';
+import useNetwork from '../hooks/networkHook';
 import NetworkError from '../images/NetworkError.png';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
   const location = useLocation();
 
-  return (
-    hasToken ? (children) : (<Navigate to="/login" state={{ from: location }} />)
+  return hasToken ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ from: location }} />
   );
 };
 
 const Main = () => {
-  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
-  const parseToken = JSON.parse(localStorage.getItem('userInfo'));
-  const navigate = useNavigate();
+  const network = useNetwork();
   const auth = useAuth();
+  const navigate = useNavigate();
+  const parseToken = JSON.parse(localStorage.getItem('userInfo'));
 
   useEffect(() => {
-    const handleNetworkChange = () => {
-      setIsOnline(window.navigator.onLine);
-    };
-    window.addEventListener('online', handleNetworkChange);
-    window.addEventListener('offline', handleNetworkChange);
-  }, []);
+    window.addEventListener('online', network.handleNetworkChange);
+    window.addEventListener('offline', network.handleNetworkChange);
+  }, [network]);
 
   return (
     <div className="h-100">
@@ -47,7 +51,10 @@ const Main = () => {
                 src={NetworkError}
                 className="d-inline-block img-fluid mr-3 ml-auto"
                 style={{
-                  width: 22, marginRight: 20, marginLeft: 'auto', opacity: isOnline ? 0 : 1,
+                  width: 22,
+                  marginRight: 20,
+                  marginLeft: 'auto',
+                  opacity: network.isOnline ? 0 : 1,
                 }}
               />
               {parseToken && (
