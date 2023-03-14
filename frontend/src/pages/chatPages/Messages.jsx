@@ -71,10 +71,9 @@ const Messages = () => {
                     : 'Проверьте подключение к сети!'
                 }
                 className="border-0 p-0 ps-2 form-control"
-                value={currentMessage}
+                value={network.isOnline ? currentMessage : 'Проверьте подключение к сети!'}
                 ref={inputFocus}
                 onChange={(e) => setCurrectMessage(e.target.value)}
-                disabled={!network.isOnline}
               />
               <button
                 type="submit"
