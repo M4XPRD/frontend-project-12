@@ -8,7 +8,7 @@ import store from '../store/index';
 
 const ChatPage = () => {
   useEffect(() => {
-    const getData = () => {
+    const getData = async () => {
       axios.get('/api/v1/data', {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')).token}`,
