@@ -1,12 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import { Form } from 'react-bootstrap';
+import { useFormik } from 'formik';
 import useSocket from '../../hooks/socketHook';
 import useNetwork from '../../hooks/networkHook';
 
 const Messages = () => {
-  const [currentMessage, setCurrectMessage] = useState('');
   const network = useNetwork();
   const socket = useSocket();
   const messageScroll = useRef(null);
@@ -19,20 +20,24 @@ const Messages = () => {
   );
   const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
+  const f = useFormik({
+    initialValues: {
+      body: '',
+    },
+    onSubmit: () => {
+      socket.sendMessage({ body: f.values.body, channelId: activeId, username });
+      f.resetForm({ body: '' });
+    },
+  });
+
   const inputClassNames = cn('input-group', {
-    'has-validation': currentMessage.length < 1,
+    'has-validation': f.values.body.length < 1,
   });
 
   useEffect(() => {
     messageScroll.current.scrollIntoView(false, { behavior: 'smooth' });
     inputFocus.current.focus();
   }, [filteredMessages]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    socket.sendMessage({ body: currentMessage, channelId: activeId, username });
-    setCurrectMessage('');
-  };
 
   return (
     <div className="col p-0 h-100">
@@ -56,13 +61,13 @@ const Messages = () => {
           <div ref={messageScroll} />
         </div>
         <div className="mt-auto px-5 py-3">
-          <form
+          <Form
             noValidate=""
             className="py-1 border rounded-2"
-            onSubmit={handleSubmit}
+            onSubmit={f.handleSubmit}
           >
-            <div className={inputClassNames}>
-              <input
+            <Form.Group className={inputClassNames}>
+              <Form.Control
                 name="body"
                 aria-label="Новое сообщение"
                 placeholder={
@@ -71,13 +76,13 @@ const Messages = () => {
                     : 'Проверьте подключение к сети!'
                 }
                 className="border-0 p-0 ps-2 form-control"
-                value={network.isOnline ? currentMessage : 'Проверьте подключение к сети!'}
+                value={network.isOnline ? f.values.body : 'Проверьте подключение к сети!'}
                 ref={inputFocus}
-                onChange={(e) => setCurrectMessage(e.target.value)}
+                onChange={f.handleChange}
               />
               <button
                 type="submit"
-                disabled={!currentMessage || !network.isOnline}
+                disabled={!f.values.body || !network.isOnline}
                 style={{ borderColor: 'white' }}
                 className="btn btn-group-vertical"
               >
@@ -95,8 +100,8 @@ const Messages = () => {
                 </svg>
                 <span className="visually-hidden">Отправить</span>
               </button>
-            </div>
-          </form>
+            </Form.Group>
+          </Form>
         </div>
       </div>
     </div>
