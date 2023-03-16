@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
-import { setInfo } from '../store/chatSlice';
+import { addChannels } from '../store/channelsSlice';
 import store from '../store/index';
 
 const ChatPage = () => {
@@ -22,7 +22,7 @@ const ChatPage = () => {
         // console.log(messages);
         console.log('ТЕКУЩИЙ ID');
         console.log(currentChannelId);
-        store.dispatch(setInfo(channels));
+        store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
       }).catch((error) => {
         console.log('Something wrong happened', error);
