@@ -13,6 +13,49 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
   return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
+const renderChannels = (channel, activeChannelName, handleClick) => {
+  const { id, name, removable } = channel;
+  return (
+    (removable ? (
+      <li className="nav-item w-100" key={id}>
+        <div role="group" className="d-flex dropdown btn-group">
+          <button
+            onClick={() => handleClick(name, id)}
+            type="button"
+            className={`w-100 rounded-0 text-start text-truncate btn ${
+              activeChannelName === name ? 'btn-secondary' : ''
+            }`}
+          >
+            <span className="me-1">#</span>
+            {name}
+          </button>
+          <button
+            type="button"
+            id="react-aria601620090-1"
+            aria-expanded="false"
+            className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn"
+          >
+            <span className="visually-hidden">Управление каналом</span>
+          </button>
+        </div>
+      </li>
+    ) : (
+      <li className="nav-item w-100" key={id}>
+        <button
+          onClick={() => handleClick(name, id)}
+          type="button"
+          className={`w-100 rounded-0 text-start btn ${
+            activeChannelName === name ? 'btn-secondary' : ''
+          }`}
+        >
+          <span className="me-1">#</span>
+          {name}
+        </button>
+      </li>
+    ))
+  );
+};
+
 const Channels = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
@@ -57,43 +100,7 @@ const Channels = () => {
           className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         >
           {channels
-          && channels.map(({ id, name, removable }) => (removable ? (
-            <li className="nav-item w-100" key={id}>
-              <div role="group" className="d-flex dropdown btn-group">
-                <button
-                  onClick={() => handleClick(name, id)}
-                  type="button"
-                  className={`w-100 rounded-0 text-start text-truncate btn ${
-                    activeChannelName === name ? 'btn-secondary' : ''
-                  }`}
-                >
-                  <span className="me-1">#</span>
-                  {name}
-                </button>
-                <button
-                  type="button"
-                  id="react-aria601620090-1"
-                  aria-expanded="false"
-                  className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn"
-                >
-                  <span className="visually-hidden">Управление каналом</span>
-                </button>
-              </div>
-            </li>
-          ) : (
-            <li className="nav-item w-100" key={id}>
-              <button
-                onClick={() => handleClick(name, id)}
-                type="button"
-                className={`w-100 rounded-0 text-start btn ${
-                  activeChannelName === name ? 'btn-secondary' : ''
-                }`}
-              >
-                <span className="me-1">#</span>
-                {name}
-              </button>
-            </li>
-          )))}
+          && channels.map((channel) => renderChannels(channel, activeChannelName, handleClick))}
         </ul>
       </div>
       {renderModal({ modalInfo, hideModal, socket })}
