@@ -22,16 +22,16 @@ const Messages = () => {
 
   const f = useFormik({
     initialValues: {
-      body: '',
+      currentMessage: '',
     },
     onSubmit: () => {
-      socket.sendMessage({ body: f.values.body, channelId: activeId, username });
-      f.resetForm({ body: '' });
+      socket.sendMessage({ body: f.values.currentMessage, channelId: activeId, username });
+      f.resetForm({ currentMessage: '' });
     },
   });
 
   const inputClassNames = cn('input-group', {
-    'has-validation': f.values.body.length < 1,
+    'has-validation': f.values.currentMessage.length < 1,
   });
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Messages = () => {
           >
             <Form.Group className={inputClassNames}>
               <Form.Control
-                name="body"
+                name="currentMessage"
                 aria-label="Новое сообщение"
                 placeholder={
                   network.isOnline
@@ -76,13 +76,13 @@ const Messages = () => {
                     : 'Проверьте подключение к сети!'
                 }
                 className="border-0 p-0 ps-2 form-control"
-                value={network.isOnline ? f.values.body : 'Проверьте подключение к сети!'}
+                value={network.isOnline ? f.values.currentMessage : 'Проверьте подключение к сети!'}
                 ref={inputFocus}
                 onChange={f.handleChange}
               />
               <button
                 type="submit"
-                disabled={!f.values.body || !network.isOnline}
+                disabled={!f.values.currentMessage || !network.isOnline}
                 style={{ borderColor: 'white' }}
                 className="btn btn-group-vertical"
               >
