@@ -5,7 +5,7 @@ import React from 'react';
 import App from './App';
 import './index.css';
 import { addMessage } from './store/messagesSlice';
-import { setInfo } from './store/chatSlice';
+import { addChannel } from './store/chatSlice';
 import store from './store/index';
 
 const Init = (socket) => {
@@ -13,7 +13,8 @@ const Init = (socket) => {
     store.dispatch(addMessage(data));
   });
   socket.on('newChannel', (data) => {
-    store.dispatch(setInfo(data));
+    console.log(data);
+    store.dispatch(addChannel(data));
   });
   return (
     <React.StrictMode>
@@ -29,12 +30,6 @@ const Init = (socket) => {
 export default Init;
 
 /*
-const getMessage = useCallback(() => {
-  socket.on('newMessage', (payload) => {
-    console.log(payload); // => { body: "new message", channelId: 7, id: 8, username: "admin" }
-  });
-}, [socket]);
-
 const getChannel = useCallback(() => {
   socket.on('newChannel', (payload) => {
     console.log(payload); // { id: 6, name: "new channel", removable: true }

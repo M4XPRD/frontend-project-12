@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const channelSlice = createSlice({
+const activeChannelSlice = createSlice({
   name: 'channel',
   initialState: {
     activeChannel: {
@@ -18,5 +18,5 @@ const channelSlice = createSlice({
   },
 });
 
-export const { setActiveChannel, addMessage } = channelSlice.actions;
-export default channelSlice.reducer;
+export const { setActiveChannel, addMessage } = activeChannelSlice.actions;
+export default activeChannelSlice.reducer;
