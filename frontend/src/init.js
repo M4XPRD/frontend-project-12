@@ -29,12 +29,6 @@ const Init = (socket) => {
 export default Init;
 
 /*
-const getChannel = useCallback(() => {
-  socket.on('newChannel', (payload) => {
-    console.log(payload); // { id: 6, name: "new channel", removable: true }
-  });
-}, [socket]);
-
 const getRemovedChannel = useCallback(() => {
   socket.on('removeChannel', (payload) => {
     console.log(payload); // { id: 6 };
