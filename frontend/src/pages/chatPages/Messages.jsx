@@ -79,6 +79,7 @@ const Messages = () => {
                 value={network.isOnline ? f.values.currentMessage : 'Проверьте подключение к сети!'}
                 ref={inputFocus}
                 onChange={f.handleChange}
+                autoComplete="off"
               />
               <button
                 type="submit"
