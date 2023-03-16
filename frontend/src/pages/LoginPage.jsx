@@ -27,9 +27,7 @@ const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const {
-    values, errors, handleChange, handleSubmit, isSubmitting,
-  } = useFormik({
+  const f = useFormik({
     initialValues: {
       username: '',
       password: '',
@@ -40,8 +38,8 @@ const LoginPage = () => {
       setAuthError(false);
       await axios
         .post(routes.loginPath(), {
-          username: values.username,
-          password: values.password,
+          username: f.values.username,
+          password: f.values.password,
         })
         .then((responce) => {
           const data = JSON.stringify(responce.data);
@@ -59,7 +57,7 @@ const LoginPage = () => {
   });
 
   const inputClassNames = cn('form-control', {
-    'is-invalid': errors.username || errors.password || authError,
+    'is-invalid': f.errors.username || f.errors.password || authError,
   });
 
   return (
@@ -72,7 +70,7 @@ const LoginPage = () => {
                 <img src={Login} className="rounded-circle" alt="Войти" />
               </div>
               <Form
-                onSubmit={handleSubmit}
+                onSubmit={f.handleSubmit}
                 className="col-12 col-md-6 mt-3 mt-mb-0"
               >
                 <h1 className="text-center mb-4">Войти</h1>
@@ -84,8 +82,8 @@ const LoginPage = () => {
                     placeholder="Ваш ник"
                     id="username"
                     className={inputClassNames}
-                    value={values.username}
-                    onChange={handleChange}
+                    value={f.values.username}
+                    onChange={f.handleChange}
                   />
                   <Form.Label htmlFor="username">Ваш ник</Form.Label>
                 </Form.Group>
@@ -98,13 +96,13 @@ const LoginPage = () => {
                     type="password"
                     id="password"
                     className={inputClassNames}
-                    value={values.password}
-                    onChange={handleChange}
+                    value={f.values.password}
+                    onChange={f.handleChange}
                   />
                   <Form.Label className="form-label" htmlFor="password">
                     Пароль
                   </Form.Label>
-                  {(errors || authError) && (
+                  {(f.errors || authError) && (
                     <div className="invalid-tooltip">
                       Неверные имя пользователя или пароль
                     </div>
@@ -113,7 +111,7 @@ const LoginPage = () => {
                 <Button
                   type="submit"
                   className="w-100 mb-3 btn-outline-primary btn-light"
-                  disabled={isSubmitting}
+                  disabled={f.isSubmitting}
                   style={{
                     position: 'relative',
                     marginTop: '10px',
