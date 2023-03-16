@@ -5,7 +5,7 @@ import React from 'react';
 import App from './App';
 import './index.css';
 import { addMessage } from './store/messagesSlice';
-import { addChannel } from './store/chatSlice';
+import { addChannel } from './store/channelsSlice';
 import store from './store/index';
 
 const Init = (socket) => {
@@ -13,7 +13,6 @@ const Init = (socket) => {
     store.dispatch(addMessage(data));
   });
   socket.on('newChannel', (data) => {
-    console.log(data);
     store.dispatch(addChannel(data));
   });
   return (
