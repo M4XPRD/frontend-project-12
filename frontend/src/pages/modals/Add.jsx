@@ -27,7 +27,7 @@ const Add = ({ socket, onHide }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      socket.sendChannel({ id: f.values.channelId, name: f.values.channelName, removable: true });
+      socket.sendChannel({ name: f.values.channelName });
       dispatch(setActiveChannel({ name: f.values.channelName, id: f.values.channelId }));
       onHide();
     },
