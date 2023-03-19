@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import cn from 'classnames';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { Form } from 'react-bootstrap';
+import { Form, Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import useSocket from '../../hooks/socketHook';
 import useNetwork from '../../hooks/networkHook';
@@ -40,7 +40,7 @@ const Messages = () => {
   }, [filteredMessages]);
 
   return (
-    <div className="col p-0 h-100">
+    <Col className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
@@ -105,7 +105,7 @@ const Messages = () => {
           </Form>
         </div>
       </div>
-    </div>
+    </Col>
   );
 };
 

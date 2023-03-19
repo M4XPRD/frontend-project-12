@@ -1,5 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  Dropdown, Button, Nav, Col,
+} from 'react-bootstrap';
 import { setActiveChannel } from '../../store/activeChannelSlice';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
@@ -15,44 +19,50 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
 
 const renderChannels = (channel, activeChannelName, handleClick) => {
   const { id, name, removable } = channel;
-  return removable ? (
-    <li className="nav-item w-100" key={id}>
-      <div role="group" className="d-flex dropdown btn-group">
-        <button
+  return (
+    removable ? (
+      <Nav.Item className="nav-item w-100" key={id}>
+        <Dropdown role="group" className="d-flex dropdown btn-group">
+          <Button
+            onClick={() => handleClick(name, id)}
+            type="button"
+            variant="white"
+            className={`w-100 rounded-0 text-start text-truncate btn ${
+              activeChannelName === name ? 'btn-secondary' : ''
+            }`}
+          >
+            <span className="me-1">#</span>
+            {name}
+          </Button>
+          <Dropdown.Toggle
+            type="button"
+            id="dropdown-menu-align-responsive-2"
+            variant="white"
+            className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
+              activeChannelName === name ? 'btn-secondary' : ''
+            }`}
+          />
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Nav.Item>
+    ) : (
+      <Nav.Item className="nav-item w-100" key={id}>
+        <Button
           onClick={() => handleClick(name, id)}
           type="button"
-          className={`w-100 rounded-0 text-start text-truncate btn ${
+          variant="white"
+          className={`w-100 rounded-0 text-start btn ${
             activeChannelName === name ? 'btn-secondary' : ''
           }`}
         >
           <span className="me-1">#</span>
           {name}
-        </button>
-        <button
-          type="button"
-          id="react-aria601620090-1"
-          aria-expanded="false"
-          className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
-            activeChannelName === name ? 'btn-secondary' : ''
-          }`}
-        >
-          <span className="visually-hidden">Управление каналом</span>
-        </button>
-      </div>
-    </li>
-  ) : (
-    <li className="nav-item w-100" key={id}>
-      <button
-        onClick={() => handleClick(name, id)}
-        type="button"
-        className={`w-100 rounded-0 text-start btn ${
-          activeChannelName === name ? 'btn-secondary' : ''
-        }`}
-      >
-        <span className="me-1">#</span>
-        {name}
-      </button>
-    </li>
+        </Button>
+      </Nav.Item>
+    )
   );
 };
 
@@ -74,7 +84,7 @@ const Channels = () => {
 
   return (
     <>
-      <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
+      <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
           <b>Каналы</b>
           <button
@@ -95,14 +105,14 @@ const Channels = () => {
             <span className="visually-hidden">+</span>
           </button>
         </div>
-        <ul
+        <Nav
           id="channels-box"
           className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         >
           {channels
             && channels.map((channel) => renderChannels(channel, activeChannelName, handleClick))}
-        </ul>
-      </div>
+        </Nav>
+      </Col>
       {renderModal({ modalInfo, hideModal, socket })}
     </>
   );
