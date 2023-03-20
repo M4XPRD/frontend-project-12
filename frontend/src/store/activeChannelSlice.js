@@ -5,8 +5,8 @@ const activeChannelSlice = createSlice({
   name: 'channel',
   initialState: {
     activeChannel: {
-      name: 'general',
-      id: 1,
+      name: '',
+      id: null,
     },
   },
   reducers: {
@@ -18,5 +18,5 @@ const activeChannelSlice = createSlice({
   },
 });
 
-export const { setActiveChannel, addMessage } = activeChannelSlice.actions;
+export const { setActiveChannel } = activeChannelSlice.actions;
 export default activeChannelSlice.reducer;
