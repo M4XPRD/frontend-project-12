@@ -2,12 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
-import { setActiveChannel } from '../../store/activeChannelSlice';
 
 const Add = ({ socket, onHide }) => {
-  const dispatch = useDispatch();
   const channels = useSelector((state) => state.chat.chatInfo);
 
   const channelNameSchema = yup.object().shape({
@@ -28,7 +26,6 @@ const Add = ({ socket, onHide }) => {
     validateOnBlur: false,
     onSubmit: () => {
       socket.sendChannel({ name: f.values.channelName });
-      dispatch(setActiveChannel({ name: f.values.channelName, id: f.values.channelId }));
       onHide();
     },
   });
@@ -41,7 +38,7 @@ const Add = ({ socket, onHide }) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title className="p-1">Добавить канал</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
