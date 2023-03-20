@@ -20,7 +20,7 @@ const Rename = (props) => {
   }, []);
 
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
         <Modal.Title>Rename</Modal.Title>
       </Modal.Header>
