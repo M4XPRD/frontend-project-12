@@ -17,7 +17,7 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
   return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
-const renderChannels = (channel, activeChannelName, handleClick) => {
+const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
@@ -36,15 +36,14 @@ const renderChannels = (channel, activeChannelName, handleClick) => {
           </Button>
           <Dropdown.Toggle
             type="button"
-            id="dropdown-menu-align-responsive-2"
             variant="white"
             className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
               activeChannelName === name ? 'btn-secondary' : ''
             }`}
           />
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('removing', { id })}>Удалить</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('renaming')}>Переименовать</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav.Item>
@@ -72,8 +71,8 @@ const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.chat.chatInfo);
   const activeChannelName = useSelector(
-    (state) => state.channel.activeChannel.name,
-  );
+    (state) => state.channel.activeChannel,
+  ).name;
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
@@ -110,7 +109,8 @@ const Channels = () => {
           className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         >
           {channels
-            && channels.map((channel) => renderChannels(channel, activeChannelName, handleClick))}
+          && channels
+            .map((channel) => renderChannels(channel, activeChannelName, handleClick, showModal))}
         </Nav>
       </Col>
       {renderModal({ modalInfo, hideModal, socket })}
