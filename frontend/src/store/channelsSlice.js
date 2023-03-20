@@ -13,8 +13,13 @@ const channelsSlice = createSlice({
     addChannel: (state, action) => {
       state.chatInfo.push(action.payload);
     },
+    removeChannel: (state, action) => {
+      const { id } = action.payload;
+      const filteredChannels = state.chatInfo.filter((channel) => channel.id !== id);
+      state.chatInfo = filteredChannels;
+    },
   },
 });
 
-export const { addChannels, addChannel } = channelsSlice.actions;
+export const { addChannels, addChannel, removeChannel } = channelsSlice.actions;
 export default channelsSlice.reducer;
