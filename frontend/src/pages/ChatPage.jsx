@@ -5,6 +5,7 @@ import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
 import { addChannels } from '../store/channelsSlice';
 import store from '../store/index';
+import { setActiveChannel } from '../store/activeChannelSlice';
 
 const ChatPage = () => {
   useEffect(() => {
@@ -16,12 +17,9 @@ const ChatPage = () => {
       }).then((responce) => {
       // {channels: Array(2), messages: Array(0), currentChannelId: 1}
         const { channels, messages, currentChannelId } = responce.data;
-        // console.log('КАНАЛЫ');
-        // console.log(channels);
-        // console.log('СООБЩЕНИЯ');
-        // console.log(messages);
-        console.log('ТЕКУЩИЙ ID');
-        console.log(currentChannelId);
+        const filteredChannels = channels.filter((channel) => channel.id === currentChannelId);
+        const [currentActiveChannel] = filteredChannels;
+        store.dispatch(setActiveChannel(currentActiveChannel));
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
       }).catch((error) => {
