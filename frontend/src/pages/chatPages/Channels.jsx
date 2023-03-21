@@ -21,7 +21,7 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
-      <Nav.Item className="nav-item w-100" key={id}>
+      <Nav.Item className="nav-item w-100" key={id} data-changeColour="hover">
         <Dropdown role="group" className="d-flex dropdown btn-group">
           <Button
             onClick={() => handleClick(name, id)}
@@ -48,7 +48,7 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
         </Dropdown>
       </Nav.Item>
     ) : (
-      <Nav.Item className="nav-item w-100" key={id}>
+      <Nav.Item className="nav-item w-100" key={id} data-changeColour="hover">
         <Button
           onClick={() => handleClick(name, id)}
           type="button"
