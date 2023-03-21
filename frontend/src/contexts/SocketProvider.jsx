@@ -18,7 +18,7 @@ const SocketProvider = ({ socket, children }) => {
   }, [socket]);
 
   const sendRenamedChannel = useCallback((payload) => {
-    socket.emit('removeChannel', payload);
+    socket.emit('renameChannel', payload);
     // { id: 7, name: "new name channel", removable: true }
   }, [socket]);
 
