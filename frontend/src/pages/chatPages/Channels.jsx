@@ -27,6 +27,8 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
             onClick={() => handleClick(name, id)}
             type="button"
             variant="white"
+            id="square-border"
+            data-changeColour="hover"
             className={`w-100 rounded-0 text-start text-truncate btn ${
               activeChannelName === name ? 'btn-secondary' : ''
             }`}
@@ -37,6 +39,8 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
           <Dropdown.Toggle
             type="button"
             variant="white"
+            id="square-border"
+            data-changeColour="hover"
             className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
               activeChannelName === name ? 'btn-secondary' : ''
             }`}
@@ -53,6 +57,8 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
           onClick={() => handleClick(name, id)}
           type="button"
           variant="white"
+          id="square-border"
+          data-changeColour="hover"
           className={`w-100 rounded-0 text-start btn ${
             activeChannelName === name ? 'btn-secondary' : ''
           }`}
@@ -89,6 +95,7 @@ const Channels = () => {
           <button
             onClick={() => showModal('adding')}
             type="button"
+            id="image"
             className="p-0 text-primary btn btn-group-vertical"
           >
             <svg

@@ -1,10 +1,17 @@
 [data-changeColour="hover"]:hover {
-  background-color: rgb(108, 117, 125);
+  background-color: rgb(171, 181, 190); 
   transition-property: background-color;
-  transition-duration: 0.8s;
+  transition-duration: 0.7s;
   color: white;
 }
 
-[data-changeColour="hover"] {
-  border-radius: 0;
+#square-border {
+  border-radius: 0px;
+  border-color: transparent;
+}
+
+#image:hover {
+  border-color: transparent;
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.1);
 }
