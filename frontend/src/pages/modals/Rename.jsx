@@ -3,8 +3,10 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+import useNetwork from '../../hooks/networkHook';
 
 const Rename = ({ socket, onHide, modalInfo }) => {
+  const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.chat.chatInfo);
 
@@ -57,7 +59,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={f.values.newChannelName}
+              value={network.isOnline ? f.values.newChannelName : 'Проверьте подключение к сети!'}
               data-testid="input-body"
               name="newChannelName"
             />
@@ -68,7 +70,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
             )}
           </FormGroup>
           <FormGroup className="d-flex justify-content-start mt-3">
-            <input type="submit" className="btn btn-primary" value="Отправить" />
+            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value="Отправить" disabled={!network.isOnline} />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
           </FormGroup>
         </form>

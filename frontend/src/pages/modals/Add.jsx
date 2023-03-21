@@ -4,8 +4,10 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+import useNetwork from '../../hooks/networkHook';
 
 const Add = ({ socket, onHide }) => {
+  const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.chat.chatInfo);
 
@@ -51,7 +53,7 @@ const Add = ({ socket, onHide }) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={f.values.channelName}
+              value={network.isOnline ? f.values.channelName : 'Проверьте подключение к сети!'}
               data-testid="input-body"
               name="channelName"
             />
@@ -62,7 +64,7 @@ const Add = ({ socket, onHide }) => {
             )}
           </FormGroup>
           <FormGroup className="d-flex justify-content-start mt-3">
-            <input type="submit" className="btn btn-primary" value="Добавить" />
+            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value="Добавить" disabled={!network.isOnline} />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
           </FormGroup>
         </form>
