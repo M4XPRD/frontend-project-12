@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveChannel } from '../../store/activeChannelSlice';
-import { removeMessages } from '../../store/messagesSlice';
 
 const Remove = ({ socket, onHide, modalInfo }) => {
   const activeChannelId = useSelector((state) => state.channel.activeChannel).id;
-  const messages = useSelector((state) => state.messages.allMessages);
+  const channels = useSelector((state) => state.chat.chatInfo);
+  const [firstChannel] = channels;
   const dispatch = useDispatch();
+  const inputRef = useRef();
 
   const f = useFormik({
     initialValues: {
@@ -17,17 +18,16 @@ const Remove = ({ socket, onHide, modalInfo }) => {
     onSubmit: () => {
       socket.sendRemovedChannel({ id: f.values.removingChannelId });
       if (activeChannelId === f.values.removingChannelId) {
-        dispatch(setActiveChannel({ name: 'general', id: 1 }));
+        dispatch(setActiveChannel({ name: firstChannel.name, id: firstChannel.id }));
       }
-      dispatch(removeMessages({ id: f.values.removingChannelId }));
       f.resetForm();
       onHide();
     },
   });
 
-  console.log(messages);
-  console.log(f.values.removingChannelId);
-  console.log(activeChannelId);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <Modal show centered>
@@ -39,7 +39,7 @@ const Remove = ({ socket, onHide, modalInfo }) => {
         <p className="lead p-1">Уверены?</p>
         <form onSubmit={f.handleSubmit}>
           <FormGroup className="d-flex justify-content-start">
-            <input type="submit" className="btn btn-danger" value="Удалить" />
+            <input ref={inputRef} type="submit" className="btn btn-danger" value="Удалить" />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
           </FormGroup>
         </form>
