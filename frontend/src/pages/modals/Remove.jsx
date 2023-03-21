@@ -41,7 +41,7 @@ const Remove = ({ socket, onHide, modalInfo }) => {
         <p className="lead p-1">{network.isOnline ? 'Уверены?' : 'Проверьте подключение к сети!'}</p>
         <form onSubmit={f.handleSubmit}>
           <FormGroup className="d-flex justify-content-start">
-            <input ref={inputRef} type="submit" className={`btn ${network.isOnline ? 'btn-danger' : 'btn-secondary'}`} value="Удалить" disabled={!network.isOnline} />
+            <input ref={inputRef} type="submit" autoComplete="off" className={`btn ${network.isOnline ? 'btn-danger' : 'btn-secondary'}`} value="Удалить" disabled={!network.isOnline} />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
           </FormGroup>
         </form>

@@ -55,6 +55,7 @@ const Add = ({ socket, onHide }) => {
               onBlur={f.handleBlur}
               value={network.isOnline ? f.values.channelName : 'Проверьте подключение к сети!'}
               data-testid="input-body"
+              autoComplete="off"
               name="channelName"
             />
             {f.touched.channelName && f.errors.channelName && (

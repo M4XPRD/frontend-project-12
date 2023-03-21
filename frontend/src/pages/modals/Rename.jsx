@@ -60,6 +60,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
               onChange={f.handleChange}
               onBlur={f.handleBlur}
               value={network.isOnline ? f.values.newChannelName : 'Проверьте подключение к сети!'}
+              autoComplete="off"
               data-testid="input-body"
               name="newChannelName"
             />
