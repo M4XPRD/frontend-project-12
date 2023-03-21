@@ -43,7 +43,7 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
           />
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => showModal('removing', { id })}>Удалить</Dropdown.Item>
-            <Dropdown.Item onClick={() => showModal('renaming')}>Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('renaming', { id, name, removable })}>Переименовать</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav.Item>
