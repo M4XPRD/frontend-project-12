@@ -18,8 +18,20 @@ const channelsSlice = createSlice({
       const filteredChannels = state.chatInfo.filter((channel) => channel.id !== id);
       state.chatInfo = filteredChannels;
     },
+    renameChannel: (state, action) => {
+      const { id, name } = action.payload;
+      const updatedChannels = state.chatInfo.map((channel) => {
+        if (channel.id === id) {
+          return { ...channel, name };
+        }
+        return channel;
+      });
+      state.chatInfo = updatedChannels;
+    },
   },
 });
 
-export const { addChannels, addChannel, removeChannel } = channelsSlice.actions;
+export const {
+  addChannels, addChannel, removeChannel, renameChannel,
+} = channelsSlice.actions;
 export default channelsSlice.reducer;
