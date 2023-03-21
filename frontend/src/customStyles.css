@@ -1,7 +1,12 @@
+[data-changeColour="hover"] {
+  transition-duration: 0.8s;
+}
+
 [data-changeColour="hover"]:hover {
-  background-color: rgb(171, 181, 190); 
+  /* background-color: rgb(171, 181, 190);  */
+  background-color: rgb(13, 110, 253);
   transition-property: background-color;
-  transition-duration: 0.7s;
+  transition-duration: 0.8s;
   color: white;
 }
 
