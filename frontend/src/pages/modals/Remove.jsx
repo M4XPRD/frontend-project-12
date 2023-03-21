@@ -6,8 +6,8 @@ import { setActiveChannel } from '../../store/activeChannelSlice';
 import useNetwork from '../../hooks/networkHook';
 
 const Remove = ({ socket, onHide, modalInfo }) => {
-  const activeChannelId = useSelector((state) => state.channel.activeChannel).id;
-  const channels = useSelector((state) => state.chat.chatInfo);
+  const activeChannelId = useSelector((state) => state.activeChannel).id;
+  const channels = useSelector((state) => state.channels.allChannels);
   const [firstChannel] = channels;
   const dispatch = useDispatch();
   const inputRef = useRef();

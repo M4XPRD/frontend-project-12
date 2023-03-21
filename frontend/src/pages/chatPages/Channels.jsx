@@ -69,9 +69,9 @@ const Channels = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
   const dispatch = useDispatch();
-  const channels = useSelector((state) => state.chat.chatInfo);
+  const channels = useSelector((state) => state.channels.allChannels);
   const activeChannelName = useSelector(
-    (state) => state.channel.activeChannel,
+    (state) => state.activeChannel,
   ).name;
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });

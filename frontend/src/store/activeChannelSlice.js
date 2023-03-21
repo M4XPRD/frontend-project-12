@@ -2,18 +2,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const activeChannelSlice = createSlice({
-  name: 'channel',
+  name: 'activeChannel',
   initialState: {
-    activeChannel: {
-      name: '',
-      id: null,
-    },
+    name: '',
+    id: null,
   },
   reducers: {
     setActiveChannel: (state, action) => {
       const { name, id } = action.payload;
-      state.activeChannel.name = name;
-      state.activeChannel.id = id;
+      state.name = name;
+      state.id = id;
     },
   },
 });

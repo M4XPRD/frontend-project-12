@@ -2,31 +2,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
-  name: 'chat',
+  name: 'channels',
   initialState: {
-    chatInfo: [],
+    allChannels: [],
   },
   reducers: {
     addChannels: (state, action) => {
-      state.chatInfo = action.payload;
+      state.allChannels = action.payload;
     },
     addChannel: (state, action) => {
-      state.chatInfo.push(action.payload);
+      state.allChannels.push(action.payload);
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
-      const filteredChannels = state.chatInfo.filter((channel) => channel.id !== id);
-      state.chatInfo = filteredChannels;
+      const filteredChannels = state.allChannels.filter((channel) => channel.id !== id);
+      state.allChannels = filteredChannels;
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      const updatedChannels = state.chatInfo.map((channel) => {
+      const updatedChannels = state.allChannels.map((channel) => {
         if (channel.id === id) {
           return { ...channel, name };
         }
         return channel;
       });
-      state.chatInfo = updatedChannels;
+      state.allChannels = updatedChannels;
     },
   },
 });

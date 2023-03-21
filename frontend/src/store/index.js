@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import chatReducer from './channelsSlice';
-import channelReducer from './activeChannelSlice';
+import channelsReducer from './channelsSlice';
+import activeChannelReducer from './activeChannelSlice';
 import messagesReducer from './messagesSlice';
 
 const store = configureStore({
   reducer: {
-    chat: chatReducer,
-    channel: channelReducer,
+    channels: channelsReducer,
+    activeChannel: activeChannelReducer,
     messages: messagesReducer,
   },
 });

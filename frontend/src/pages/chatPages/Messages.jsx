@@ -12,7 +12,7 @@ const Messages = () => {
   const socket = useSocket();
   const messageScroll = useRef(null);
   const inputFocus = useRef();
-  const activeChannel = useSelector((state) => state.channel.activeChannel);
+  const activeChannel = useSelector((state) => state.activeChannel);
   const allMessages = useSelector((state) => state.messages.allMessages);
   const activeId = activeChannel.id;
   const filteredMessages = allMessages.filter(

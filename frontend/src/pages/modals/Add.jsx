@@ -9,7 +9,7 @@ import useNetwork from '../../hooks/networkHook';
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
   const inputRef = useRef();
-  const channels = useSelector((state) => state.chat.chatInfo);
+  const channels = useSelector((state) => state.channels.allChannels);
 
   const channelNameSchema = yup.object().shape({
     channelName: yup
