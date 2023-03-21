@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 const Add = ({ socket, onHide }) => {
+  const inputRef = useRef();
   const channels = useSelector((state) => state.chat.chatInfo);
 
   const channelNameSchema = yup.object().shape({
@@ -16,6 +17,7 @@ const Add = ({ socket, onHide }) => {
       .test('is-unique', 'Должно быть уникальным', (channelName) => !channels.some((channel) => channel.name === channelName))
       .required('Обязательное поле'),
   });
+
   const f = useFormik({
     initialValues: {
       channelName: '',
@@ -30,7 +32,6 @@ const Add = ({ socket, onHide }) => {
     },
   });
 
-  const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -60,7 +61,7 @@ const Add = ({ socket, onHide }) => {
             </div>
             )}
           </FormGroup>
-          <FormGroup className="d-flex justify-content-start">
+          <FormGroup className="d-flex justify-content-start mt-3">
             <input type="submit" className="btn btn-primary" value="Добавить" />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
           </FormGroup>
