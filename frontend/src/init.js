@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import App from './App';
 import './index.css';
-import { addMessage } from './store/messagesSlice';
-import { addChannel, removeChannel } from './store/channelsSlice';
-import store from './store/index';
+import { addMessage, removeMessages } from './store/messagesSlice';
+import { addChannel, removeChannel, renameChannel } from './store/channelsSlice';
 import { setActiveChannel } from './store/activeChannelSlice';
+import store from './store/index';
 
 const Init = (socket) => {
   socket.on('newMessage', (data) => {
@@ -19,7 +19,13 @@ const Init = (socket) => {
   });
   socket.on('removeChannel', (data) => {
     store.dispatch(removeChannel(data));
+    store.dispatch(removeMessages(data));
   });
+  socket.on('renameChannel', (data) => {
+    store.dispatch(renameChannel(data));
+    store.dispatch(setActiveChannel(data));
+  });
+
   return (
     <React.StrictMode>
       <BrowserRouter>
@@ -32,11 +38,3 @@ const Init = (socket) => {
 };
 
 export default Init;
-
-/*
-const getRenamedChannel = useCallback(() => {
-  socket.on('renameChannel', (payload) => {
-    console.log(payload); // { id: 7, name: "new name channel", removable: true }
-  });
-}, [socket]);
-*/
