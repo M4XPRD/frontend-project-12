@@ -1,77 +1,147 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-unused-vars */
+import {
+  Row, Col, Card, Form, Button, Container,
+} from 'react-bootstrap';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import axios from 'axios';
+import cn from 'classnames';
 import SignUp from '../images/SignUp.jpg';
+import routes from '../routes/routes';
 
-const SignUpPage = () => (
-  <div className="container-fluid h-100">
-    <div className="row justify-content-center align-content-center h-100">
-      <div className="col-12 col-md-8 col-xxl-6">
-        <div className="card shadow-sm">
-          <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-            <div>
-              <img src={SignUp} className="rounded-circle" alt="Регистрация" />
-            </div>
-            <form className="w-50">
-              <h1 className="text-center mb-4">Регистрация</h1>
-              <div className="form-floating mb-3">
-                <input
-                  placeholder="От 3 до 20 символов"
-                  name="username"
-                  autoComplete="username"
-                  required=""
-                  id="username"
-                  className="form-control is-invalid"
-                  value=""
+const SignUpPage = () => {
+  const signUpSchema = yup.object().shape({
+    username: yup
+      .string()
+      .min(5, 'Слишком короткое имя')
+      .max(50, 'Слишком длинное имя')
+      .required('Обязательное поле'),
+    password: yup
+      .string()
+      .min(5, 'Слишком короткий пароль')
+      .max(50, 'Слишком длинный пароль')
+      .required('Обязательное поле'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Пароли не совпадают')
+      .required('Обязательное поле'),
+  });
+
+  const f = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: signUpSchema,
+    validateOnChange: false,
+    onSubmit: async () => {
+      await axios
+        .post(routes.usersPath(), {
+          username: f.values.username,
+          password: f.values.password,
+        })
+        .then((responce) => {})
+        .catch((error) => {
+          if (error.response.status >= 400) {
+            console.log(error);
+          }
+        });
+    },
+  });
+
+  const inputClassNames = cn('form-control', {
+    'is-invalid': f.errors.username || f.errors.password,
+  });
+  const errorsClassNames = cn('invalid-tooltip', {});
+
+  return (
+    <Container fluid className="h-100">
+      <Row className="row justify-content-center align-content-center h-100">
+        <Col className="col-12 col-md-8 col-xxl-6">
+          <Card className="card shadow-sm">
+            <Card.Body className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <div>
+                <img
+                  src={SignUp}
+                  className="rounded-circle mb-3"
+                  alt="Регистрация"
+                  id="signUp-image"
                 />
-                <label className="form-label" htmlFor="username">
-                  Имя пользователя
-                </label>
-                <div placement="right" className="invalid-tooltip">
-                  Обязательное поле
-                </div>
               </div>
-              <div className="form-floating mb-3">
-                <input
-                  placeholder="Не менее 6 символов"
-                  name="password"
-                  aria-describedby="passwordHelpBlock"
-                  required=""
-                  autoComplete="new-password"
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  value=""
-                />
-                <div className="invalid-tooltip">Обязательное поле</div>
-                <label className="form-label" htmlFor="password">
-                  Пароль
-                </label>
-              </div>
-              <div className="form-floating mb-4">
-                <input
-                  placeholder="Пароли должны совпадать"
-                  name="confirmPassword"
-                  required=""
-                  autoComplete="new-password"
-                  type="password"
-                  id="confirmPassword"
-                  className="form-control"
-                  value=""
-                />
-                <div className="invalid-tooltip" />
-                <label className="form-label" htmlFor="confirmPassword">
-                  Подтвердите пароль
-                </label>
-              </div>
-              <button type="submit" className="w-100 btn btn-outline-primary">
-                Зарегистрироваться
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+              <Form id="signUp-form" onSubmit={f.handleSubmit}>
+                <h1 className="text-center mb-4" id="signUp-reg">
+                  Регистрация
+                </h1>
+                <Form.Group className="form-floating mb-2">
+                  <Form.Control
+                    name="username"
+                    autoComplete="username"
+                    required=""
+                    placeholder="От 3 до 20 символов"
+                    id="username"
+                    className={inputClassNames}
+                    value={f.values.username}
+                    onChange={f.handleChange}
+                  />
+                  <Form.Label className="form-label" htmlFor="username">
+                    Имя пользователя
+                  </Form.Label>
+                  <div className="invalid-tooltip" id="signUp-errors">
+                    {f.errors.username}
+                  </div>
+                </Form.Group>
+                <br />
+                <Form.Group className="form-floating mb-2 mt-1">
+                  <Form.Control
+                    name="password"
+                    type="password"
+                    autoComplete="new-password"
+                    required=""
+                    placeholder="Не менее 6 символов"
+                    id="password"
+                    className={inputClassNames}
+                    value={f.values.password}
+                    onChange={f.handleChange}
+                  />
+                  <div className="invalid-tooltip" id="signUp-errors">
+                    {f.errors.password}
+                  </div>
+                  <Form.Label className="form-label" htmlFor="password">
+                    Пароль
+                  </Form.Label>
+                </Form.Group>
+                <br />
+                <Form.Group className="form-floating mb-2 mt-1">
+                  <input
+                    name="confirmPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    required=""
+                    placeholder="Пароли должны совпадать"
+                    id="confirmPassword"
+                    className={inputClassNames}
+                    value={f.values.confirmPassword}
+                    onChange={f.handleChange}
+                  />
+                  <div className="invalid-tooltip" id="signUp-errors">
+                    {f.errors.confirmPassword}
+                  </div>
+                  <Form.Label className="form-label" htmlFor="confirmPassword">
+                    Подтвердите пароль
+                  </Form.Label>
+                </Form.Group>
+                <br />
+                <Button type="submit" className="w-100 mb-3 mt-1 btn-primary" id="signUp-button">
+                  Зарегистрироваться
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default SignUpPage;
