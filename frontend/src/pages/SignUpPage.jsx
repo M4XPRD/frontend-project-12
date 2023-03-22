@@ -1,31 +1,54 @@
-/* eslint-disable no-unused-vars */
 import {
   Row, Col, Card, Form, Button, Container,
 } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import cn from 'classnames';
+import { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SignUp from '../images/SignUp.jpg';
 import routes from '../routes/routes';
+import useNetwork from '../hooks/networkHook';
+import useAuth from '../hooks/authHook';
+
+const signUpSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(3, 'Слишком короткое имя')
+    .max(20, 'Слишком длинное имя')
+    .required('Обязательное поле'),
+  password: yup
+    .string()
+    .min(6, 'Слишком короткий пароль')
+    .max(50, 'Слишком длинный пароль')
+    .required('Обязательное поле'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Пароли не совпадают')
+    .required('Обязательное поле'),
+});
 
 const SignUpPage = () => {
-  const signUpSchema = yup.object().shape({
-    username: yup
-      .string()
-      .min(5, 'Слишком короткое имя')
-      .max(50, 'Слишком длинное имя')
-      .required('Обязательное поле'),
-    password: yup
-      .string()
-      .min(5, 'Слишком короткий пароль')
-      .max(50, 'Слишком длинный пароль')
-      .required('Обязательное поле'),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password')], 'Пароли не совпадают')
-      .required('Обязательное поле'),
-  });
+  const [authError, setAuthError] = useState(false);
+  const [serverError, setServerError] = useState(false);
+  const usernameFocus = useRef();
+  const passwordFocus = useRef();
+  const confirmPasswordFocus = useRef();
+  const submitFocus = useRef();
+  const network = useNetwork();
+  const navigate = useNavigate();
+  const auth = useAuth();
+
+  useEffect(() => {
+    usernameFocus.current.focus();
+  }, []);
+
+  const handleKeyDown = (event, inputRef) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      inputRef.current.focus();
+    }
+  };
 
   const f = useFormik({
     initialValues: {
@@ -34,26 +57,46 @@ const SignUpPage = () => {
       confirmPassword: '',
     },
     validationSchema: signUpSchema,
-    validateOnChange: false,
+    validateOnChange: true,
     onSubmit: async () => {
-      await axios
+      setAuthError(false);
+      setServerError(false);
+      axios
         .post(routes.usersPath(), {
           username: f.values.username,
           password: f.values.password,
         })
-        .then((responce) => {})
+        .then((responce) => {
+          const data = JSON.stringify(responce.data);
+          localStorage.clear();
+          localStorage.setItem('userInfo', data);
+          auth.logIn(data);
+          navigate('/');
+        })
         .catch((error) => {
-          if (error.response.status >= 400) {
-            console.log(error);
+          const { status } = error.response.status;
+          switch (status) {
+            case status >= 500:
+              return setServerError(true);
+            default:
+              return setAuthError(true);
           }
         });
     },
   });
 
-  const inputClassNames = cn('form-control', {
-    'is-invalid': f.errors.username || f.errors.password,
-  });
-  const errorsClassNames = cn('invalid-tooltip', {});
+  const handleButtonText = (authorizationError, serverConnectionError, connection) => {
+    switch (true) {
+      case !connection.isOnline:
+        return 'Проверьте подключение к сети!';
+      case serverConnectionError:
+        return 'Неполадки с сервером';
+      case authorizationError:
+        return 'Пользователь с таким именем уже есть';
+      default:
+        return 'Зарегистрироваться';
+    }
+  };
 
   return (
     <Container fluid className="h-100">
@@ -80,7 +123,9 @@ const SignUpPage = () => {
                     required=""
                     placeholder="От 3 до 20 символов"
                     id="username"
-                    className={inputClassNames}
+                    ref={usernameFocus}
+                    onKeyDown={(e) => handleKeyDown(e, passwordFocus)}
+                    className={`form-control ${f.errors.username && 'is-invalid'}`}
                     value={f.values.username}
                     onChange={f.handleChange}
                   />
@@ -100,7 +145,9 @@ const SignUpPage = () => {
                     required=""
                     placeholder="Не менее 6 символов"
                     id="password"
-                    className={inputClassNames}
+                    ref={passwordFocus}
+                    onKeyDown={(e) => handleKeyDown(e, confirmPasswordFocus)}
+                    className={`form-control ${f.errors.password && 'is-invalid'}`}
                     value={f.values.password}
                     onChange={f.handleChange}
                   />
@@ -120,7 +167,9 @@ const SignUpPage = () => {
                     required=""
                     placeholder="Пароли должны совпадать"
                     id="confirmPassword"
-                    className={inputClassNames}
+                    ref={confirmPasswordFocus}
+                    onKeyDown={(e) => handleKeyDown(e, submitFocus)}
+                    className={`form-control ${f.errors.confirmPassword && 'is-invalid'}`}
                     value={f.values.confirmPassword}
                     onChange={f.handleChange}
                   />
@@ -132,8 +181,15 @@ const SignUpPage = () => {
                   </Form.Label>
                 </Form.Group>
                 <br />
-                <Button type="submit" className="w-100 mb-3 mt-1 btn-primary" id="signUp-button">
-                  Зарегистрироваться
+                <Button
+                  type="submit"
+                  ref={submitFocus}
+                  onClick={() => usernameFocus.current.focus()}
+                  className={`w-100 mb-3 mt-1 ${!network.isOnline || authError ? 'btn-danger' : 'btn-primary'}`}
+                  disabled={f.isSubmitting || !network.isOnline}
+                  id="signUp-button"
+                >
+                  {handleButtonText(authError, serverError, network)}
                 </Button>
               </Form>
             </Card.Body>
