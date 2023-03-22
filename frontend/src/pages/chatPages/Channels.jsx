@@ -21,14 +21,14 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
-      <Nav.Item className="nav-item w-100" key={id} data-changeColour="hover">
+      <Nav.Item className="nav-item w-100" key={id} data-changecolour="hover">
         <Dropdown role="group" className="d-flex dropdown btn-group">
           <Button
             onClick={() => handleClick(name, id)}
             type="button"
             variant="white"
             id="square-border"
-            data-changeColour="hover"
+            data-changecolour="hover"
             className={`w-100 rounded-0 text-start text-truncate btn ${
               activeChannelName === name ? 'btn-secondary' : ''
             }`}
@@ -40,7 +40,7 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
             type="button"
             variant="white"
             id="square-border"
-            data-changeColour="hover"
+            data-changecolour="hover"
             className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
               activeChannelName === name ? 'btn-secondary' : ''
             }`}
@@ -52,13 +52,13 @@ const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
         </Dropdown>
       </Nav.Item>
     ) : (
-      <Nav.Item className="nav-item w-100" key={id} data-changeColour="hover">
+      <Nav.Item className="nav-item w-100" key={id} data-changecolour="hover">
         <Button
           onClick={() => handleClick(name, id)}
           type="button"
           variant="white"
           id="square-border"
-          data-changeColour="hover"
+          data-changecolour="hover"
           className={`w-100 rounded-0 text-start btn ${
             activeChannelName === name ? 'btn-secondary' : ''
           }`}
@@ -89,7 +89,7 @@ const Channels = () => {
 
   return (
     <>
-      <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
+      <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex" id="channels-col">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
           <b>Каналы</b>
           <button
