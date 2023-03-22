@@ -29,6 +29,7 @@ const signInSchema = yup.object().shape({
 
 const LoginPage = () => {
   const [authError, setAuthError] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   const network = useNetwork();
@@ -56,6 +57,7 @@ const LoginPage = () => {
     validateOnChange: false,
     onSubmit: async () => {
       setAuthError(false);
+      setServerError(false);
       axios
         .post(routes.loginPath(), {
           username: f.values.username,
@@ -69,9 +71,12 @@ const LoginPage = () => {
           navigate('/');
         })
         .catch((error) => {
-          if (error.response.status >= 400) {
-            setAuthError(true);
-            loginFocus.current.focus();
+          const { status } = error.response.status;
+          switch (status) {
+            case status >= 500:
+              return setServerError(true);
+            default:
+              return setAuthError(true);
           }
         });
     },
@@ -131,15 +136,13 @@ const LoginPage = () => {
                   </Form.Label>
                   <div
                     className={`invalid-tooltip ${
-                      f.errors || authError || !network.isOnline
+                      f.errors || authError || serverError || !network.isOnline
                         ? ''
                         : 'invisible'
                     }`}
                     id="signIn-error"
                   >
-                    {network.isOnline
-                      ? 'Неверные имя пользователя или пароль'
-                      : 'Проверьте подключение к сети!'}
+                    {serverError ? 'Неполадки с сервером' : 'Неверные имя пользователя или пароль'}
                   </div>
                 </Form.Group>
                 <br />
@@ -147,11 +150,11 @@ const LoginPage = () => {
                   type="submit"
                   ref={submitFocus}
                   onClick={() => loginFocus.current.focus()}
-                  className="w-100 mb-3 btn-primary"
+                  className={`w-100 mb-3 ${network.isOnline ? 'btn-primary' : 'btn-danger'}`}
                   disabled={f.isSubmitting || !network.isOnline}
                   id="signIn-login-button"
                 >
-                  Войти
+                  {network.isOnline ? 'Войти' : 'Проверьте подключение к сети!'}
                 </Button>
               </Form>
             </Card.Body>
