@@ -15,8 +15,69 @@
   border-color: transparent;
 }
 
-#image:hover {
+#channels-image-plus:hover {
   border-color: transparent;
   transition: transform 0.3s ease-in-out;
   transform: scale(1.1);
+}
+
+.navbar-brand {
+  margin-left: 12px;
+}
+
+#signIn-login-button {
+  margin-top: 20px;
+}
+
+@media (max-width: 1055px) {
+  #signIn-login-button {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 310px) {
+  #signIn-login-button {
+    margin-top: 60px;
+  }
+}
+
+#signIn-error {
+  margin-top: 8px;
+  margin-left: 5px;
+  width: 100%;
+  background: none;
+  color: red;
+}
+
+/* #signUp-reg {
+  white-space: nowrap;
+} */
+
+/* #signUp-button {
+  white-space: normal;
+} */
+
+#signUp-form {
+  width: 50%;
+  white-space: nowrap;
+}
+
+@media (max-width: 500px) {
+  #signUp-form {
+    width: 100%;
+  }
+}
+
+@media (max-width: 850px) {
+  #signUp-image {
+    width: auto;
+    height: auto;
+  }
+}
+
+#signUp-errors {
+  margin-top: 3px;
+  width: 100%;
+  background: none;
+  color: red;
 }
