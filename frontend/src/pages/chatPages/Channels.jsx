@@ -95,7 +95,7 @@ const Channels = () => {
           <button
             onClick={() => showModal('adding')}
             type="button"
-            id="image"
+            id="channels-image-plus"
             className="p-0 text-primary btn btn-group-vertical"
           >
             <svg
