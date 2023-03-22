@@ -1,13 +1,17 @@
-[data-changeColour="hover"] {
+[data-changecolour="hover"] {
   transition-duration: 0.8s;
 }
 
-[data-changeColour="hover"]:hover {
+[data-changecolour="hover"]:hover {
   /* background-color: rgb(171, 181, 190);  */
   background-color: rgb(13, 110, 253);
   transition-property: background-color;
   transition-duration: 0.8s;
   color: white;
+}
+
+.navbar-brand {
+  margin-left: 12px;
 }
 
 #square-border {
@@ -21,12 +25,35 @@
   transform: scale(1.1);
 }
 
-.navbar-brand {
-  margin-left: 12px;
+#signIn-login-button {
+  margin-top: 25px;
 }
 
-#signIn-login-button {
-  margin-top: 20px;
+#signUp-errors {
+  margin-left: 5px;
+  margin-top: 3px;
+  width: 100%;
+  background: none;
+  color: red;
+}
+
+#signIn-error {
+  margin-top: 5px;
+  margin-left: 5px;
+  width: 100%;
+  background: none;
+  color: red;
+}
+
+#signUp-form {
+  width: 50%;
+  white-space: nowrap;
+}
+
+#main-network-img {
+  width: 22px;
+  margin-right: 20px;
+  margin-left: auto;
 }
 
 @media (max-width: 1055px) {
@@ -41,43 +68,33 @@
   }
 }
 
-#signIn-error {
-  margin-top: 8px;
-  margin-left: 5px;
-  width: 100%;
-  background: none;
-  color: red;
-}
-
-/* #signUp-reg {
-  white-space: nowrap;
-} */
-
-/* #signUp-button {
-  white-space: normal;
-} */
-
-#signUp-form {
-  width: 50%;
-  white-space: nowrap;
-}
-
 @media (max-width: 500px) {
   #signUp-form {
     width: 100%;
   }
 }
 
-@media (max-width: 850px) {
-  #signUp-image {
-    width: auto;
-    height: auto;
+@media (max-width: 290px) {
+  #signUp-form {
+    width: 120%;
   }
 }
 
-#signUp-errors {
-  margin-top: 3px;
-  width: 100%;
-  background: none;
-  color: red;
+@media (min-width: 768px) and (max-width: 1040px) {
+  #signUp-image {
+    width: 80%;
+    height: 80%;
+  }
+}
+
+@media (max-width: 991px) {
+  #channels-col {
+    width: 30%;
+  }
+}
+
+@media (max-width: 575px) and (min-width: 280px) {
+  #channels-col {
+    width: 35%;
+  }
 }
