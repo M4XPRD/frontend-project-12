@@ -48,12 +48,10 @@ const Main = () => {
               </a>
               <img
                 alt="Network error"
+                id="main-network-img"
                 src={NetworkError}
-                className="d-inline-block img-fluid mr-3 ml-auto"
+                className={`d-inline-block img-fluid mr-3 ml-auto ${!parseToken ? 'invisible' : ''}`}
                 style={{
-                  width: 22,
-                  marginRight: 20,
-                  marginLeft: 'auto',
                   opacity: network.isOnline ? 0 : 1,
                 }}
               />
