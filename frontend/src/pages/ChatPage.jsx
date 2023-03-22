@@ -6,11 +6,12 @@ import { addMessages } from '../store/messagesSlice';
 import { addChannels } from '../store/channelsSlice';
 import store from '../store/index';
 import { setActiveChannel } from '../store/activeChannelSlice';
+import routes from '../routes/routes';
 
 const ChatPage = () => {
   useEffect(() => {
     const getData = async () => {
-      axios.get('/api/v1/data', {
+      axios.get(routes.dataPath(), {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')).token}`,
         },
