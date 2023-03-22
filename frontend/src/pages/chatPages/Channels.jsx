@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, Nav, Col,
@@ -76,6 +76,8 @@ const Channels = () => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.allChannels);
+  const [firstChannel] = channels;
+  console.log(firstChannel);
   const activeChannelName = useSelector(
     (state) => state.activeChannel,
   ).name;
@@ -86,6 +88,13 @@ const Channels = () => {
     const channelData = { name, id };
     dispatch(setActiveChannel(channelData));
   };
+
+  useEffect(() => {
+    const findChannel = channels.findIndex((channel) => channel.name === activeChannelName);
+    if (findChannel < 0) {
+      dispatch(setActiveChannel(firstChannel));
+    }
+  }, [activeChannelName, channels, firstChannel, dispatch]);
 
   return (
     <>
