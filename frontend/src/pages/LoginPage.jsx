@@ -1,15 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { React, useState } from 'react';
+import {
+  React, useState, useRef, useEffect,
+} from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
+import {
+  Form, Button, Row, Col, Card, Container,
+} from 'react-bootstrap';
 import Login from '../images/Login.jpg';
 import routes from '../routes/routes.js';
 import useAuth from '../hooks/authHook';
+import useNetwork from '../hooks/networkHook';
 
-const signUpSchema = yup.object().shape({
+const signInSchema = yup.object().shape({
   username: yup
     .string()
     .min(5, 'Too Short!')
@@ -26,17 +31,32 @@ const LoginPage = () => {
   const [authError, setAuthError] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
+  const network = useNetwork();
+  const loginFocus = useRef();
+  const passwordFocus = useRef();
+  const submitFocus = useRef();
+
+  useEffect(() => {
+    loginFocus.current.focus();
+  }, []);
+
+  const handleKeyDown = (event, inputRef) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      inputRef.current.focus();
+    }
+  };
 
   const f = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: signUpSchema,
+    validationSchema: signInSchema,
     validateOnChange: false,
     onSubmit: async () => {
       setAuthError(false);
-      await axios
+      axios
         .post(routes.loginPath(), {
           username: f.values.username,
           password: f.values.password,
@@ -51,6 +71,7 @@ const LoginPage = () => {
         .catch((error) => {
           if (error.response.status >= 400) {
             setAuthError(true);
+            loginFocus.current.focus();
           }
         });
     },
@@ -61,14 +82,14 @@ const LoginPage = () => {
   });
 
   return (
-    <div className="container-fluid h-100">
-      <div className="row justify-content-center align-content-center h-100">
-        <div className="col-12 col-md-8 col-xxl-6">
-          <div className="card shadow-sm">
-            <div className="card-body row p-5">
-              <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+    <Container fluid className="h-100">
+      <Row className="row justify-content-center align-content-center h-100">
+        <Col className="col-12 col-md-8 col-xxl-6">
+          <Card className="card shadow-sm">
+            <Card.Body className="card-body row p-5">
+              <Col className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img src={Login} className="rounded-circle" alt="Войти" />
-              </div>
+              </Col>
               <Form
                 onSubmit={f.handleSubmit}
                 className="col-12 col-md-6 mt-3 mt-mb-0"
@@ -81,13 +102,17 @@ const LoginPage = () => {
                     required=""
                     placeholder="Ваш ник"
                     id="username"
+                    ref={loginFocus}
+                    onKeyDown={(e) => handleKeyDown(e, passwordFocus)}
                     className={inputClassNames}
                     value={f.values.username}
                     onChange={f.handleChange}
                   />
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                  <Form.Label className="form-label" htmlFor="username">
+                    Ваш ник
+                  </Form.Label>
                 </Form.Group>
-                <Form.Group className="form-floating mb-4">
+                <Form.Group className="form-floating mb-1">
                   <Form.Control
                     name="password"
                     autoComplete="current-password"
@@ -95,6 +120,8 @@ const LoginPage = () => {
                     placeholder="Пароль"
                     type="password"
                     id="password"
+                    ref={passwordFocus}
+                    onKeyDown={(e) => handleKeyDown(e, submitFocus)}
                     className={inputClassNames}
                     value={f.values.password}
                     onChange={f.handleChange}
@@ -102,35 +129,42 @@ const LoginPage = () => {
                   <Form.Label className="form-label" htmlFor="password">
                     Пароль
                   </Form.Label>
-                  {(f.errors || authError) && (
-                    <div className="invalid-tooltip">
-                      Неверные имя пользователя или пароль
-                    </div>
-                  )}
+                  <div
+                    className={`invalid-tooltip ${
+                      f.errors || authError || !network.isOnline
+                        ? ''
+                        : 'invisible'
+                    }`}
+                    id="signIn-error"
+                  >
+                    {network.isOnline
+                      ? 'Неверные имя пользователя или пароль'
+                      : 'Проверьте подключение к сети!'}
+                  </div>
                 </Form.Group>
+                <br />
                 <Button
                   type="submit"
-                  className="w-100 mb-3 btn-outline-primary btn-light"
-                  disabled={f.isSubmitting}
-                  style={{
-                    position: 'relative',
-                    marginTop: '10px',
-                  }}
+                  ref={submitFocus}
+                  onClick={() => loginFocus.current.focus()}
+                  className="w-100 mb-3 btn-primary"
+                  disabled={f.isSubmitting || !network.isOnline}
+                  id="signIn-login-button"
                 >
                   Войти
                 </Button>
               </Form>
-            </div>
-            <div className="card-footer p-4">
+            </Card.Body>
+            <Card.Footer className="card-footer p-4">
               <div className="text-center">
                 <span>Нет аккаунта? </span>
                 <Link to="/signup">Регистрация</Link>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card.Footer>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
