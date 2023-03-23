@@ -77,10 +77,10 @@ const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.allChannels);
   const [firstChannel] = channels;
-  console.log(firstChannel);
   const activeChannelName = useSelector(
     (state) => state.activeChannel,
   ).name;
+
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
@@ -90,9 +90,11 @@ const Channels = () => {
   };
 
   useEffect(() => {
-    const findChannel = channels.findIndex((channel) => channel.name === activeChannelName);
-    if (findChannel < 0) {
-      dispatch(setActiveChannel(firstChannel));
+    if (firstChannel) {
+      const findChannel = channels.findIndex((channel) => channel.name === activeChannelName);
+      if (findChannel < 0) {
+        dispatch(setActiveChannel(firstChannel));
+      }
     }
   }, [activeChannelName, channels, firstChannel, dispatch]);
 
