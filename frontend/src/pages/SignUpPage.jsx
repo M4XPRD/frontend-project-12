@@ -57,7 +57,7 @@ const SignUpPage = () => {
       confirmPassword: '',
     },
     validationSchema: signUpSchema,
-    validateOnChange: true,
+    validateOnChange: false,
     onSubmit: async () => {
       setAuthError(false);
       setServerError(false);
