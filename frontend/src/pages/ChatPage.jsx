@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
-import { addChannels } from '../store/channelsSlice';
+import { addChannels, setActiveChannel } from '../store/channelsSlice';
 import store from '../store/index';
-import { setActiveChannel } from '../store/activeChannelSlice';
 import routes from '../routes/routes';
 
 const ChatPage = () => {
