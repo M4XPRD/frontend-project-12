@@ -2,11 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { setActiveChannel } from '../../store/activeChannelSlice';
 import useNetwork from '../../hooks/networkHook';
+import { setActiveChannel } from '../../store/channelsSlice';
 
 const Remove = ({ socket, onHide, modalInfo }) => {
-  const activeChannelId = useSelector((state) => state.activeChannel).id;
+  const activeChannelId = useSelector((state) => state.channels.activeChannel).id;
   const channels = useSelector((state) => state.channels.allChannels);
   const [firstChannel] = channels;
   const dispatch = useDispatch();
