@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, Nav, Col,
 } from 'react-bootstrap';
-import { setActiveChannel } from '../../store/activeChannelSlice';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
+import { resetMode, setActiveChannel } from '../../store/channelsSlice';
 
 const renderModal = ({ modalInfo, hideModal, socket }) => {
   if (!modalInfo.type) {
@@ -17,7 +17,7 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
   return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
-const renderChannels = (channel, activeChannelName, handleClick, showModal) => {
+const renderChannels = (channel, handleClick, showModal, activeChannelName) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
@@ -76,10 +76,16 @@ const Channels = () => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.allChannels);
+  const channelsMode = useSelector((state) => state.channels.mode);
   const [firstChannel] = channels;
-  const activeChannelName = useSelector(
-    (state) => state.activeChannel,
-  ).name;
+  const activeChannelData = useSelector((state) => state.channels.activeChannel);
+
+  const activeChannelName = activeChannelData.name;
+  const initiatorUser = channelsMode.initiator;
+  const currentMode = channelsMode.type;
+  const loadingStatus = channelsMode.status;
+  const lastAddedChannel = channelsMode.newChannel;
+  const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
@@ -88,6 +94,16 @@ const Channels = () => {
     const channelData = { name, id };
     dispatch(setActiveChannel(channelData));
   };
+
+  useEffect(() => {
+    if (loadingStatus === 'loaded') {
+      if (currentMode === 'add' && initiatorUser === username) {
+        dispatch(setActiveChannel(lastAddedChannel));
+        dispatch(resetMode());
+      }
+      dispatch(resetMode());
+    }
+  }, [currentMode, dispatch, initiatorUser, username, channels, loadingStatus, lastAddedChannel]);
 
   useEffect(() => {
     if (firstChannel) {
@@ -128,7 +144,9 @@ const Channels = () => {
         >
           {channels
           && channels
-            .map((channel) => renderChannels(channel, activeChannelName, handleClick, showModal))}
+            .map((
+              channel,
+            ) => renderChannels(channel, handleClick, showModal, activeChannelName))}
         </Nav>
       </Col>
       {renderModal({ modalInfo, hideModal, socket })}
