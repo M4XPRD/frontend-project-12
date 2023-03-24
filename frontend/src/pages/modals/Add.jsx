@@ -5,11 +5,14 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import useNetwork from '../../hooks/networkHook';
+import store from '../../store/index';
+import { setMode } from '../../store/channelsSlice';
 
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
+  const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
   const channelNameSchema = yup.object().shape({
     channelName: yup
@@ -29,6 +32,7 @@ const Add = ({ socket, onHide }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
+      store.dispatch(setMode({ type: 'add', username }));
       socket.sendChannel({ name: f.values.channelName });
       onHide();
     },
