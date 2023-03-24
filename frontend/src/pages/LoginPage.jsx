@@ -17,13 +17,13 @@ import useNetwork from '../hooks/networkHook';
 const signInSchema = yup.object().shape({
   username: yup
     .string()
-    .min(5, 'Too Short!')
-    .max(50, 'Too Long!')
+    .min(3, 'Too Short!')
+    .max(20, 'Too Long!')
     .required('Required'),
   password: yup
     .string()
-    .min(5, 'Too Short!')
-    .max(50, 'Too Long!')
+    .min(3, 'Too Short!')
+    .max(20, 'Too Long!')
     .required('Required'),
 });
 
