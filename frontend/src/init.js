@@ -5,8 +5,9 @@ import React from 'react';
 import App from './App';
 import './index.css';
 import { addMessage, removeMessages } from './store/messagesSlice';
-import { addChannel, removeChannel, renameChannel } from './store/channelsSlice';
-import { setActiveChannel } from './store/activeChannelSlice';
+import {
+  addChannel, removeChannel, renameChannel,
+} from './store/channelsSlice';
 import store from './store/index';
 
 const Init = (socket) => {
@@ -15,7 +16,6 @@ const Init = (socket) => {
   });
   socket.on('newChannel', (data) => {
     store.dispatch(addChannel(data));
-    store.dispatch(setActiveChannel(data));
   });
   socket.on('removeChannel', (data) => {
     store.dispatch(removeChannel(data));
@@ -23,7 +23,6 @@ const Init = (socket) => {
   });
   socket.on('renameChannel', (data) => {
     store.dispatch(renameChannel(data));
-    store.dispatch(setActiveChannel(data));
   });
 
   return (
