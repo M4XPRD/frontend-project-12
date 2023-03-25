@@ -34,6 +34,7 @@ const Add = ({ socket, onHide }) => {
     onSubmit: () => {
       store.dispatch(setMode({ type: 'add', username }));
       socket.sendChannel({ name: f.values.channelName });
+      f.resetForm();
       onHide();
     },
   });
