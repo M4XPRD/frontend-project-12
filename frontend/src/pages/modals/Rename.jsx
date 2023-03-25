@@ -4,11 +4,14 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import useNetwork from '../../hooks/networkHook';
+import store from '../../store/index';
+import { setMode } from '../../store/channelsSlice';
 
 const Rename = ({ socket, onHide, modalInfo }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
+  const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
   const channelRenameSchema = yup.object().shape({
     newChannelName: yup
@@ -34,6 +37,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
         id: f.values.channelId,
         removable: f.values.channelRemovable,
       };
+      store.dispatch(setMode({ type: 'rename', username }));
       socket.sendRenamedChannel(newData);
       f.resetForm();
       onHide();
