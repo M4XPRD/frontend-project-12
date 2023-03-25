@@ -13,7 +13,7 @@ const channelsSlice = createSlice({
       type: null,
       initiator: null,
       status: null,
-      newChannel: {
+      targetChannel: {
         id: null,
         name: null,
       },
@@ -24,22 +24,10 @@ const channelsSlice = createSlice({
       state.allChannels = action.payload;
     },
     addChannel: (state, action) => {
-      state.mode.newChannel.id = action.payload.id;
-      state.mode.newChannel.name = action.payload.name;
+      state.mode.targetChannel.id = action.payload.id;
+      state.mode.targetChannel.name = action.payload.name;
       state.mode.status = 'loaded';
       state.allChannels.push(action.payload);
-    },
-    setMode: (state, action) => {
-      const { type, username } = action.payload;
-      state.mode.type = type;
-      state.mode.initiator = username;
-    },
-    resetMode: (state) => {
-      state.mode.type = null;
-      state.mode.initiator = null;
-      state.mode.status = null;
-      state.mode.newChannel.id = null;
-      state.mode.newChannel.name = null;
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
@@ -54,12 +42,27 @@ const channelsSlice = createSlice({
         }
         return channel;
       });
+      state.mode.targetChannel.id = id;
+      state.mode.targetChannel.name = name;
+      state.mode.status = 'loaded';
       state.allChannels = updatedChannels;
     },
     setActiveChannel: (state, action) => {
       const { name, id } = action.payload;
       state.activeChannel.name = name;
       state.activeChannel.id = id;
+    },
+    setMode: (state, action) => {
+      const { type, username } = action.payload;
+      state.mode.type = type;
+      state.mode.initiator = username;
+    },
+    resetMode: (state) => {
+      state.mode.type = null;
+      state.mode.initiator = null;
+      state.mode.status = null;
+      state.mode.targetChannel.id = null;
+      state.mode.targetChannel.name = null;
     },
   },
 });
