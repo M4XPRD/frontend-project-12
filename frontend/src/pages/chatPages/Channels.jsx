@@ -84,7 +84,7 @@ const Channels = () => {
   const initiatorUser = channelsMode.initiator;
   const currentMode = channelsMode.type;
   const loadingStatus = channelsMode.status;
-  const lastAddedChannel = channelsMode.newChannel;
+  const targetedChannel = channelsMode.targetChannel;
   const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
   const hideModal = () => setModalInfo({ type: null, item: null });
@@ -98,21 +98,28 @@ const Channels = () => {
   useEffect(() => {
     if (loadingStatus === 'loaded') {
       if (currentMode === 'add' && initiatorUser === username) {
-        dispatch(setActiveChannel(lastAddedChannel));
+        dispatch(setActiveChannel(targetedChannel));
+        dispatch(resetMode());
+      } else if (currentMode === 'rename') {
+        if (activeChannelData.id === targetedChannel.id) {
+          dispatch(setActiveChannel(targetedChannel));
+          dispatch(resetMode());
+        }
         dispatch(resetMode());
       }
       dispatch(resetMode());
     }
-  }, [currentMode, dispatch, initiatorUser, username, channels, loadingStatus, lastAddedChannel]);
+  // eslint-disable-next-line max-len
+  }, [currentMode, dispatch, initiatorUser, username, channels, loadingStatus, targetedChannel, activeChannelData]);
 
   useEffect(() => {
-    if (firstChannel) {
+    if (firstChannel && loadingStatus === 'remove') {
       const findChannel = channels.findIndex((channel) => channel.name === activeChannelName);
       if (findChannel < 0) {
         dispatch(setActiveChannel(firstChannel));
       }
     }
-  }, [activeChannelName, channels, firstChannel, dispatch]);
+  }, [activeChannelName, channels, firstChannel, dispatch, loadingStatus]);
 
   return (
     <>
