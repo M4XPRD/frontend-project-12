@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import App from './App';
 import './index.css';
-import { addMessage, removeMessages } from './store/messagesSlice';
+import { addMessage } from './store/messagesSlice';
 import {
   addChannel, removeChannel, renameChannel,
 } from './store/channelsSlice';
@@ -19,7 +19,7 @@ const Init = (socket) => {
   });
   socket.on('removeChannel', (data) => {
     store.dispatch(removeChannel(data));
-    store.dispatch(removeMessages(data));
+    // store.dispatch(removeMessages(data));
   });
   socket.on('renameChannel', (data) => {
     store.dispatch(renameChannel(data));
