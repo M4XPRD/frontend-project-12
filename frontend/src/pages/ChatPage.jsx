@@ -15,11 +15,10 @@ const ChatPage = () => {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')).token}`,
         },
       }).then((responce) => {
-      // {channels: Array(2), messages: Array(0), currentChannelId: 1}
         const { channels, messages, currentChannelId } = responce.data;
-        const filteredChannels = channels.filter((channel) => channel.id === currentChannelId);
-        const [currentActiveChannel] = filteredChannels;
-        store.dispatch(setActiveChannel(currentActiveChannel));
+        const findCurrentChannel = channels.filter((channel) => channel.id === currentChannelId);
+        const [currentActiveChannel] = findCurrentChannel;
+        store.dispatch(setActiveChannel(currentActiveChannel.id));
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
       }).catch((error) => {
