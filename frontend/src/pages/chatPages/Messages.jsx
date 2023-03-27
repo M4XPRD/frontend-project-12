@@ -12,11 +12,13 @@ const Messages = () => {
   const socket = useSocket();
   const messageScroll = useRef(null);
   const inputFocus = useRef();
-  const activeChannel = useSelector((state) => state.channels.activeChannel);
+  const activeChannelId = useSelector((state) => state.channels.currentActiveId);
+  const findActiveChannel = useSelector((state) => state.channels.allChannels)
+    .filter(({ id }) => id === activeChannelId);
+  const [activeChannel] = findActiveChannel;
   const allMessages = useSelector((state) => state.messages.allMessages);
-  const activeId = activeChannel.id;
   const filteredMessages = allMessages.filter(
-    ({ channelId }) => channelId === activeId,
+    ({ channelId }) => channelId === activeChannelId,
   );
   const { username } = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -25,7 +27,7 @@ const Messages = () => {
       currentMessage: '',
     },
     onSubmit: () => {
-      socket.sendMessage({ body: f.values.currentMessage, channelId: activeId, username });
+      socket.sendMessage({ body: f.values.currentMessage, channelId: activeChannelId, username });
       f.resetForm({ currentMessage: '' });
     },
   });
@@ -44,7 +46,7 @@ const Messages = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>{`# ${activeChannel.name}`}</b>
+            <b>{`# ${activeChannel ? activeChannel.name : ''}`}</b>
           </p>
           <span className="text-muted">{`${filteredMessages.length} сообщений`}</span>
         </div>
