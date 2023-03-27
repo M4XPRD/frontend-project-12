@@ -6,13 +6,13 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import useNetwork from '../../hooks/networkHook';
 import store from '../../store/index';
-import { setMode } from '../../store/channelsSlice';
+import { setUserInitiator } from '../../store/channelsSlice';
 
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
-  const { username } = JSON.parse(localStorage.getItem('userInfo'));
+  const uniqueUserId = JSON.parse(localStorage.getItem('uniqueUserId'));
 
   const channelNameSchema = yup.object().shape({
     channelName: yup
@@ -32,7 +32,7 @@ const Add = ({ socket, onHide }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      store.dispatch(setMode({ type: 'add', username }));
+      store.dispatch(setUserInitiator(uniqueUserId));
       socket.sendChannel({ name: f.values.channelName });
       f.resetForm();
       onHide();
