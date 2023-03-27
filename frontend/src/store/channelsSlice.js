@@ -5,34 +5,23 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     allChannels: [],
-    activeChannel: {
-      name: null,
-      id: null,
-    },
-    mode: {
-      type: null,
-      initiator: null,
-      status: null,
-      targetChannel: {
-        id: null,
-        name: null,
-      },
-    },
+    currentActiveId: null,
+    userInitiator: null,
   },
   reducers: {
     addChannels: (state, action) => {
       state.allChannels = action.payload;
     },
     addChannel: (state, action) => {
-      state.mode.targetChannel.id = action.payload.id;
-      state.mode.targetChannel.name = action.payload.name;
-      state.mode.status = 'loaded';
+      state.currentActiveId = state.userInitiator ? action.payload.id : state.currentActiveId;
       state.allChannels.push(action.payload);
+      state.userInitiator = null;
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
       const filteredChannels = state.allChannels.filter((channel) => channel.id !== id);
       state.allChannels = filteredChannels;
+      state.currentActiveId = state.currentActiveId === id ? 1 : state.currentActiveId;
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
@@ -42,32 +31,25 @@ const channelsSlice = createSlice({
         }
         return channel;
       });
-      state.mode.targetChannel.id = id;
-      state.mode.targetChannel.name = name;
-      state.mode.status = 'loaded';
+      state.currentActiveId = state.currentActiveId === id ? id : state.currentActiveId;
       state.allChannels = updatedChannels;
     },
     setActiveChannel: (state, action) => {
-      const { name, id } = action.payload;
-      state.activeChannel.name = name;
-      state.activeChannel.id = id;
+      state.currentActiveId = action.payload;
     },
-    setMode: (state, action) => {
-      const { type, username } = action.payload;
-      state.mode.type = type;
-      state.mode.initiator = username;
-    },
-    resetMode: (state) => {
-      state.mode.type = null;
-      state.mode.initiator = null;
-      state.mode.status = null;
-      state.mode.targetChannel.id = null;
-      state.mode.targetChannel.name = null;
+    setUserInitiator: (state, action) => {
+      state.userInitiator = action.payload;
     },
   },
 });
 
 export const {
-  addChannels, addChannel, removeChannel, renameChannel, setMode, resetMode, setActiveChannel,
+  addChannels,
+  addChannel,
+  removeChannel,
+  renameChannel,
+  setActiveChannel,
+  setUserInitiator,
 } = channelsSlice.actions;
+
 export default channelsSlice.reducer;
