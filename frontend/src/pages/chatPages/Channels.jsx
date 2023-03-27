@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, Nav, Col,
 } from 'react-bootstrap';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
-import { resetMode, setActiveChannel } from '../../store/channelsSlice';
+import { setActiveChannel } from '../../store/channelsSlice';
 
 const renderModal = ({ modalInfo, hideModal, socket }) => {
   if (!modalInfo.type) {
@@ -17,20 +17,20 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
   return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
-const renderChannels = (channel, handleClick, showModal, activeChannelName) => {
+const renderChannels = (channel, handleClick, showModal, activeChannelId) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
       <Nav.Item className="nav-item w-100" key={id} data-changecolour="hover">
         <Dropdown role="group" className="d-flex dropdown btn-group">
           <Button
-            onClick={() => handleClick(name, id)}
+            onClick={() => handleClick(id)}
             type="button"
             variant="white"
             id="square-border"
             data-changecolour="hover"
             className={`w-100 rounded-0 text-start text-truncate btn ${
-              activeChannelName === name ? 'btn-secondary' : ''
+              activeChannelId === id ? 'btn-secondary' : ''
             }`}
           >
             <span className="me-1">#</span>
@@ -42,7 +42,7 @@ const renderChannels = (channel, handleClick, showModal, activeChannelName) => {
             id="square-border"
             data-changecolour="hover"
             className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
-              activeChannelName === name ? 'btn-secondary' : ''
+              activeChannelId === id ? 'btn-secondary' : ''
             }`}
           />
           <Dropdown.Menu>
@@ -54,13 +54,13 @@ const renderChannels = (channel, handleClick, showModal, activeChannelName) => {
     ) : (
       <Nav.Item className="nav-item w-100" key={id} data-changecolour="hover">
         <Button
-          onClick={() => handleClick(name, id)}
+          onClick={() => handleClick(id)}
           type="button"
           variant="white"
           id="square-border"
           data-changecolour="hover"
           className={`w-100 rounded-0 text-start btn ${
-            activeChannelName === name ? 'btn-secondary' : ''
+            activeChannelId === id ? 'btn-secondary' : ''
           }`}
         >
           <span className="me-1">#</span>
@@ -76,50 +76,12 @@ const Channels = () => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.allChannels);
-  const channelsMode = useSelector((state) => state.channels.mode);
-  const [firstChannel] = channels;
-  const activeChannelData = useSelector((state) => state.channels.activeChannel);
-
-  const activeChannelName = activeChannelData.name;
-  const initiatorUser = channelsMode.initiator;
-  const currentMode = channelsMode.type;
-  const loadingStatus = channelsMode.status;
-  const targetedChannel = channelsMode.targetChannel;
-  const { username } = JSON.parse(localStorage.getItem('userInfo'));
+  const activeChannelId = useSelector((state) => state.channels.currentActiveId);
 
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
 
-  const handleClick = (name, id) => {
-    const channelData = { name, id };
-    dispatch(setActiveChannel(channelData));
-  };
-
-  useEffect(() => {
-    if (loadingStatus === 'loaded') {
-      if (currentMode === 'add' && initiatorUser === username) {
-        dispatch(setActiveChannel(targetedChannel));
-        dispatch(resetMode());
-      } else if (currentMode === 'rename') {
-        if (activeChannelData.id === targetedChannel.id) {
-          dispatch(setActiveChannel(targetedChannel));
-          dispatch(resetMode());
-        }
-        dispatch(resetMode());
-      }
-      dispatch(resetMode());
-    }
-  // eslint-disable-next-line max-len
-  }, [currentMode, dispatch, initiatorUser, username, channels, loadingStatus, targetedChannel, activeChannelData]);
-
-  useEffect(() => {
-    if (firstChannel && loadingStatus === 'remove') {
-      const findChannel = channels.findIndex((channel) => channel.name === activeChannelName);
-      if (findChannel < 0) {
-        dispatch(setActiveChannel(firstChannel));
-      }
-    }
-  }, [activeChannelName, channels, firstChannel, dispatch, loadingStatus]);
+  const handleClick = (id) => dispatch(setActiveChannel(id));
 
   return (
     <>
@@ -153,7 +115,7 @@ const Channels = () => {
           && channels
             .map((
               channel,
-            ) => renderChannels(channel, handleClick, showModal, activeChannelName))}
+            ) => renderChannels(channel, handleClick, showModal, activeChannelId))}
         </Nav>
       </Col>
       {renderModal({ modalInfo, hideModal, socket })}
