@@ -68,8 +68,10 @@ const SignUpPage = () => {
         })
         .then((responce) => {
           const data = JSON.stringify(responce.data);
+          const uniqueId = JSON.stringify(crypto.randomUUID());
           localStorage.clear();
           localStorage.setItem('userInfo', data);
+          localStorage.setItem('uniqueUserId', uniqueId);
           auth.logIn(data);
           navigate('/');
         })
