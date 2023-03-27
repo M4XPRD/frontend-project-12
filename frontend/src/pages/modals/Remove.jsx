@@ -1,15 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import useNetwork from '../../hooks/networkHook';
-import { setActiveChannel } from '../../store/channelsSlice';
 
 const Remove = ({ socket, onHide, modalInfo }) => {
-  const activeChannelId = useSelector((state) => state.channels.activeChannel).id;
-  const channels = useSelector((state) => state.channels.allChannels);
-  const [firstChannel] = channels;
-  const dispatch = useDispatch();
   const inputRef = useRef();
   const network = useNetwork();
 
@@ -19,9 +13,6 @@ const Remove = ({ socket, onHide, modalInfo }) => {
     },
     onSubmit: () => {
       socket.sendRemovedChannel({ id: f.values.removingChannelId });
-      if (activeChannelId === f.values.removingChannelId) {
-        dispatch(setActiveChannel({ name: firstChannel.name, id: firstChannel.id }));
-      }
       f.resetForm();
       onHide();
     },
