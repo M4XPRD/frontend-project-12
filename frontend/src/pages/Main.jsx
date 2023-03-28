@@ -11,6 +11,8 @@ import {
 } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ErrorPage from './ErrorPage';
 import SignUpPage from './SignUpPage';
 import ChatPage from './ChatPage';
@@ -126,7 +128,7 @@ const Main = () => {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
-        <div className="Toastify" />
+        <ToastContainer />
       </div>
     </div>
   );

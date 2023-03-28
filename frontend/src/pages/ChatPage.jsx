@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
@@ -9,7 +10,7 @@ import store from '../store/index';
 import routes from '../routes/routes';
 
 const ChatPage = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
   const getLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
 
@@ -26,13 +27,13 @@ const ChatPage = () => {
         store.dispatch(setActiveChannel(currentActiveChannel.id));
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
-      }).catch((error) => {
-        console.log('Something wrong happened', error);
+      }).catch(() => {
+        toast.danger(t('errors.loadData'));
         setTimeout(() => getData(), 5000);
       });
     };
     getData();
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!getLanguage) {

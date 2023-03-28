@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Modal, FormGroup } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
 
 const Remove = ({ socket, onHide, modalInfo }) => {
@@ -14,9 +15,14 @@ const Remove = ({ socket, onHide, modalInfo }) => {
       removingChannelId: modalInfo.item.id,
     },
     onSubmit: () => {
-      socket.sendRemovedChannel({ id: f.values.removingChannelId });
-      f.resetForm();
-      onHide();
+      try {
+        socket.sendRemovedChannel({ id: f.values.removingChannelId });
+        toast.success(t('toastify.remove'));
+        f.resetForm();
+        onHide();
+      } catch (error) {
+        toast.danger(t('errors.toastifyRemove'));
+      }
     },
   });
 

@@ -4,6 +4,7 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
 
 const Rename = ({ socket, onHide, modalInfo }) => {
@@ -31,14 +32,19 @@ const Rename = ({ socket, onHide, modalInfo }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      const newData = {
-        name: f.values.newChannelName,
-        id: f.values.channelId,
-        removable: f.values.channelRemovable,
-      };
-      socket.sendRenamedChannel(newData);
-      f.resetForm();
-      onHide();
+      try {
+        const newData = {
+          name: f.values.newChannelName,
+          id: f.values.channelId,
+          removable: f.values.channelRemovable,
+        };
+        socket.sendRenamedChannel(newData);
+        toast.success(t('toastify.rename'));
+        f.resetForm();
+        onHide();
+      } catch (error) {
+        toast.danger(t('errors.toastifyRename'));
+      }
     },
   });
 

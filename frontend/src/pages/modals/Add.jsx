@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
 import store from '../../store/index';
 import { setUserInitiator } from '../../store/channelsSlice';
@@ -34,10 +35,15 @@ const Add = ({ socket, onHide }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      store.dispatch(setUserInitiator(uniqueUserId));
-      socket.sendChannel({ name: f.values.channelName });
-      f.resetForm();
-      onHide();
+      try {
+        store.dispatch(setUserInitiator(uniqueUserId));
+        socket.sendChannel({ name: f.values.channelName });
+        toast.success(t('toastify.add'));
+        f.resetForm();
+        onHide();
+      } catch (error) {
+        toast.danger(t('errors.toastifyAdd'));
+      }
     },
   });
 
