@@ -4,6 +4,7 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import useNetwork from '../../hooks/networkHook';
 import store from '../../store/index';
 import { setUserInitiator } from '../../store/channelsSlice';
@@ -13,14 +14,15 @@ const Add = ({ socket, onHide }) => {
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
   const uniqueUserId = JSON.parse(localStorage.getItem('uniqueUserId'));
+  const { t } = useTranslation();
 
   const channelNameSchema = yup.object().shape({
     channelName: yup
       .string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .test('is-unique', 'Должно быть уникальным', (channelName) => !channels.some((channel) => channel.name === channelName))
-      .required('Обязательное поле'),
+      .min(3, 'errors.symbolsLength')
+      .max(20, 'errors.symbolsLength')
+      .test('is-unique', 'errors.mustBeUnique', (channelName) => !channels.some((channel) => channel.name === channelName))
+      .required('errors.requiredField'),
   });
 
   const f = useFormik({
@@ -46,7 +48,7 @@ const Add = ({ socket, onHide }) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title className="p-1">Добавить канал</Modal.Title>
+        <Modal.Title className="p-1">{t('modals.addModal.addChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -58,20 +60,20 @@ const Add = ({ socket, onHide }) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={network.isOnline ? f.values.channelName : 'Проверьте подключение к сети!'}
+              value={network.isOnline ? f.values.channelName : t('errors.network')}
               data-testid="input-body"
               autoComplete="off"
               name="channelName"
             />
             {f.touched.channelName && f.errors.channelName && (
             <div className="invalid-feedback mb-2">
-              {f.errors.channelName}
+              {t(f.errors.channelName)}
             </div>
             )}
           </FormGroup>
           <FormGroup className="d-flex justify-content-start mt-3">
-            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value="Добавить" disabled={!network.isOnline} />
-            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
+            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value={t('modals.addModal.addButton')} disabled={!network.isOnline} />
+            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
           </FormGroup>
         </form>
       </Modal.Body>

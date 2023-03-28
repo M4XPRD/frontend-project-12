@@ -6,27 +6,11 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import SignUp from '../images/SignUp.jpg';
 import routes from '../routes/routes';
 import useNetwork from '../hooks/networkHook';
 import useAuth from '../hooks/authHook';
-
-const signUpSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(3, 'Слишком короткое имя')
-    .max(20, 'Слишком длинное имя')
-    .required('Обязательное поле'),
-  password: yup
-    .string()
-    .min(6, 'Слишком короткий пароль')
-    .max(50, 'Слишком длинный пароль')
-    .required('Обязательное поле'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password')], 'Пароли не совпадают')
-    .required('Обязательное поле'),
-});
 
 const SignUpPage = () => {
   const [authError, setAuthError] = useState(false);
@@ -38,6 +22,41 @@ const SignUpPage = () => {
   const network = useNetwork();
   const navigate = useNavigate();
   const auth = useAuth();
+  const { t } = useTranslation();
+
+  const signUpSchema = yup.object().shape({
+    username: yup
+      .string()
+      .min(3, 'errors.tooShortName')
+      .max(20, 'errors.tooLongName')
+      .required('errors.requiredField'),
+    password: yup
+      .string()
+      .min(6, 'errors.tooShortPassword')
+      .max(50, 'errors.tooLongPassword')
+      .required('errors.requiredField'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'errors.passwordsDontMatch')
+      .required('errors.requiredField'),
+  });
+
+  // const signUpSchema = yup.object().shape({
+  //   username: yup
+  //     .string()
+  //     .min(3, t('errors.tooShortName'))
+  //     .max(20, t('errors.tooLongName'))
+  //     .required(t('errors.requiredField')),
+  //   password: yup
+  //     .string()
+  //     .min(6, t('errors.tooShortPassword'))
+  //     .max(50, t('errors.tooLongPassword'))
+  //     .required(t('errors.requiredField')),
+  //   confirmPassword: yup
+  //     .string()
+  //     .oneOf([yup.ref('password')], t('errors.passwordsDontMatch'))
+  //     .required(t('errors.requiredField')),
+  // });
 
   useEffect(() => {
     usernameFocus.current.focus();
@@ -90,13 +109,13 @@ const SignUpPage = () => {
   const handleButtonText = (authorizationError, serverConnectionError, connection) => {
     switch (true) {
       case !connection.isOnline:
-        return 'Проверьте подключение к сети!';
+        return t('errors.network');
       case serverConnectionError:
-        return 'Неполадки с сервером';
+        return t('errors.server');
       case authorizationError:
-        return 'Пользователь с таким именем уже есть';
+        return t('errors.authorizationError');
       default:
-        return 'Зарегистрироваться';
+        return t('signUpPage.registerButton');
     }
   };
 
@@ -110,20 +129,20 @@ const SignUpPage = () => {
                 <img
                   src={SignUp}
                   className="rounded-circle mb-3"
-                  alt="Регистрация"
+                  alt={t('signUpPage.h1Text')}
                   id="signUp-image"
                 />
               </div>
               <Form id="signUp-form" onSubmit={f.handleSubmit}>
                 <h1 className="text-center mb-4" id="signUp-reg">
-                  Регистрация
+                  {t('signUpPage.h1Text')}
                 </h1>
                 <Form.Group className="form-floating mb-2">
                   <Form.Control
                     name="username"
                     autoComplete="username"
                     required=""
-                    placeholder="От 3 до 20 символов"
+                    placeholder={t('signUpPage.username')}
                     id="username"
                     ref={usernameFocus}
                     onKeyDown={(e) => handleKeyDown(e, passwordFocus)}
@@ -132,10 +151,10 @@ const SignUpPage = () => {
                     onChange={f.handleChange}
                   />
                   <Form.Label className="form-label" htmlFor="username">
-                    Имя пользователя
+                    {t('signUpPage.username')}
                   </Form.Label>
                   <div className="invalid-tooltip" id="signUp-errors">
-                    {f.errors.username}
+                    {t(f.errors.username)}
                   </div>
                 </Form.Group>
                 <br />
@@ -145,7 +164,7 @@ const SignUpPage = () => {
                     type="password"
                     autoComplete="new-password"
                     required=""
-                    placeholder="Не менее 6 символов"
+                    placeholder={t('signUpPage.password')}
                     id="password"
                     ref={passwordFocus}
                     onKeyDown={(e) => handleKeyDown(e, confirmPasswordFocus)}
@@ -154,10 +173,10 @@ const SignUpPage = () => {
                     onChange={f.handleChange}
                   />
                   <div className="invalid-tooltip" id="signUp-errors">
-                    {f.errors.password}
+                    {t(f.errors.password)}
                   </div>
                   <Form.Label className="form-label" htmlFor="password">
-                    Пароль
+                    {t('signUpPage.password')}
                   </Form.Label>
                 </Form.Group>
                 <br />
@@ -167,7 +186,7 @@ const SignUpPage = () => {
                     type="password"
                     autoComplete="new-password"
                     required=""
-                    placeholder="Пароли должны совпадать"
+                    placeholder={t('signUpPage.confirmPassword')}
                     id="confirmPassword"
                     ref={confirmPasswordFocus}
                     onKeyDown={(e) => handleKeyDown(e, submitFocus)}
@@ -176,10 +195,10 @@ const SignUpPage = () => {
                     onChange={f.handleChange}
                   />
                   <div className="invalid-tooltip" id="signUp-errors">
-                    {f.errors.confirmPassword}
+                    {t(f.errors.confirmPassword)}
                   </div>
                   <Form.Label className="form-label" htmlFor="confirmPassword">
-                    Подтвердите пароль
+                    {t('signUpPage.confirmPassword')}
                   </Form.Label>
                 </Form.Group>
                 <br />

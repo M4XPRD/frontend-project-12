@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, Nav, Col,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
 import { setActiveChannel } from '../../store/channelsSlice';
@@ -17,7 +18,7 @@ const renderModal = ({ modalInfo, hideModal, socket }) => {
   return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
-const renderChannels = (channel, handleClick, showModal, activeChannelId) => {
+const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
@@ -46,8 +47,8 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId) => {
             }`}
           />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => showModal('removing', { id })}>Удалить</Dropdown.Item>
-            <Dropdown.Item onClick={() => showModal('renaming', { id, name, removable })}>Переименовать</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('removing', { id })}>{t('channels.dropdownToggle.delete')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('renaming', { id, name, removable })}>{t('channels.dropdownToggle.rename')}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav.Item>
@@ -75,6 +76,7 @@ const Channels = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.allChannels);
   const activeChannelId = useSelector((state) => state.channels.currentActiveId);
 
@@ -87,7 +89,7 @@ const Channels = () => {
     <>
       <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex" id="channels-col">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          <b>Каналы</b>
+          <b>{t('channels.channels')}</b>
           <button
             onClick={() => showModal('adding')}
             type="button"
@@ -115,7 +117,7 @@ const Channels = () => {
           && channels
             .map((
               channel,
-            ) => renderChannels(channel, handleClick, showModal, activeChannelId))}
+            ) => renderChannels(channel, handleClick, showModal, activeChannelId, t))}
         </Nav>
       </Col>
       {renderModal({ modalInfo, hideModal, socket })}

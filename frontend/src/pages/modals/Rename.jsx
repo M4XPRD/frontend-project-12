@@ -3,20 +3,22 @@ import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import useNetwork from '../../hooks/networkHook';
 
 const Rename = ({ socket, onHide, modalInfo }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
+  const { t } = useTranslation();
 
   const channelRenameSchema = yup.object().shape({
     newChannelName: yup
       .string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .test('is-unique', 'Должно быть уникальным', (newChannelName) => !channels.some((channel) => channel.name === newChannelName))
-      .required('Обязательное поле'),
+      .min(3, 'errors.symbolsLength')
+      .max(20, 'errors.symbolsLength')
+      .test('is-unique', 'errors.mustBeUnique', (newChannelName) => !channels.some((channel) => channel.name === newChannelName))
+      .required('errors.requiredField'),
   });
 
   const f = useFormik({
@@ -47,7 +49,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title className="p-1">Переименовать канал</Modal.Title>
+        <Modal.Title className="p-1">{t('modals.renameModal.renameChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -59,20 +61,20 @@ const Rename = ({ socket, onHide, modalInfo }) => {
               ref={inputRef}
               onChange={f.handleChange}
               onBlur={f.handleBlur}
-              value={network.isOnline ? f.values.newChannelName : 'Проверьте подключение к сети!'}
+              value={network.isOnline ? f.values.newChannelName : t('errors.network')}
               autoComplete="off"
               data-testid="input-body"
               name="newChannelName"
             />
             {f.touched.newChannelName && f.errors.newChannelName && (
             <div className="invalid-feedback mb-2">
-              {f.errors.newChannelName}
+              {t(f.errors.newChannelName)}
             </div>
             )}
           </FormGroup>
           <FormGroup className="d-flex justify-content-start mt-3">
-            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value="Отправить" disabled={!network.isOnline} />
-            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value="Отменить" />
+            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value={t('modals.renameModal.renameButton')} disabled={!network.isOnline} />
+            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
           </FormGroup>
         </form>
       </Modal.Body>

@@ -9,6 +9,7 @@ import axios from 'axios';
 import {
   Form, Button, Row, Col, Card, Container,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import Login from '../images/Login.jpg';
 import routes from '../routes/routes.js';
 import useAuth from '../hooks/authHook';
@@ -17,17 +18,17 @@ import useNetwork from '../hooks/networkHook';
 const signInSchema = yup.object().shape({
   username: yup
     .string()
-    .min(3, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required'),
+    .min(3)
+    .max(20)
+    .required(),
   password: yup
     .string()
-    .min(3, 'Too Short!')
-    .max(20, 'Too Long!')
-    .required('Required'),
+    .min(3)
+    .max(20)
+    .required(),
 });
 
-const LoginPage = () => {
+const SignInPage = () => {
   const [authError, setAuthError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const auth = useAuth();
@@ -36,6 +37,7 @@ const LoginPage = () => {
   const loginFocus = useRef();
   const passwordFocus = useRef();
   const submitFocus = useRef();
+  const { t } = useTranslation();
 
   useEffect(() => {
     loginFocus.current.focus();
@@ -95,19 +97,19 @@ const LoginPage = () => {
           <Card className="card shadow-sm">
             <Card.Body className="card-body row p-5">
               <Col className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={Login} className="rounded-circle" alt="Войти" />
+                <img src={Login} className="rounded-circle" alt={t('signInPage.h1Text')} />
               </Col>
               <Form
                 onSubmit={f.handleSubmit}
                 className="col-12 col-md-6 mt-3 mt-mb-0"
               >
-                <h1 className="text-center mb-4">Войти</h1>
+                <h1 className="text-center mb-4">{t('signInPage.h1Text')}</h1>
                 <Form.Group className="form-floating mb-3">
                   <Form.Control
                     name="username"
                     autoComplete="username"
                     required=""
-                    placeholder="Ваш ник"
+                    placeholder={t('signInPage.placeholders.username')}
                     id="username"
                     ref={loginFocus}
                     onKeyDown={(e) => handleKeyDown(e, passwordFocus)}
@@ -116,7 +118,7 @@ const LoginPage = () => {
                     onChange={f.handleChange}
                   />
                   <Form.Label className="form-label" htmlFor="username">
-                    Ваш ник
+                    {t('signInPage.placeholders.username')}
                   </Form.Label>
                 </Form.Group>
                 <Form.Group className="form-floating mb-1">
@@ -124,7 +126,7 @@ const LoginPage = () => {
                     name="password"
                     autoComplete="current-password"
                     required=""
-                    placeholder="Пароль"
+                    placeholder={t('signInPage.placeholders.password')}
                     type="password"
                     id="password"
                     ref={passwordFocus}
@@ -134,7 +136,7 @@ const LoginPage = () => {
                     onChange={f.handleChange}
                   />
                   <Form.Label className="form-label" htmlFor="password">
-                    Пароль
+                    {t('signInPage.placeholders.password')}
                   </Form.Label>
                   <div
                     className={`invalid-tooltip ${
@@ -144,7 +146,7 @@ const LoginPage = () => {
                     }`}
                     id="signIn-error"
                   >
-                    {serverError ? 'Неполадки с сервером' : 'Неверные имя пользователя или пароль'}
+                    {serverError ? t('errors.server') : t('errors.loginValidation')}
                   </div>
                 </Form.Group>
                 <br />
@@ -156,14 +158,14 @@ const LoginPage = () => {
                   disabled={f.isSubmitting || !network.isOnline}
                   id="signIn-login-button"
                 >
-                  {network.isOnline ? 'Войти' : 'Проверьте подключение к сети!'}
+                  {network.isOnline ? t('signInPage.loginButton') : t('errors.network')}
                 </Button>
               </Form>
             </Card.Body>
             <Card.Footer className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта? </span>
-                <Link to="/signup">Регистрация</Link>
+                <span>{t('signInPage.footerMessage')}</span>
+                <Link to="/signup">{t('signInPage.registrationLink')}</Link>
               </div>
             </Card.Footer>
           </Card>
@@ -173,4 +175,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;
