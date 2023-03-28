@@ -1,7 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 import React from 'react';
+import i18n from './i18n';
 import App from './App';
 import './index.css';
 import { addMessage } from './store/messagesSlice';
@@ -29,7 +31,9 @@ const Init = (socket) => {
     <React.StrictMode>
       <BrowserRouter>
         <Provider store={store}>
-          <App socket={socket} />
+          <I18nextProvider i18n={i18n}>
+            <App socket={socket} />
+          </I18nextProvider>
         </Provider>
       </BrowserRouter>
     </React.StrictMode>
