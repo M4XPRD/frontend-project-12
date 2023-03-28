@@ -12,6 +12,8 @@
 
 .navbar-brand {
   margin-left: 12px;
+  /* position: relative;
+  right: 10px; */
 }
 
 #square-border {
@@ -54,6 +56,30 @@
   width: 22px;
   margin-right: 20px;
   margin-left: auto;
+}
+
+#img-logout-lngs {
+  position: relative;
+  right: 10px;
+}
+
+#change-lang-img {
+  position: absolute;
+  width: 24px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
+  
+#language-button {
+  margin-left: 10px;
+  position: relative;
+  width: 40px;
+  height: 38px;
+}
+
+#language-button {
+  border-color: transparent;
 }
 
 @media (max-width: 1055px) {
