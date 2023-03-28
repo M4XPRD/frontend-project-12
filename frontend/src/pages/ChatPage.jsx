@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
@@ -8,6 +9,10 @@ import store from '../store/index';
 import routes from '../routes/routes';
 
 const ChatPage = () => {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+  const getLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
+
   useEffect(() => {
     const getData = async () => {
       axios.get(routes.dataPath(), {
@@ -28,6 +33,12 @@ const ChatPage = () => {
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    if (!getLanguage) {
+      localStorage.setItem('currentLanguage', JSON.stringify(currentLanguage));
+    }
+  }, [currentLanguage, getLanguage]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
