@@ -100,10 +100,6 @@
   backface-visibility: hidden;
 }
 
-#channels-col {
-  width: 256px;
-}
-
 @media (max-width: 1055px) {
   #signIn-login-button {
     margin-top: 40px;
