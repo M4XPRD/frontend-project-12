@@ -3,6 +3,7 @@ export default {
     errors: {
       network: 'Check your network connection!',
       server: 'Server issues',
+      loadData: 'Data loading failed',
       loginValidation: 'Wrong username or password',
       authorizationError: "There's already a user with the same nickname",
       tooShortName: "Name's too short",
@@ -13,6 +14,14 @@ export default {
       passwordsDontMatch: "Passwords don't match",
       mustBeUnique: 'Must be unique',
       symbolsLength: 'From 3 to 20 characters',
+      toastifyAdd: 'Channel adding failed',
+      toastidyRemove: 'Channel removing failed',
+      toastifyRename: 'Channel renaming failed',
+    },
+    toastify: {
+      add: 'Channel created',
+      remove: 'Channel removed',
+      rename: 'Channel renamed',
     },
     signInPage: {
       h1Text: 'Sign In',

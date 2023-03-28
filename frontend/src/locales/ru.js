@@ -3,6 +3,7 @@ export default {
     errors: {
       network: 'Проверьте подключение к сети!',
       server: 'Неполадки с сервером',
+      loadData: 'Не удалось загрузить данные',
       loginValidation: 'Неверные имя пользователя или пароль',
       authorizationError: 'Пользователь с таким именем уже есть',
       tooShortName: 'Слишком короткое имя',
@@ -13,6 +14,14 @@ export default {
       passwordsDontMatch: 'Пароли не совпадают',
       mustBeUnique: 'Должно быть уникальным',
       symbolsLength: 'От 3 до 20 символов',
+      toastifyAdd: 'Не удалось добавить канал',
+      toastidyRemove: 'Не удалось удалить канал',
+      toastifyRename: 'Не удалось переименовать канал',
+    },
+    toastify: {
+      add: 'Канал создан',
+      remove: 'Канал удалён',
+      rename: 'Канал переименован',
     },
     signInPage: {
       h1Text: 'Вход',
