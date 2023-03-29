@@ -10,7 +10,6 @@ export default {
       tooLongName: 'Слишком длинное имя',
       requiredField: 'Обязательное поле',
       tooShortPassword: 'Слишком короткий пароль',
-      tooLongPassword: 'Слишком длинный пароль',
       passwordsDontMatch: 'Пароли не совпадают',
       mustBeUnique: 'Должно быть уникальным',
       symbolsLength: 'От 3 до 20 символов',

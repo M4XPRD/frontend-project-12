@@ -10,7 +10,6 @@ export default {
       tooLongName: "Name's too long",
       requiredField: 'This field is required',
       tooShortPassword: "Password's too short",
-      tooLongPassword: "Password's too long",
       passwordsDontMatch: "Passwords don't match",
       mustBeUnique: 'Must be unique',
       symbolsLength: 'From 3 to 20 characters',
