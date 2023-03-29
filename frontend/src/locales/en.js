@@ -1,11 +1,11 @@
 export default {
   translation: {
     errors: {
-      network: 'Problems with network',
+      network: 'Network issues',
       server: 'Server issues',
       loadData: 'Data loading failed',
       loginValidation: 'Wrong username or password',
-      authorizationError: "There's already a user with the same nickname",
+      authorizationError: 'This nickname is already taken',
       requiredField: 'This field is required',
       tooShortPassword: 'At least 6 symbols needed',
       passwordsDontMatch: 'Passwords must match',
@@ -14,7 +14,7 @@ export default {
       toastifyAdd: 'Channel adding failed',
       toastidyRemove: 'Channel removing failed',
       toastifyRename: 'Channel renaming failed',
-      profanity: "Let's name it different ;)",
+      profanity: "Let's name it differently ;)",
     },
     toastify: {
       add: 'Channel created',
