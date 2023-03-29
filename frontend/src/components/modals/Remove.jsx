@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Modal, FormGroup } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -39,10 +39,10 @@ const Remove = ({ socket, onHide, modalInfo }) => {
       <Modal.Body>
         <p className="lead p-1">{network.isOnline ? t('modals.removeModal.message') : t('errors.network')}</p>
         <form onSubmit={f.handleSubmit}>
-          <FormGroup className="d-flex justify-content-start">
+          <Form.Group className="d-flex justify-content-start">
             <input ref={inputRef} type="submit" autoComplete="off" className={`btn ${network.isOnline ? 'btn-danger' : 'btn-secondary'}`} value={t('modals.removeModal.deleteButton')} disabled={!network.isOnline} />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
-          </FormGroup>
+          </Form.Group>
         </form>
       </Modal.Body>
     </Modal>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
@@ -60,8 +60,8 @@ const Add = ({ socket, onHide, filter }) => {
 
       <Modal.Body>
         <form onSubmit={f.handleSubmit} noValidate>
-          <FormGroup>
-            <FormControl
+          <Form.Group>
+            <Form.Control
               required
               className={`mb-2 form-control ${f.errors.channelName ? 'is-invalid' : ''}`}
               ref={inputRef}
@@ -77,11 +77,11 @@ const Add = ({ socket, onHide, filter }) => {
               {t(f.errors.channelName)}
             </div>
             )}
-          </FormGroup>
-          <FormGroup className="d-flex justify-content-start mt-3">
+          </Form.Group>
+          <Form.Group className="d-flex justify-content-start mt-3">
             <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value={t('modals.addModal.addButton')} disabled={!network.isOnline} />
             <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
-          </FormGroup>
+          </Form.Group>
         </form>
       </Modal.Body>
     </Modal>
