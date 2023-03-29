@@ -33,30 +33,12 @@ const SignUpPage = () => {
     password: yup
       .string()
       .min(6, 'errors.tooShortPassword')
-      .max(50, 'errors.tooLongPassword')
       .required('errors.requiredField'),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref('password')], 'errors.passwordsDontMatch')
       .required('errors.requiredField'),
   });
-
-  // const signUpSchema = yup.object().shape({
-  //   username: yup
-  //     .string()
-  //     .min(3, t('errors.tooShortName'))
-  //     .max(20, t('errors.tooLongName'))
-  //     .required(t('errors.requiredField')),
-  //   password: yup
-  //     .string()
-  //     .min(6, t('errors.tooShortPassword'))
-  //     .max(50, t('errors.tooLongPassword'))
-  //     .required(t('errors.requiredField')),
-  //   confirmPassword: yup
-  //     .string()
-  //     .oneOf([yup.ref('password')], t('errors.passwordsDontMatch'))
-  //     .required(t('errors.requiredField')),
-  // });
 
   useEffect(() => {
     usernameFocus.current.focus();
