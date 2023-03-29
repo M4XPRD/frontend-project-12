@@ -17,6 +17,7 @@ export default {
       toastifyAdd: 'Не удалось добавить канал',
       toastidyRemove: 'Не удалось удалить канал',
       toastifyRename: 'Не удалось переименовать канал',
+      profanity: 'Давайте культурно ;)',
     },
     toastify: {
       add: 'Канал создан',
