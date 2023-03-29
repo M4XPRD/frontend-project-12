@@ -1,5 +1,6 @@
-## Hexlet tests:
+## Hexlet tests and CodeClimate maintainability:
 [![Actions Status](https://github.com/M4XPRD/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/M4XPRD/frontend-project-12/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/bb97a743b480a4c418c4/maintainability)](https://codeclimate.com/github/M4XPRD/frontend-project-12/maintainability)
 
 ## Description:
 [Hexlet Chat](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with Hooks), Redux (@reduxjs/toolkit) and Formik.
