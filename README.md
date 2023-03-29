@@ -4,7 +4,7 @@
 ## Description:
 [Chat App](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with hooks), Redux (@reduxjs/toolkit) and Formik.
 
-## Cool Features:
+## Features:
 
 • Chat supports two languages to choose from: `Russian` and `English`. Just find an icon above in the top section
 
