@@ -42,7 +42,7 @@ const Init = (socket) => {
               <I18nextProvider i18n={i18n}>
                 <App socket={socket} />
               </I18nextProvider>
-            </Provider>
+            {/* </Provider> */}
           </ErrorBoundary>
         </RollbalProvider>
       </BrowserRouter>
