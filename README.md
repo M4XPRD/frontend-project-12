@@ -6,7 +6,7 @@
 
 ## Features:
 
-• Chat supports two languages to choose from: `Russian` and `English`. Just find an icon above in the top section
+• Chat supports two languages to choose from: `Russian` and `English`. Just find a flag icon above in the top section
 
 • You can send messages and manage channels (except `'general'` and `'random'`)
 
