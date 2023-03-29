@@ -2,7 +2,7 @@
 [![Actions Status](https://github.com/M4XPRD/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/M4XPRD/frontend-project-12/actions)
 
 ## Description:
-[Hexlet Chat](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with hooks), Redux (@reduxjs/toolkit) and Formik.
+[Hexlet Chat](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with Hooks), Redux (@reduxjs/toolkit) and Formik.
 
 ## Features:
 
