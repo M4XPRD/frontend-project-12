@@ -32,7 +32,9 @@ $ sudo npm link
 
 # Step 4 — Start frontend and backend in root folder
 $ make start
+```
 
+```sh
 # If Step 4 didn't work — use an alternative way:
 
 # Step 5 — Initialize frontend
