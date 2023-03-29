@@ -14,7 +14,7 @@ import {
 import store from './store/index';
 
 const rollbarConfig = {
-  accessToken: '81235aa08cd9471597ff5941aab5c0d9',
+  accessToken: 'eacabed34b794f8e9f10358f38c0e35c',
   environment: 'production',
 };
 

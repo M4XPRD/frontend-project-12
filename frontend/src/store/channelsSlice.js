@@ -1,13 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-const channelsSlice = createSlice({
-  name: 'channels',
-  initialState: {
-    allChannels: [],
-    currentActiveId: null,
-    userInitiator: null,
-  },
+// const channelsSlice = createSlice({
+//   name: 'channels',
+//   initialState: {
+//     allChannels: [],
+//     currentActiveId: null,
+//     userInitiator: null,
+//   },
   reducers: {
     addChannels: (state, action) => {
       state.allChannels = action.payload;
