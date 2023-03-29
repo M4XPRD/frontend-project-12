@@ -73,6 +73,7 @@ const Add = ({ socket, onHide, filter }) => {
               id="channelName"
               name="channelName"
             />
+            <Form.Label className="visually-hidden" htmlFor="body">{t('modals.channelName')}</Form.Label>
             {f.touched.channelName && f.errors.channelName && (
             <div className="invalid-feedback mb-2">
               {t(f.errors.channelName)}
