@@ -34,7 +34,7 @@ $ sudo npm link
 $ make start
 ```
 ```sh
-If Step 4 didn't work — use alternative way:
+If Step 4 didn't work — use an alternative way:
 
 # Initialize frontend
 $ cd frontend && make start
