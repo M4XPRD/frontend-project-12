@@ -73,8 +73,10 @@ const Rename = ({
               value={network.isOnline ? f.values.newChannelName : t('errors.network')}
               autoComplete="off"
               data-testid="input-body"
+              id="newChannelName"
               name="newChannelName"
             />
+            <Form.Label className="visually-hidden" htmlFor="newChannelName">{t('modals.channelName')}</Form.Label>
             {f.touched.newChannelName && f.errors.newChannelName && (
             <div className="invalid-feedback mb-2">
               {t(f.errors.newChannelName)}
