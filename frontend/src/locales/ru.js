@@ -1,7 +1,7 @@
 export default {
   translation: {
     errors: {
-      network: 'Проверьте подключение к сети!',
+      network: 'Ошибка соединения',
       server: 'Неполадки с сервером',
       loadData: 'Не удалось загрузить данные',
       loginValidation: 'Неверные имя пользователя или пароль',
@@ -26,7 +26,7 @@ export default {
     },
     signInPage: {
       h1Text: 'Вход',
-      loginButton: 'Войти в чат',
+      loginButton: 'Войти',
       footerMessage: 'Нет аккаунта? ',
       registrationLink: 'Регистрация',
       placeholders: {

@@ -1,7 +1,7 @@
 export default {
   translation: {
     errors: {
-      network: 'Check your network connection!',
+      network: 'Problems with network',
       server: 'Server issues',
       loadData: 'Data loading failed',
       loginValidation: 'Wrong username or password',
