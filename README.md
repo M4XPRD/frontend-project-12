@@ -12,7 +12,7 @@
 
 • You won't miss anything with fly-off notifications, which appear from the right
 
-• Chat will always tell you if you're lack with network connection
+• Chat will always tell you, if you're lack with network connection
 
 • Profanity filter included!
 
