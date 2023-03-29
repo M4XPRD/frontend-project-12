@@ -2,7 +2,7 @@
 [![Actions Status](https://github.com/M4XPRD/frontend-project-12/workflows/hexlet-check/badge.svg)](https://github.com/M4XPRD/frontend-project-12/actions)
 
 ## Description:
-[Chat App](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with hooks), Redux (@reduxjs/toolkit) and Formik.
+[Hexlet Chat](https://frontend-project-12-production-b293.up.railway.app/) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with hooks), Redux (@reduxjs/toolkit) and Formik.
 
 ## Features:
 
@@ -22,7 +22,7 @@
 All commands should run from root:
 
 # Step 1 — clone this repository
-$ git clone https://github.com/M4XPRD/frontend-project-lvl3
+$ https://github.com/M4XPRD/frontend-project-12
 
 # Step 2 — install the dependencies
 $ make install
@@ -36,10 +36,10 @@ $ make start
 ```sh
 If Step 4 didn't work — use alternative way:
 
-# Initialize frontend:
+# Initialize frontend
 $ cd frontend && make start
 
-# Initialize backend:
+# Initialize backend
 $ make start-backend
 ```
 ## How it looks:
