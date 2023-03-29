@@ -21,25 +21,24 @@
 ```sh
 All commands should run from root:
 
-# Step 1 — clone this repository
+# Step 1 — Clone this repository
 $ https://github.com/M4XPRD/frontend-project-12
 
-# Step 2 — install the dependencies
+# Step 2 — Install the dependencies
 $ make install
 
-# Step 3 — install the packages
+# Step 3 — Install the packages
 $ sudo npm link
 
-# Step 4 — start frontend and backend in root folder
+# Step 4 — Start frontend and backend in root folder
 $ make start
-```
-```sh
-If Step 4 didn't work — use an alternative way:
 
-# Initialize frontend
+# If Step 4 didn't work — use an alternative way:
+
+# Step 5 — Initialize frontend
 $ cd frontend && make start
 
-# Initialize backend
+# Step 6 — Initialize backend
 $ make start-backend
 ```
 ## How it looks:
