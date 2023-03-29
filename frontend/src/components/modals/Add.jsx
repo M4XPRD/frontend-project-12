@@ -23,7 +23,7 @@ const Add = ({ socket, onHide, filter }) => {
       .min(3, 'errors.symbolsLength')
       .max(20, 'errors.symbolsLength')
       .test('is-unique', 'errors.mustBeUnique', (channelName) => !channels.some((channel) => channel.name === channelName))
-      // .test('no-profanity', 'errors.profanity', (channelName) => !filter.check(channelName))
+      .test('no-profanity', 'errors.profanity', (channelName) => !filter.check(channelName))
       .required('errors.requiredField'),
   });
 
@@ -37,9 +37,8 @@ const Add = ({ socket, onHide, filter }) => {
     validateOnBlur: false,
     onSubmit: () => {
       try {
-        const filteredName = filter.clean(f.values.channelName);
         store.dispatch(setUserInitiator(uniqueUserId));
-        socket.sendChannel({ name: filteredName });
+        socket.sendChannel({ name: f.values.channelName });
         toast.success(t('toastify.add'));
         f.resetForm();
         onHide();
