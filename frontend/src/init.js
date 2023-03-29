@@ -14,7 +14,7 @@ import {
 import store from './store/index';
 
 const rollbarConfig = {
-  accessToken: '6b685316e52c4bed8ffb4b5162fb3022',
+  accessToken: '81235aa08cd9471597ff5941aab5c0d9',
   environment: 'production',
 };
 
@@ -42,7 +42,7 @@ const Init = (socket) => {
               <I18nextProvider i18n={i18n}>
                 <App socket={socket} />
               </I18nextProvider>
-            {/* </Provider> */}
+            </Provider>
           </ErrorBoundary>
         </RollbalProvider>
       </BrowserRouter>
