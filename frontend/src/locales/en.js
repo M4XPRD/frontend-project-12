@@ -6,8 +6,6 @@ export default {
       loadData: 'Data loading failed',
       loginValidation: 'Wrong username or password',
       authorizationError: "There's already a user with the same nickname",
-      tooShortName: "Name's too short",
-      tooLongName: "Name's too long",
       requiredField: 'This field is required',
       tooShortPassword: 'At least 6 symbols needed',
       passwordsDontMatch: 'Passwords must match',

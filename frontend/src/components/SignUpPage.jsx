@@ -27,8 +27,8 @@ const SignUpPage = () => {
   const signUpSchema = yup.object().shape({
     username: yup
       .string()
-      .min(3, 'errors.tooShortName')
-      .max(20, 'errors.tooLongName')
+      .min(3, 'errors.symbolsLength')
+      .max(20, 'errors.symbolsLength')
       .required('errors.requiredField'),
     password: yup
       .string()

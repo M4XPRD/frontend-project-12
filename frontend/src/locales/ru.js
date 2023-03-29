@@ -6,8 +6,6 @@ export default {
       loadData: 'Не удалось загрузить данные',
       loginValidation: 'Неверные имя пользователя или пароль',
       authorizationError: 'Пользователь с таким именем уже есть',
-      tooShortName: 'Слишком короткое имя',
-      tooLongName: 'Слишком длинное имя',
       requiredField: 'Обязательное поле',
       tooShortPassword: 'Не менее 6 символов',
       passwordsDontMatch: 'Пароли должны совпадать',
