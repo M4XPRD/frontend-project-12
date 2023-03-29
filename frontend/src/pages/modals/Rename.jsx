@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
 
-const Rename = ({ socket, onHide, modalInfo }) => {
+const Rename = ({
+  socket, onHide, modalInfo, filter,
+}) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
@@ -19,6 +21,7 @@ const Rename = ({ socket, onHide, modalInfo }) => {
       .min(3, 'errors.symbolsLength')
       .max(20, 'errors.symbolsLength')
       .test('is-unique', 'errors.mustBeUnique', (newChannelName) => !channels.some((channel) => channel.name === newChannelName))
+      .test('no-profanity', 'errors.profanity', (channelName) => !filter.check(channelName))
       .required('errors.requiredField'),
   });
 

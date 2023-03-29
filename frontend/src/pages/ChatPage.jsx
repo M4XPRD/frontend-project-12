@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../store/messagesSlice';
@@ -13,6 +14,8 @@ const ChatPage = () => {
   const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
   const getLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
 
   useEffect(() => {
     const getData = async () => {
@@ -44,8 +47,8 @@ const ChatPage = () => {
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
-        <Channels />
-        <Messages />
+        <Channels filter={filter} />
+        <Messages filter={filter} />
       </div>
     </div>
   );

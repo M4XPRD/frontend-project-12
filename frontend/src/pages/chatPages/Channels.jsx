@@ -9,13 +9,15 @@ import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
 import { setActiveChannel } from '../../store/channelsSlice';
 
-const renderModal = ({ modalInfo, hideModal, socket }) => {
+const renderModal = ({
+  modalInfo, hideModal, socket, filter,
+}) => {
   if (!modalInfo.type) {
     return null;
   }
 
   const Component = getModal(modalInfo.type);
-  return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
+  return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} filter={filter} />;
 };
 
 const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => {
@@ -72,7 +74,7 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
   );
 };
 
-const Channels = () => {
+const Channels = ({ filter }) => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
   const dispatch = useDispatch();
@@ -120,7 +122,9 @@ const Channels = () => {
             ) => renderChannels(channel, handleClick, showModal, activeChannelId, t))}
         </Nav>
       </Col>
-      {renderModal({ modalInfo, hideModal, socket })}
+      {renderModal({
+        modalInfo, hideModal, socket, filter,
+      })}
     </>
   );
 };

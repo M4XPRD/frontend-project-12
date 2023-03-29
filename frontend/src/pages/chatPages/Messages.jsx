@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import useSocket from '../../hooks/socketHook';
 import useNetwork from '../../hooks/networkHook';
 
-const Messages = () => {
+const Messages = ({ filter }) => {
   const network = useNetwork();
   const socket = useSocket();
   const messageScroll = useRef(null);
@@ -30,7 +30,8 @@ const Messages = () => {
       currentMessage: '',
     },
     onSubmit: () => {
-      socket.sendMessage({ body: f.values.currentMessage, channelId: activeChannelId, username });
+      const filteredMessage = filter.clean(f.values.currentMessage);
+      socket.sendMessage({ body: filteredMessage, channelId: activeChannelId, username });
       f.resetForm({ currentMessage: '' });
     },
   });

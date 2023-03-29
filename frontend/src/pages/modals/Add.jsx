@@ -10,7 +10,7 @@ import useNetwork from '../../hooks/networkHook';
 import store from '../../store/index';
 import { setUserInitiator } from '../../store/channelsSlice';
 
-const Add = ({ socket, onHide }) => {
+const Add = ({ socket, onHide, filter }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
@@ -23,6 +23,7 @@ const Add = ({ socket, onHide }) => {
       .min(3, 'errors.symbolsLength')
       .max(20, 'errors.symbolsLength')
       .test('is-unique', 'errors.mustBeUnique', (channelName) => !channels.some((channel) => channel.name === channelName))
+      .test('no-profanity', 'errors.profanity', (channelName) => !filter.check(channelName))
       .required('errors.requiredField'),
   });
 
