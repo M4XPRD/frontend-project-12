@@ -1,4 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
+
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
@@ -14,7 +15,7 @@ import {
 import store from './store/index';
 
 const rollbarConfig = {
-  accessToken: 'eacabed34b794f8e9f10358f38c0e35c',
+  accessToken: '6a4cf68f2e544b0bba050160977626e3',
   environment: 'production',
 };
 
