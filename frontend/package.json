@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "hexlet-chat-m4xprd",
   "version": "0.1.0",
   "proxy": "http://localhost:5001",
   "private": true,
