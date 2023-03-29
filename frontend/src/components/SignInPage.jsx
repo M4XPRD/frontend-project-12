@@ -15,19 +15,6 @@ import routes from '../routes/routes.js';
 import useAuth from '../hooks/authHook';
 import useNetwork from '../hooks/networkHook';
 
-const signInSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(3)
-    .max(20)
-    .required(),
-  password: yup
-    .string()
-    .min(3)
-    .max(20)
-    .required(),
-});
-
 const SignInPage = () => {
   const [authError, setAuthError] = useState(false);
   const [serverError, setServerError] = useState(false);
@@ -49,6 +36,15 @@ const SignInPage = () => {
       inputRef.current.focus();
     }
   };
+
+  const signInSchema = yup.object().shape({
+    username: yup
+      .string()
+      .required(),
+    password: yup
+      .string()
+      .required(),
+  });
 
   const f = useFormik({
     initialValues: {
