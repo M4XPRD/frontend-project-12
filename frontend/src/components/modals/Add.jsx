@@ -70,6 +70,7 @@ const Add = ({ socket, onHide, filter }) => {
               value={network.isOnline ? f.values.channelName : t('errors.network')}
               data-testid="input-body"
               autoComplete="off"
+              id="channelName"
               name="channelName"
             />
             {f.touched.channelName && f.errors.channelName && (
