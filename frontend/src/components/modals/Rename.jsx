@@ -27,7 +27,7 @@ const Rename = ({
 
   const f = useFormik({
     initialValues: {
-      newChannelName: '',
+      newChannelName: modalInfo.item.name,
       channelId: modalInfo.item.id,
       channelRemovable: modalInfo.item.removable,
     },
