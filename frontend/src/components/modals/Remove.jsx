@@ -41,7 +41,7 @@ const Remove = ({ socket, onHide, modalInfo }) => {
         <form onSubmit={f.handleSubmit}>
           <Form.Group className="d-flex justify-content-start">
             <input ref={inputRef} type="submit" autoComplete="off" className="btn btn-danger" value={t('modals.removeModal.deleteButton')} disabled={!network.isOnline} />
-            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
+            <input onClick={() => onHide()} type="button" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
           </Form.Group>
         </form>
       </Modal.Body>
