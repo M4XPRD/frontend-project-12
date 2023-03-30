@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -33,16 +33,37 @@ const Remove = ({ socket, onHide, modalInfo }) => {
   return (
     <Modal show centered>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title className="p-1">{t('modals.removeModal.removeChannel')}</Modal.Title>
+        <Modal.Title className="p-1">
+          {t('modals.removeModal.removeChannel')}
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p className="lead p-1">{network.isOnline ? t('modals.removeModal.message') : t('errors.network')}</p>
+        <p className="lead p-1">
+          {network.isOnline
+            ? t('modals.removeModal.message')
+            : t('errors.network')}
+        </p>
         <form onSubmit={f.handleSubmit}>
-          <Form.Group className="d-flex justify-content-start">
-            <input ref={inputRef} type="submit" autoComplete="off" className="btn btn-danger" value={t('modals.removeModal.deleteButton')} disabled={!network.isOnline} />
-            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
-          </Form.Group>
+          <div className="d-flex justify-content-start">
+            <Button
+              ref={inputRef}
+              type="submit"
+              variant="danger"
+              className=""
+              disabled={!network.isOnline}
+            >
+              {t('modals.removeModal.deleteButton')}
+            </Button>
+            <Button
+              onClick={() => onHide()}
+              type="button"
+              variant="secondary"
+              className="ms-2"
+            >
+              {t('modals.cancelButton')}
+            </Button>
+          </div>
         </form>
       </Modal.Body>
     </Modal>
