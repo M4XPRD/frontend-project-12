@@ -7,8 +7,8 @@ import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
-import store from '../../store/index';
-import { setUserInitiator } from '../../store/channelsSlice';
+import store from '../../slices/index';
+import { setUserInitiator } from '../../slices/channelsSlice';
 
 const Add = ({ socket, onHide, filter }) => {
   const network = useNetwork();

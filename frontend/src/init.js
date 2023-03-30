@@ -8,11 +8,11 @@ import { Provider as RollbalProvider, ErrorBoundary } from '@rollbar/react';
 import i18n from './i18n';
 import App from './App';
 import './index.css';
-import { addMessage } from './store/messagesSlice';
+import { addMessage } from './slices/messagesSlice';
 import {
   addChannel, removeChannel, renameChannel,
-} from './store/channelsSlice';
-import store from './store/index';
+} from './slices/channelsSlice';
+import store from './slices/index';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,

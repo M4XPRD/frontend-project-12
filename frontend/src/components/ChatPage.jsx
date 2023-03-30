@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
-import { addMessages } from '../store/messagesSlice';
-import { addChannels, setActiveChannel } from '../store/channelsSlice';
-import store from '../store/index';
+import { addMessages } from '../slices/messagesSlice';
+import { addChannels, setActiveChannel } from '../slices/channelsSlice';
+import store from '../slices/index';
 import routes from '../routes/routes';
 
 const ChatPage = () => {

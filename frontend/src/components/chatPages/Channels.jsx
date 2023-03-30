@@ -7,7 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
-import { setActiveChannel } from '../../store/channelsSlice';
+import { setActiveChannel } from '../../slices/channelsSlice';
 
 const renderModal = ({
   modalInfo, hideModal, socket, filter,
