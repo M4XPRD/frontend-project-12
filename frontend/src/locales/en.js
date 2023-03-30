@@ -68,6 +68,7 @@ export default {
       cancelButton: 'Cancel',
       channelName: 'Channel name',
       addModal: {
+        add: '+',
         addChannel: 'Add channel',
         addButton: 'Add',
       },

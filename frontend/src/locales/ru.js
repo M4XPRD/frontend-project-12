@@ -71,6 +71,7 @@ export default {
       addModal: {
         addChannel: 'Добавить канал',
         addButton: 'Добавить',
+        add: '+',
       },
       removeModal: {
         removeChannel: 'Удалить канал',
