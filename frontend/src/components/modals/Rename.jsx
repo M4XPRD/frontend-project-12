@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, Form } from 'react-bootstrap';
+import { Modal, Form, Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -84,8 +84,8 @@ const Rename = ({
             )}
           </Form.Group>
           <Form.Group className="d-flex justify-content-start mt-3">
-            <input type="submit" className={`btn ${network.isOnline ? 'btn-primary' : 'btn-secondary'}`} value={t('modals.renameModal.renameButton')} disabled={!network.isOnline} />
-            <input onClick={() => onHide()} type="submit" className="me-2 btn btn-secondary ms-2" value={t('modals.cancelButton')} />
+            <Button type="submit" variant={network.isOnline ? 'primary' : 'danger'} disabled={!network.isOnline}>{t('modals.renameModal.renameButton')}</Button>
+            <Button onClick={() => onHide()} type="submit" variant="secondary" className="ms-2">{t('modals.cancelButton')}</Button>
           </Form.Group>
         </form>
       </Modal.Body>

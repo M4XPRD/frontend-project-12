@@ -36,7 +36,7 @@ const PrivateRoute = ({ children }) => {
 
 const Main = () => {
   const { t, i18n } = useTranslation();
-  const [activeLang, setActiveLang] = useState(i18n.language);
+  const [activeLanguage, setActiveLang] = useState(i18n.language);
   const network = useNetwork();
   const auth = useAuth();
   const navigate = useNavigate();
@@ -54,11 +54,11 @@ const Main = () => {
   };
 
   useEffect(() => {
-    if (activeLang) {
-      localStorage.setItem('currentLanguage', JSON.stringify(activeLang));
-      i18n.changeLanguage(activeLang);
+    if (activeLanguage) {
+      localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
+      i18n.changeLanguage(activeLanguage);
     }
-  }, [activeLang, currentLanguage, i18n]);
+  }, [activeLanguage, currentLanguage, i18n]);
 
   return (
     <div className="h-100">
