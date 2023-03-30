@@ -44,11 +44,10 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
             variant="white"
             id="channel-button"
             data-changecolour="hover"
-            className={`flex-grow-0 dropdown-toggle dropdown-toggle-split btn ${
-              activeChannelId === id ? 'btn-secondary' : ''
-            }`}
-          />
-          <span className="visually-hidden">{t('modals.channelManagement')}</span>
+            className={`flex-grow-0 btn ${activeChannelId === id ? 'btn-secondary' : ''}`}
+          >
+            <span className="visually-hidden">{t('modals.channelManagement')}</span>
+          </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => showModal('removing', { id })}>{t('channels.dropdownToggle.delete')}</Dropdown.Item>
             <Dropdown.Item onClick={() => showModal('renaming', { id, name, removable })}>{t('channels.dropdownToggle.rename')}</Dropdown.Item>
