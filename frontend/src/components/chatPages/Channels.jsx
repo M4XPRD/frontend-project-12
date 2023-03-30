@@ -48,6 +48,7 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
               activeChannelId === id ? 'btn-secondary' : ''
             }`}
           />
+          <span className="visually-hidden">{t('modals.channelManagement')}</span>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => showModal('removing', { id })}>{t('channels.dropdownToggle.delete')}</Dropdown.Item>
             <Dropdown.Item onClick={() => showModal('renaming', { id, name, removable })}>{t('channels.dropdownToggle.rename')}</Dropdown.Item>

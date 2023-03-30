@@ -68,6 +68,7 @@ export default {
     modals: {
       cancelButton: 'Отменить',
       channelName: 'Имя канала',
+      channelManagement: 'Управление каналом',
       addModal: {
         addChannel: 'Добавить канал',
         addButton: 'Добавить',
