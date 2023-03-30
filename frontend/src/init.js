@@ -15,8 +15,12 @@ import {
 import store from './store/index';
 
 const rollbarConfig = {
-  accessToken: '55a0b7e4e94a40babefcab39e71f47f1',
-  environment: 'production',
+  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
+  payload: {
+    environment: 'production',
+  },
+  captureUncaught: true,
+  captureUnhandledRejections: true,
 };
 
 const Init = (socket) => {
