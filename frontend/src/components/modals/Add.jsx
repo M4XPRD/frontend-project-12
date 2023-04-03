@@ -2,21 +2,22 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import _ from 'lodash';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
-import store from '../../slices/index';
-import { setUserInitiator } from '../../slices/channelsSlice';
 import useAuth from '../../hooks/authHook';
+import { setChannelAuthor } from '../../slices/channelsSlice';
 
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
   const auth = useAuth();
+  const dispatch = useDispatch();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
+  const { username } = auth.getUserInfo();
   const { t } = useTranslation();
 
   const channelNameSchema = yup.object().shape({
@@ -39,8 +40,8 @@ const Add = ({ socket, onHide }) => {
     validateOnBlur: false,
     onSubmit: () => {
       try {
-        store.dispatch(setUserInitiator(auth.getUniqueUserId()));
-        socket.sendChannel({ name: f.values.channelName });
+        dispatch(setChannelAuthor(username));
+        socket.sendChannel({ name: f.values.channelName, author: username });
         toast.success(t('toastify.add'));
         f.resetForm();
         onHide();
