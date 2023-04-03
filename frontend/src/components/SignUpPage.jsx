@@ -74,9 +74,9 @@ const SignUpPage = () => {
           navigate(routes.mainPage());
         })
         .catch((error) => {
-          const { status } = error.response.status;
-          switch (status) {
-            case status >= 500:
+          const { code } = error;
+          switch (code) {
+            case 'ERR_BAD_RESPONSE':
               return setServerError(true);
             default:
               return setAuthError(true);
@@ -87,10 +87,10 @@ const SignUpPage = () => {
 
   const handleButtonText = (authorizationError, serverConnectionError, connection) => {
     switch (true) {
-      case !connection.isOnline:
-        return t('errors.network');
       case serverConnectionError:
         return t('errors.server');
+      case !connection.isOnline:
+        return t('errors.network');
       case authorizationError:
         return t('errors.authorizationError');
       default:
@@ -185,7 +185,7 @@ const SignUpPage = () => {
                   type="submit"
                   ref={submitFocus}
                   onClick={() => usernameFocus.current.focus()}
-                  className={`w-100 mb-3 mt-1 ${!network.isOnline || authError ? 'btn-danger' : 'btn-primary'}`}
+                  className={`w-100 mb-3 mt-1 ${!network.isOnline || authError || serverError ? 'btn-danger' : 'btn-primary'}`}
                   disabled={f.isSubmitting || !network.isOnline}
                   id="signUp-button"
                 >
