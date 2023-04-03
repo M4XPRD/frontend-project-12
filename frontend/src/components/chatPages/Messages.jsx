@@ -5,10 +5,11 @@ import _ from 'lodash';
 import { Form, Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import useSocket from '../../hooks/socketHook';
 import useNetwork from '../../hooks/networkHook';
 
-const Messages = ({ filter }) => {
+const Messages = () => {
   const network = useNetwork();
   const socket = useSocket();
   const messageScroll = useRef(null);

@@ -5,12 +5,13 @@ import {
   Dropdown, Button, Nav, Col,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 import getModal from '../modals/index';
 import useSocket from '../../hooks/socketHook';
 import { setActiveChannel } from '../../slices/channelsSlice';
 
 const renderModal = ({
-  modalInfo, hideModal, socket, filter,
+  modalInfo, hideModal, socket,
 }) => {
   if (!modalInfo.type) {
     return null;
@@ -74,7 +75,7 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
   );
 };
 
-const Channels = ({ filter }) => {
+const Channels = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
   const dispatch = useDispatch();

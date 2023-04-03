@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
 
 const Rename = ({
-  socket, onHide, modalInfo, filter,
+  socket, onHide, modalInfo,
 }) => {
   const network = useNetwork();
   const inputRef = useRef();

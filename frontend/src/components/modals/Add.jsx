@@ -6,11 +6,12 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
 import store from '../../slices/index';
 import { setUserInitiator } from '../../slices/channelsSlice';
 
-const Add = ({ socket, onHide, filter }) => {
+const Add = ({ socket, onHide }) => {
   const network = useNetwork();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);

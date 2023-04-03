@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../slices/messagesSlice';
@@ -45,8 +44,8 @@ const ChatPage = () => {
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
-        <Channels filter={filter} />
-        <Messages filter={filter} />
+        <Channels />
+        <Messages />
       </div>
     </div>
   );
