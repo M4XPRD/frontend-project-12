@@ -68,9 +68,9 @@ const SignInPage = () => {
           navigate(routes.mainPage());
         })
         .catch((error) => {
-          const { status } = error.response.status;
-          switch (status) {
-            case status >= 500:
+          const { code } = error;
+          switch (code) {
+            case 'ERR_BAD_RESPONSE':
               return setServerError(true);
             default:
               return setAuthError(true);
@@ -80,7 +80,7 @@ const SignInPage = () => {
   });
 
   const inputClassNames = cn('form-control', {
-    'is-invalid': f.errors.username || f.errors.password || authError,
+    'is-invalid': f.errors.username || f.errors.password || authError || serverError,
   });
 
   return (
