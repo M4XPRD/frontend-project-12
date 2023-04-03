@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import React from 'react';
 import { Provider as RollbalProvider, ErrorBoundary } from '@rollbar/react';
+import filter from 'leo-profanity';
 import i18n from './i18n';
 import App from './App';
 import './index.css';
@@ -24,6 +25,9 @@ const rollbarConfig = {
 };
 
 const Init = (socket) => {
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
+
   socket.on('newMessage', (data) => {
     store.dispatch(addMessage(data));
   });
