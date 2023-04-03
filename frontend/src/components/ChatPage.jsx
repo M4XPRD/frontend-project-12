@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import Channels from './chatPages/Channels';
 import Messages from './chatPages/Messages';
 import { addMessages } from '../slices/messagesSlice';
@@ -15,6 +16,7 @@ const ChatPage = () => {
   const { t } = useTranslation();
   const lang = useLang();
   const auth = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
@@ -29,13 +31,18 @@ const ChatPage = () => {
         store.dispatch(setActiveChannel(currentActiveChannel.id));
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
-      }).catch(() => {
-        toast.danger(t('errors.loadData'));
-        setTimeout(() => getData(), 5000);
+      }).catch((err) => {
+        if (err.code === 'ERR_BAD_RESPONSE') {
+          auth.logOut();
+          navigate(routes.loginPage());
+        } else if (err) {
+          toast.danger(t('errors.loadData'));
+          setTimeout(() => getData(), 5000);
+        }
       });
     };
     getData();
-  }, [t, auth]);
+  }, [t, auth, navigate]);
 
   useEffect(() => {
     if (!lang.getLocalLanguage()) {
