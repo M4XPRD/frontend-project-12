@@ -23,6 +23,7 @@ import UK from '../images/UK.png';
 import RU from '../images/RU.png';
 import routes from '../routes/routes';
 import useLang from '../hooks/langHook';
+import Modals from './Modals';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
@@ -115,6 +116,7 @@ const Main = () => {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
+          <Modals />
         </div>
         <ToastContainer />
       </div>
