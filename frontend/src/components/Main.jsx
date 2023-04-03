@@ -22,6 +22,7 @@ import useNetwork from '../hooks/networkHook';
 import NetworkError from '../images/NetworkError.png';
 import UK from '../images/UK.png';
 import RU from '../images/RU.png';
+import routes from '../routes/routes';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
@@ -30,17 +31,17 @@ const PrivateRoute = ({ children }) => {
   return hasToken ? (
     children
   ) : (
-    <Navigate to="/login" state={{ from: location }} />
+    <Navigate to={routes.loginPage()} state={{ from: location }} />
   );
 };
 
 const Main = () => {
   const { t, i18n } = useTranslation();
   const [activeLanguage, setActiveLang] = useState(i18n.language);
+  const currentLanguage = i18n.language;
   const network = useNetwork();
   const auth = useAuth();
   const navigate = useNavigate();
-  const currentLanguage = i18n.language;
   const parseToken = JSON.parse(localStorage.getItem('userInfo'));
 
   useEffect(() => {
@@ -87,22 +88,12 @@ const Main = () => {
                   className="btn btn-primary"
                   onClick={() => {
                     auth.logOut();
-                    navigate('/login');
+                    navigate(routes.loginPage());
                   }}
                 >
                   {t('mainPage.signOut')}
                 </Button>
                 )}
-                {/* {!parseToken && (
-                <Button
-                  type="button"
-                  variant="white"
-                  id="language-button"
-                  onClick={() => handleChangeLanguage()}
-                >
-                  <img alt="Change language" src={currentLanguage === 'ru' ? UK : RU} id="change-lang-img" />
-                </Button>
-                )} */}
                 <Button
                   type="button"
                   variant="white"
