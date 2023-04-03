@@ -1,14 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, Nav, Col,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import filter from 'leo-profanity';
 import getModal from '../modals/index';
-import useSocket from '../../hooks/socketHook';
+import useSocket from '../../hooks/chatApiHook';
 import { setActiveChannel } from '../../slices/channelsSlice';
+import { onHide, onShow } from '../../slices/modalsSlice';
 
 const renderModal = ({
   modalInfo, hideModal, socket,
@@ -18,7 +16,7 @@ const renderModal = ({
   }
 
   const Component = getModal(modalInfo.type);
-  return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} filter={filter} />;
+  return <Component modalInfo={modalInfo} socket={socket} onHide={hideModal} />;
 };
 
 const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => {
@@ -76,15 +74,15 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
 };
 
 const Channels = () => {
-  const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const socket = useSocket();
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const modalInfo = useSelector((state) => state.modals);
   const channels = useSelector((state) => state.channels.allChannels);
   const activeChannelId = useSelector((state) => state.channels.currentActiveId);
 
-  const hideModal = () => setModalInfo({ type: null, item: null });
-  const showModal = (type, item = null) => setModalInfo({ type, item });
+  const hideModal = () => dispatch(onHide({ type: null, item: null }));
+  const showModal = (type, item = null) => dispatch(onShow({ type, item }));
 
   const handleClick = (id) => dispatch(setActiveChannel(id));
 
@@ -126,7 +124,7 @@ const Channels = () => {
         </Nav>
       </Col>
       {renderModal({
-        modalInfo, hideModal, socket, filter,
+        modalInfo, hideModal, socket,
       })}
     </>
   );

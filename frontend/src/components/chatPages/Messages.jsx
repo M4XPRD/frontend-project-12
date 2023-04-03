@@ -6,7 +6,7 @@ import { Form, Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-import useSocket from '../../hooks/socketHook';
+import useSocket from '../../hooks/chatApiHook';
 import useNetwork from '../../hooks/networkHook';
 import useAuth from '../../hooks/authHook';
 
