@@ -14,8 +14,6 @@ const ChatPage = () => {
   const { i18n, t } = useTranslation();
   const currentLanguage = i18n.language;
   const getLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
-  filter.add(filter.getDictionary('en'));
-  filter.add(filter.getDictionary('ru'));
 
   useEffect(() => {
     const getData = async () => {
