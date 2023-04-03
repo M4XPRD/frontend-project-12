@@ -9,10 +9,10 @@ import {
 import {
   Button, Nav,
 } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 import ErrorPage from './ErrorPage';
 import SignUpPage from './SignUpPage';
 import ChatPage from './ChatPage';
@@ -23,6 +23,7 @@ import NetworkError from '../images/NetworkError.png';
 import UK from '../images/UK.png';
 import RU from '../images/RU.png';
 import routes from '../routes/routes';
+import useLang from '../hooks/langHook';
 
 const PrivateRoute = ({ children }) => {
   const hasToken = localStorage.getItem('userInfo');
@@ -36,11 +37,10 @@ const PrivateRoute = ({ children }) => {
 };
 
 const Main = () => {
-  const { t, i18n } = useTranslation();
-  const [activeLanguage, setActiveLang] = useState(i18n.language);
-  const currentLanguage = i18n.language;
+  const { t } = useTranslation();
   const network = useNetwork();
   const auth = useAuth();
+  const lang = useLang();
   const navigate = useNavigate();
   const parseToken = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -50,16 +50,14 @@ const Main = () => {
   }, [network]);
 
   const handleChangeLanguage = () => {
-    const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
-    setActiveLang(updatedLanguage);
+    lang.setActiveLang();
   };
 
   useEffect(() => {
-    if (activeLanguage) {
-      localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
-      i18n.changeLanguage(activeLanguage);
+    if (lang.activeLanguage) {
+      lang.setLocalLanguage();
     }
-  }, [activeLanguage, currentLanguage, i18n]);
+  }, [lang]);
 
   return (
     <div className="h-100">
@@ -100,7 +98,7 @@ const Main = () => {
                   id="language-button"
                   onClick={() => handleChangeLanguage()}
                 >
-                  <img alt="Change language" src={currentLanguage === 'ru' ? UK : RU} id="change-lang-img" />
+                  <img alt="Change language" src={lang.activeLanguage === 'ru' ? UK : RU} id="change-lang-img" />
                 </Button>
               </div>
             </div>

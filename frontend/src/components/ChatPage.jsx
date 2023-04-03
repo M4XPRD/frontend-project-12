@@ -9,11 +9,11 @@ import { addMessages } from '../slices/messagesSlice';
 import { addChannels, setActiveChannel } from '../slices/channelsSlice';
 import store from '../slices/index';
 import routes from '../routes/routes';
+import useLang from '../hooks/langHook';
 
 const ChatPage = () => {
-  const { i18n, t } = useTranslation();
-  const currentLanguage = i18n.language;
-  const getLanguage = JSON.parse(localStorage.getItem('currentLanguage'));
+  const { t } = useTranslation();
+  const lang = useLang();
 
   useEffect(() => {
     const getData = async () => {
@@ -37,10 +37,10 @@ const ChatPage = () => {
   }, [t]);
 
   useEffect(() => {
-    if (!getLanguage) {
-      localStorage.setItem('currentLanguage', JSON.stringify(currentLanguage));
+    if (!lang.getLocalLanguage()) {
+      lang.setLocalLanguage();
     }
-  }, [currentLanguage, getLanguage]);
+  }, [lang]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
