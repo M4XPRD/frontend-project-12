@@ -14,15 +14,11 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const setUserInfo = useCallback((data) => {
-    const uniqueId = JSON.stringify(crypto.randomUUID());
     localStorage.clear();
     localStorage.setItem('userInfo', data);
-    localStorage.setItem('uniqueUserId', uniqueId);
   }, []);
 
   const getUserInfo = useCallback(() => JSON.parse(localStorage.getItem('userInfo')), []);
-
-  const getUniqueUserId = useCallback(() => JSON.parse(localStorage.getItem('uniqueUserId')), []);
 
   const providedData = useMemo(() => ({
     isLoggedIn,
@@ -30,8 +26,7 @@ const AuthProvider = ({ children }) => {
     logOut,
     setUserInfo,
     getUserInfo,
-    getUniqueUserId,
-  }), [isLoggedIn, logIn, logOut, setUserInfo, getUserInfo, getUniqueUserId]);
+  }), [isLoggedIn, logIn, logOut, setUserInfo, getUserInfo]);
 
   return (
     <AuthContext.Provider value={providedData}>
