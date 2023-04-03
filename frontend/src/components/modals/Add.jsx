@@ -10,12 +10,13 @@ import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
 import store from '../../slices/index';
 import { setUserInitiator } from '../../slices/channelsSlice';
+import useAuth from '../../hooks/authHook';
 
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
+  const auth = useAuth();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
-  const uniqueUserId = JSON.parse(localStorage.getItem('uniqueUserId'));
   const { t } = useTranslation();
 
   const channelNameSchema = yup.object().shape({
@@ -38,7 +39,7 @@ const Add = ({ socket, onHide }) => {
     validateOnBlur: false,
     onSubmit: () => {
       try {
-        store.dispatch(setUserInitiator(uniqueUserId));
+        store.dispatch(setUserInitiator(auth.getUniqueUserId()));
         socket.sendChannel({ name: f.values.channelName });
         toast.success(t('toastify.add'));
         f.resetForm();

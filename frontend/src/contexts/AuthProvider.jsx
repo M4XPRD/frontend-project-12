@@ -22,13 +22,16 @@ const AuthProvider = ({ children }) => {
 
   const getUserInfo = useCallback(() => JSON.parse(localStorage.getItem('userInfo')), []);
 
+  const getUniqueUserId = useCallback(() => JSON.parse(localStorage.getItem('uniqueUserId')), []);
+
   const providedData = useMemo(() => ({
     isLoggedIn,
     logIn,
     logOut,
     setUserInfo,
     getUserInfo,
-  }), [isLoggedIn, logIn, logOut, setUserInfo, getUserInfo]);
+    getUniqueUserId,
+  }), [isLoggedIn, logIn, logOut, setUserInfo, getUserInfo, getUniqueUserId]);
 
   return (
     <AuthContext.Provider value={providedData}>
