@@ -1,5 +1,4 @@
 /* eslint-disable react/destructuring-assignment */
-
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
