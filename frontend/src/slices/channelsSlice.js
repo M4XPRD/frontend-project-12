@@ -6,16 +6,14 @@ const channelsSlice = createSlice({
   initialState: {
     allChannels: [],
     currentActiveId: null,
-    userInitiator: null,
   },
   reducers: {
     addChannels: (state, action) => {
       state.allChannels = action.payload;
     },
     addChannel: (state, action) => {
-      state.currentActiveId = state.userInitiator ? action.payload.id : state.currentActiveId;
+      state.currentActiveId = action.payload.id;
       state.allChannels.push(action.payload);
-      state.userInitiator = null;
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
@@ -37,9 +35,6 @@ const channelsSlice = createSlice({
     setActiveChannel: (state, action) => {
       state.currentActiveId = action.payload;
     },
-    setUserInitiator: (state, action) => {
-      state.userInitiator = action.payload;
-    },
   },
 });
 
@@ -49,7 +44,6 @@ export const {
   removeChannel,
   renameChannel,
   setActiveChannel,
-  setUserInitiator,
 } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
