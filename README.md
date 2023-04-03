@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/bb97a743b480a4c418c4/maintainability)](https://codeclimate.com/github/M4XPRD/frontend-project-12/maintainability)
 
 ## Description:
-[Hexlet Chat](http://bit.ly/3lYLyfC) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with Hooks), Redux (@reduxjs/toolkit) and Formik.
+[Hexlet Chat](https://bit.ly/project4-m4xprd) is a Slack-like real-time app built with React/Redux, AJAX, REST, websockets, React (with Hooks), Redux (@reduxjs/toolkit) and Formik.
 
 ## Features:
 
