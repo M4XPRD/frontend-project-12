@@ -1,7 +1,7 @@
 import { useMemo, useCallback } from 'react';
-import SocketContext from './SocketContext';
+import ChatApiContext from './ChatApiContext';
 
-const SocketProvider = ({ socket, children }) => {
+const ChatApiProvider = ({ socket, children }) => {
   const sendMessage = useCallback((payload) => {
     socket.emit('newMessage', payload);
     // { body: "message text", channelId: 1, username: 'admin' }
@@ -34,10 +34,10 @@ const SocketProvider = ({ socket, children }) => {
     sendRenamedChannel]);
 
   return (
-    <SocketContext.Provider value={providedData}>
+    <ChatApiContext.Provider value={providedData}>
       {children}
-    </SocketContext.Provider>
+    </ChatApiContext.Provider>
   );
 };
 
-export default SocketProvider;
+export default ChatApiProvider;
