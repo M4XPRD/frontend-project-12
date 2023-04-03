@@ -8,10 +8,12 @@ import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import useSocket from '../../hooks/socketHook';
 import useNetwork from '../../hooks/networkHook';
+import useAuth from '../../hooks/authHook';
 
 const Messages = () => {
   const network = useNetwork();
   const socket = useSocket();
+  const auth = useAuth();
   const messageScroll = useRef(null);
   const inputFocus = useRef();
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ const Messages = () => {
   const filteredMessages = allMessages.filter(
     ({ channelId }) => channelId === activeChannelId,
   );
-  const { username } = JSON.parse(localStorage.getItem('userInfo'));
+  const { username } = auth.getUserInfo();
 
   const f = useFormik({
     initialValues: {

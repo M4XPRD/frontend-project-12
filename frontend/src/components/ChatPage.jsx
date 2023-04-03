@@ -9,16 +9,18 @@ import { addChannels, setActiveChannel } from '../slices/channelsSlice';
 import store from '../slices/index';
 import routes from '../routes/routes';
 import useLang from '../hooks/langHook';
+import useAuth from '../hooks/authHook';
 
 const ChatPage = () => {
   const { t } = useTranslation();
   const lang = useLang();
+  const auth = useAuth();
 
   useEffect(() => {
     const getData = async () => {
       axios.get(routes.dataPath(), {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo')).token}`,
+          Authorization: `Bearer ${auth.getUserInfo().token}`,
         },
       }).then((responce) => {
         const { channels, messages, currentChannelId } = responce.data;
@@ -33,7 +35,7 @@ const ChatPage = () => {
       });
     };
     getData();
-  }, [t]);
+  }, [t, auth]);
 
   useEffect(() => {
     if (!lang.getLocalLanguage()) {

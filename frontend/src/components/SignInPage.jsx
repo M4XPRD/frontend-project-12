@@ -63,12 +63,9 @@ const SignInPage = () => {
         })
         .then((responce) => {
           const data = JSON.stringify(responce.data);
-          const uniqueId = JSON.stringify(crypto.randomUUID());
-          localStorage.clear();
-          localStorage.setItem('userInfo', data);
-          localStorage.setItem('uniqueUserId', uniqueId);
+          auth.setUserInfo(data);
           auth.logIn(data);
-          navigate('/');
+          navigate(routes.mainPage());
         })
         .catch((error) => {
           const { status } = error.response.status;
