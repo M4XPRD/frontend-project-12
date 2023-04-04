@@ -18,7 +18,6 @@ const Remove = ({ socket, onHide, modalInfo }) => {
       try {
         socket.sendRemovedChannel({ id: f.values.removingChannelId });
         toast.success(t('toastify.remove'));
-        f.resetForm();
         onHide();
       } catch (error) {
         toast.danger(t('errors.toastifyRemove'));
