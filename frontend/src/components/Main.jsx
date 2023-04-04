@@ -2,7 +2,6 @@ import {
   Routes,
   Route,
   useLocation,
-  useNavigate,
   Navigate,
 } from 'react-router-dom';
 import {
@@ -42,8 +41,7 @@ const Main = () => {
   const network = useNetwork();
   const auth = useAuth();
   const lang = useLang();
-  const navigate = useNavigate();
-  const parseToken = JSON.parse(localStorage.getItem('userInfo'));
+  const hasUserData = auth.getUserInfo();
 
   useEffect(() => {
     window.addEventListener('online', network.handleNetworkChange);
@@ -75,19 +73,18 @@ const Main = () => {
                   id="main-network-img"
                   src={NetworkError}
                   className={`d-inline-block img-fluid mr-3 ml-auto ${
-                    !parseToken ? 'invisible' : ''
+                    !hasUserData ? 'invisible' : ''
                   }`}
                   style={{
                     opacity: network.isOnline ? 0 : 1,
                   }}
                 />
-                {parseToken && (
+                {hasUserData && (
                 <Button
                   type="button"
                   className="btn btn-primary"
                   onClick={() => {
                     auth.logOut();
-                    navigate(routes.loginPage());
                   }}
                 >
                   {t('mainPage.signOut')}
