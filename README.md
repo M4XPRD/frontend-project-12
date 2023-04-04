@@ -38,10 +38,10 @@ $ make start
 ```sh
 # If Step 4 didn't work — use an alternative way:
 
-# Step 5 — Initialize frontend
+# Step 5 — Initialize frontend in first terminal
 $ cd frontend && make start
 
-# Step 6 — Initialize backend
+# Step 6 — Initialize backend in second terminal
 $ make start-backend
 ```
 ## How it looks:
