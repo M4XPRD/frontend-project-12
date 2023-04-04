@@ -43,7 +43,6 @@ const Add = ({ socket, onHide }) => {
         dispatch(setChannelAuthor(username));
         socket.sendChannel({ name: f.values.channelName, author: username });
         toast.success(t('toastify.add'));
-        f.resetForm();
         onHide();
       } catch (error) {
         toast.danger(t('errors.toastifyAdd'));

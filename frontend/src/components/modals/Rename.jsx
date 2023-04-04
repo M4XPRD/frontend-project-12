@@ -44,7 +44,6 @@ const Rename = ({
         };
         socket.sendRenamedChannel(newData);
         toast.success(t('toastify.rename'));
-        f.resetForm();
         onHide();
       } catch (error) {
         toast.danger(t('errors.toastifyRename'));
