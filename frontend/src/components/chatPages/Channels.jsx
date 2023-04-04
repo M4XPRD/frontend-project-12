@@ -16,7 +16,7 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
             onClick={() => handleClick(id)}
             type="button"
             variant="white"
-            id="channel-button"
+            id="channel-button-left"
             data-changecolour="hover"
             className={`w-100 rounded-0 text-start text-truncate btn ${
               activeChannelId === id ? 'btn-secondary' : ''
@@ -26,9 +26,10 @@ const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => 
             {name}
           </Button>
           <Dropdown.Toggle
+            split
             type="button"
             variant="white"
-            id="channel-button"
+            id="channel-button-right"
             data-changecolour="hover"
             className={`flex-grow-0 btn ${activeChannelId === id ? 'btn-secondary' : ''}`}
           >

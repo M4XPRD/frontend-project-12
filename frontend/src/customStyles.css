@@ -16,10 +16,15 @@
   right: 10px; */
 }
 
-#channel-button {
+#channel-button-left {
   border-radius: 0px;
   border-color: transparent;
   text-overflow: clip;
+}
+
+#channel-button-right {
+  border-radius: 0px;
+  border-color: transparent;
 }
 
 #channels-image-plus:hover {
