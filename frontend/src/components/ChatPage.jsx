@@ -32,12 +32,15 @@ const ChatPage = () => {
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
       }).catch((err) => {
-        if (err.code === 'ERR_BAD_RESPONSE') {
-          auth.logOut();
-          navigate(routes.loginPage());
-        } else if (err) {
-          toast.danger(t('errors.loadData'));
-          setTimeout(() => getData(), 5000);
+        switch (err.code) {
+          case 'ERR_BAD_RESPONSE':
+            auth.logOut();
+            navigate(routes.loginPage());
+            break;
+          default:
+            toast.danger(t('errors.loadData'));
+            setTimeout(() => getData(), 5000);
+            break;
         }
       });
     };
