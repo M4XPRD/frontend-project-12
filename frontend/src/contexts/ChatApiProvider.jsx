@@ -7,8 +7,8 @@ const ChatApiProvider = ({ socket, children }) => {
     // { body: "message text", channelId: 1, username: 'admin' }
   }, [socket]);
 
-  const sendChannel = useCallback((payload) => {
-    socket.emit('newChannel', payload);
+  const sendChannel = useCallback((payload, callback) => {
+    socket.emit('newChannel', payload, callback);
     // { name: "new channel" }
   }, [socket]);
 
