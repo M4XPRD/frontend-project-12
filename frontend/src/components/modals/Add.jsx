@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
 import useAuth from '../../hooks/authHook';
-import { setChannelAuthor } from '../../slices/channelsSlice';
+import { setActiveChannel } from '../../slices/channelsSlice';
 
 const Add = ({ socket, onHide }) => {
   const network = useNetwork();
@@ -40,8 +40,11 @@ const Add = ({ socket, onHide }) => {
     validateOnBlur: false,
     onSubmit: () => {
       try {
-        dispatch(setChannelAuthor(username));
-        socket.sendChannel({ name: f.values.channelName, author: username });
+        socket.sendChannel({ name: f.values.channelName, author: username }, (response) => {
+          if (response.status === 'ok') {
+            dispatch(setActiveChannel(response.data.id));
+          }
+        });
         toast.success(t('toastify.add'));
         onHide();
       } catch (error) {
