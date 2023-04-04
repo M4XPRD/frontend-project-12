@@ -2,7 +2,9 @@ import { useState, useMemo, useCallback } from 'react';
 import AuthContext from './AuthContext';
 
 const AuthProvider = ({ children }) => {
+  const initialState = JSON.parse(localStorage.getItem('userInfo'));
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(initialState ?? null);
 
   const logIn = useCallback(() => {
     setIsLoggedIn(true);
@@ -11,14 +13,16 @@ const AuthProvider = ({ children }) => {
   const logOut = useCallback(() => {
     localStorage.removeItem('userInfo');
     setIsLoggedIn(false);
+    setUser(null);
   }, []);
 
   const setUserInfo = useCallback((data) => {
     localStorage.clear();
     localStorage.setItem('userInfo', data);
+    setUser(JSON.parse(data));
   }, []);
 
-  const getUserInfo = useCallback(() => JSON.parse(localStorage.getItem('userInfo')), []);
+  const getUserInfo = useCallback(() => user, [user]);
 
   const providedData = useMemo(() => ({
     isLoggedIn,

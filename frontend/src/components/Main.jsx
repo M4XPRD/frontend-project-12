@@ -26,10 +26,11 @@ import useLang from '../hooks/langHook';
 import Modals from './Modals';
 
 const PrivateRoute = ({ children }) => {
-  const hasToken = localStorage.getItem('userInfo');
+  const auth = useAuth();
+  const userData = auth.getUserInfo();
   const location = useLocation();
 
-  return hasToken ? (
+  return userData ? (
     children
   ) : (
     <Navigate to={routes.loginPage()} state={{ from: location }} />

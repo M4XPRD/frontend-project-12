@@ -35,7 +35,6 @@ const ChatPage = () => {
         switch (err.code) {
           case 'ERR_BAD_RESPONSE':
             auth.logOut();
-            navigate(routes.loginPage());
             break;
           default:
             toast.danger(t('errors.loadData'));
