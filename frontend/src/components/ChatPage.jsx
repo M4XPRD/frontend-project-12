@@ -9,12 +9,10 @@ import { addMessages } from '../slices/messagesSlice';
 import { addChannels, setActiveChannel } from '../slices/channelsSlice';
 import store from '../slices/index';
 import routes from '../routes/routes';
-import useLang from '../hooks/langHook';
 import useAuth from '../hooks/authHook';
 
 const ChatPage = () => {
   const { t } = useTranslation();
-  const lang = useLang();
   const auth = useAuth();
   const navigate = useNavigate();
 
@@ -45,12 +43,6 @@ const ChatPage = () => {
     };
     getData();
   }, [t, auth, navigate]);
-
-  useEffect(() => {
-    if (!lang.getLocalLanguage()) {
-      lang.setLocalLanguage();
-    }
-  }, [lang]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

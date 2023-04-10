@@ -49,12 +49,13 @@ const Main = () => {
   }, [network]);
 
   const handleChangeLanguage = () => {
-    lang.setActiveLang();
+    lang.changeLanguage();
   };
 
   useEffect(() => {
     if (lang.activeLanguage) {
-      lang.setLocalLanguage();
+      console.log('язык браузера', JSON.parse(localStorage.getItem('currentLanguage')));
+      console.log('текущий язык', lang.activeLanguage);
     }
   }, [lang]);
 

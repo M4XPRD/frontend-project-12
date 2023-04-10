@@ -6,27 +6,23 @@ const LangProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [activeLanguage, setActiveLanguage] = useState(i18n.language);
 
-  const setActiveLang = useCallback(() => {
-    const currentLanguage = i18n.language;
-    const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
-    setActiveLanguage(updatedLanguage);
-  }, [i18n]);
-
   const getLocalLanguage = useCallback(() => {
     JSON.parse(localStorage.getItem('currentLanguage'));
   }, []);
 
-  const setLocalLanguage = useCallback(() => {
-    localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
-    i18n.changeLanguage(activeLanguage);
-  }, [i18n, activeLanguage]);
+  const changeLanguage = useCallback(() => {
+    const currentLanguage = i18n.language;
+    const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
+    i18n.changeLanguage(updatedLanguage);
+    setActiveLanguage(updatedLanguage);
+    localStorage.setItem('currentLanguage', JSON.stringify(updatedLanguage));
+  }, [i18n, setActiveLanguage]);
 
   const providedData = useMemo(() => ({
     getLocalLanguage,
-    setActiveLang,
-    setLocalLanguage,
     activeLanguage,
-  }), [getLocalLanguage, setActiveLang, setLocalLanguage, activeLanguage]);
+    changeLanguage,
+  }), [getLocalLanguage, activeLanguage, changeLanguage]);
 
   return (
     <LangContext.Provider value={providedData}>
