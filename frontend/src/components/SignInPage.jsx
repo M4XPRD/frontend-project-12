@@ -158,7 +158,7 @@ const SignInPage = () => {
             <Card.Footer className="card-footer p-4">
               <div className="text-center">
                 <span>{t('signInPage.footerMessage')}</span>
-                <Link to="/signup">{t('signInPage.registrationLink')}</Link>
+                <Link to={routes.signUpPage()}>{t('signInPage.registrationLink')}</Link>
               </div>
             </Card.Footer>
           </Card>
