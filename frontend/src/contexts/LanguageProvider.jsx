@@ -10,6 +10,10 @@ const LangProvider = ({ children }) => {
     JSON.parse(localStorage.getItem('currentLanguage'));
   }, []);
 
+  const setLocalLanguage = useCallback(() => {
+    localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
+  }, [activeLanguage]);
+
   const changeLanguage = useCallback(() => {
     const currentLanguage = i18n.language;
     const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
@@ -20,9 +24,10 @@ const LangProvider = ({ children }) => {
 
   const providedData = useMemo(() => ({
     getLocalLanguage,
+    setLocalLanguage,
     activeLanguage,
     changeLanguage,
-  }), [getLocalLanguage, activeLanguage, changeLanguage]);
+  }), [getLocalLanguage, setLocalLanguage, activeLanguage, changeLanguage]);
 
   return (
     <LangContext.Provider value={providedData}>

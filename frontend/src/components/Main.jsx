@@ -53,9 +53,8 @@ const Main = () => {
   };
 
   useEffect(() => {
-    if (lang.activeLanguage) {
-      console.log('язык браузера', JSON.parse(localStorage.getItem('currentLanguage')));
-      console.log('текущий язык', lang.activeLanguage);
+    if (!lang.getLocalLanguage()) {
+      lang.setLocalLanguage();
     }
   }, [lang]);
 
