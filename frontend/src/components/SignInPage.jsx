@@ -63,8 +63,7 @@ const SignInPage = () => {
         })
         .then((responce) => {
           const data = JSON.stringify(responce.data);
-          auth.setUserInfo(data);
-          auth.logIn();
+          auth.logIn(data);
           navigate(routes.mainPage());
         })
         .catch((error) => {

@@ -6,7 +6,10 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(initialState ?? null);
 
-  const logIn = useCallback(() => {
+  const logIn = useCallback((data) => {
+    localStorage.clear();
+    localStorage.setItem('userInfo', data);
+    setUser(JSON.parse(data));
     setIsLoggedIn(true);
   }, []);
 
@@ -16,21 +19,14 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
-  const setUserInfo = useCallback((data) => {
-    localStorage.clear();
-    localStorage.setItem('userInfo', data);
-    setUser(JSON.parse(data));
-  }, []);
-
   const getUserInfo = useCallback(() => user, [user]);
 
   const providedData = useMemo(() => ({
     isLoggedIn,
     logIn,
     logOut,
-    setUserInfo,
     getUserInfo,
-  }), [isLoggedIn, logIn, logOut, setUserInfo, getUserInfo]);
+  }), [isLoggedIn, logIn, logOut, getUserInfo]);
 
   return (
     <AuthContext.Provider value={providedData}>
