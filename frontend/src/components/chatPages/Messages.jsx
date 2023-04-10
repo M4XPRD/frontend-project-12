@@ -12,7 +12,7 @@ import useAuth from '../../hooks/authHook';
 
 const Messages = () => {
   const network = useNetwork();
-  const socket = useSocket();
+  const chatApi = useSocket();
   const auth = useAuth();
   const messageScroll = useRef(null);
   const inputFocus = useRef();
@@ -34,7 +34,7 @@ const Messages = () => {
     },
     onSubmit: () => {
       const filteredMessage = filter.clean(f.values.currentMessage);
-      socket.sendMessage({ body: filteredMessage, channelId: activeChannelId, username });
+      chatApi.sendMessage({ body: filteredMessage, channelId: activeChannelId, username });
       f.resetForm({ currentMessage: '' });
     },
   });
