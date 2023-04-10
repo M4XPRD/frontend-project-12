@@ -6,7 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { setActiveChannel } from '../../slices/channelsSlice';
 import { onShow } from '../../slices/modalsSlice';
 
-const renderChannel = (channel, handleClick, showModal, activeChannelId, t) => {
+const RenderChannel = ({
+  channel, handleClick, showModal, activeChannelId,
+}) => {
+  const { t } = useTranslation();
   const { id, name, removable } = channel;
   return (
     removable ? (
@@ -100,11 +103,15 @@ const Channels = () => {
         id="channels-box"
         className="flex-column px-2 mb-3 overflow-auto h-100 d-block"
       >
-        {channels
-          && channels
-            .map((
-              channel,
-            ) => renderChannel(channel, handleClick, showModal, activeChannelId, t))}
+        {channels && channels.map((channel) => (
+          <RenderChannel
+            key={channel.id}
+            channel={channel}
+            handleClick={handleClick}
+            showModal={showModal}
+            activeChannelId={activeChannelId}
+          />
+        ))}
       </Nav>
     </Col>
   );
