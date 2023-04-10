@@ -21,13 +21,13 @@ const SignInPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const network = useNetwork();
-  const loginFocus = useRef();
-  const passwordFocus = useRef();
-  const submitFocus = useRef();
+  const loginElement = useRef();
+  const passwordElement = useRef();
+  const submitElement = useRef();
   const { t } = useTranslation();
 
   useEffect(() => {
-    loginFocus.current.focus();
+    loginElement.current.focus();
   }, []);
 
   const handleKeyDown = (event, inputRef) => {
@@ -104,8 +104,8 @@ const SignInPage = () => {
                     required=""
                     placeholder={t('signInPage.placeholders.username')}
                     id="username"
-                    ref={loginFocus}
-                    onKeyDown={(e) => handleKeyDown(e, passwordFocus)}
+                    ref={loginElement}
+                    onKeyDown={(e) => handleKeyDown(e, passwordElement)}
                     className={inputClassNames}
                     value={f.values.username}
                     onChange={f.handleChange}
@@ -122,8 +122,8 @@ const SignInPage = () => {
                     placeholder={t('signInPage.placeholders.password')}
                     type="password"
                     id="password"
-                    ref={passwordFocus}
-                    onKeyDown={(e) => handleKeyDown(e, submitFocus)}
+                    ref={passwordElement}
+                    onKeyDown={(e) => handleKeyDown(e, submitElement)}
                     className={inputClassNames}
                     value={f.values.password}
                     onChange={f.handleChange}
@@ -145,8 +145,8 @@ const SignInPage = () => {
                 <br />
                 <Button
                   type="submit"
-                  ref={submitFocus}
-                  onClick={() => loginFocus.current.focus()}
+                  ref={submitElement}
+                  onClick={() => loginElement.current.focus()}
                   className={`w-100 mb-3 ${network.isOnline ? 'btn-primary' : 'btn-danger'}`}
                   disabled={f.isSubmitting || !network.isOnline}
                   id="signIn-login-button"
