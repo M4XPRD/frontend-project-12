@@ -10,9 +10,11 @@ import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
 import useAuth from '../../hooks/authHook';
 import { setActiveChannel } from '../../slices/channelsSlice';
+import useSocket from '../../hooks/chatApiHook';
 
-const Add = ({ socket, onHide }) => {
+const Add = ({ onHide }) => {
   const network = useNetwork();
+  const chatApi = useSocket();
   const auth = useAuth();
   const dispatch = useDispatch();
   const inputRef = useRef();
@@ -40,13 +42,13 @@ const Add = ({ socket, onHide }) => {
     validateOnBlur: false,
     onSubmit: () => {
       try {
-        socket.sendChannel({ name: f.values.channelName, author: username }, (response) => {
+        chatApi.sendChannel({ name: f.values.channelName, author: username }, (response) => {
           if (response.status === 'ok') {
             dispatch(setActiveChannel(response.data.id));
+            toast.success(t('toastify.add'));
+            onHide();
           }
         });
-        toast.success(t('toastify.add'));
-        onHide();
       } catch (error) {
         toast.danger(t('errors.toastifyAdd'));
       }

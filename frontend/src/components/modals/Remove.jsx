@@ -4,10 +4,12 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import useNetwork from '../../hooks/networkHook';
+import useSocket from '../../hooks/chatApiHook';
 
-const Remove = ({ socket, onHide, modalInfo }) => {
-  const inputRef = useRef();
+const Remove = ({ onHide, modalInfo }) => {
   const network = useNetwork();
+  const chatApi = useSocket();
+  const inputRef = useRef();
   const { t } = useTranslation();
 
   const f = useFormik({
@@ -16,7 +18,7 @@ const Remove = ({ socket, onHide, modalInfo }) => {
     },
     onSubmit: () => {
       try {
-        socket.sendRemovedChannel({ id: f.values.removingChannelId });
+        chatApi.sendRemovedChannel({ id: f.values.removingChannelId });
         toast.success(t('toastify.remove'));
         onHide();
       } catch (error) {

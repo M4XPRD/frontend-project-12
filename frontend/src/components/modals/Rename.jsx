@@ -7,11 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import useNetwork from '../../hooks/networkHook';
+import useSocket from '../../hooks/chatApiHook';
 
-const Rename = ({
-  socket, onHide, modalInfo,
-}) => {
+const Rename = ({ onHide, modalInfo }) => {
   const network = useNetwork();
+  const chatApi = useSocket();
   const inputRef = useRef();
   const channels = useSelector((state) => state.channels.allChannels);
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ const Rename = ({
           id: f.values.channelId,
           removable: f.values.channelRemovable,
         };
-        socket.sendRenamedChannel(newData);
+        chatApi.sendRenamedChannel(newData);
         toast.success(t('toastify.rename'));
         onHide();
       } catch (error) {
