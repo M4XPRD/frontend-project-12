@@ -30,12 +30,12 @@ const SignInPage = () => {
     loginElement.current.focus();
   }, []);
 
-  const handleKeyDown = (event, inputRef) => {
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      inputRef.current.focus();
-    }
-  };
+  // const handleKeyDown = (event, inputRef) => {
+  //   if (event.key === 'ArrowDown') {
+  //     event.preventDefault();
+  //     inputRef.current.focus();
+  //   }
+  // };
 
   const signInSchema = yup.object().shape({
     username: yup
@@ -103,7 +103,7 @@ const SignInPage = () => {
                     placeholder={t('signInPage.placeholders.username')}
                     id="username"
                     ref={loginElement}
-                    onKeyDown={(e) => handleKeyDown(e, passwordElement)}
+                    // onKeyDown={(e) => handleKeyDown(e, passwordElement)}
                     className={inputClassNames}
                     value={f.values.username}
                     onChange={f.handleChange}
@@ -121,7 +121,7 @@ const SignInPage = () => {
                     type="password"
                     id="password"
                     ref={passwordElement}
-                    onKeyDown={(e) => handleKeyDown(e, submitElement)}
+                    // onKeyDown={(e) => handleKeyDown(e, submitElement)}
                     className={inputClassNames}
                     value={f.values.password}
                     onChange={f.handleChange}
