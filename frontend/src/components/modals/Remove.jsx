@@ -17,13 +17,12 @@ const Remove = ({ onHide, modalInfo }) => {
       removingChannelId: modalInfo.item.id,
     },
     onSubmit: () => {
-      try {
-        chatApi.sendRemovedChannel({ id: f.values.removingChannelId });
-        toast.success(t('toastify.remove'));
-        onHide();
-      } catch (error) {
-        toast.danger(t('errors.toastifyRemove'));
-      }
+      chatApi.sendRemovedChannel({ id: f.values.removingChannelId })
+        .then(() => {
+          toast.success(t('toastify.remove'));
+          onHide();
+        })
+        .catch(() => toast.danger(t('errors.toastifyRemove')));
     },
   });
 

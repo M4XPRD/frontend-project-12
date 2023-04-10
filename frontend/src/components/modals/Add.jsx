@@ -41,17 +41,13 @@ const Add = ({ onHide }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      try {
-        chatApi.sendChannel({ name: f.values.channelName, author: username }, (response) => {
-          if (response.status === 'ok') {
-            dispatch(setActiveChannel(response.data.id));
-            toast.success(t('toastify.add'));
-            onHide();
-          }
-        });
-      } catch (error) {
-        toast.danger(t('errors.toastifyAdd'));
-      }
+      chatApi.sendChannel({ name: f.values.channelName, author: username })
+        .then((data) => {
+          dispatch(setActiveChannel(data.id));
+          toast.success(t('toastify.add'));
+          onHide();
+        })
+        .catch(() => toast.error(t('toastify.error')));
     },
   });
 

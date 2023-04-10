@@ -36,18 +36,17 @@ const Rename = ({ onHide, modalInfo }) => {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: () => {
-      try {
-        const newData = {
-          name: f.values.newChannelName,
-          id: f.values.channelId,
-          removable: f.values.channelRemovable,
-        };
-        chatApi.sendRenamedChannel(newData);
-        toast.success(t('toastify.rename'));
-        onHide();
-      } catch (error) {
-        toast.danger(t('errors.toastifyRename'));
-      }
+      const newData = {
+        name: f.values.newChannelName,
+        id: f.values.channelId,
+        removable: f.values.channelRemovable,
+      };
+      chatApi.sendRenamedChannel(newData)
+        .then(() => {
+          toast.success(t('toastify.rename'));
+          onHide();
+        })
+        .catch(() => toast.danger(t('errors.toastifyRename')));
     },
   });
 
