@@ -49,14 +49,8 @@ const Main = () => {
   }, [network]);
 
   const handleChangeLanguage = () => {
-    lang.changeLanguage();
+    lang.setNewLanguage();
   };
-
-  useEffect(() => {
-    if (!lang.getLocalLanguage()) {
-      lang.setLocalLanguage();
-    }
-  }, [lang]);
 
   return (
     <div className="h-100">

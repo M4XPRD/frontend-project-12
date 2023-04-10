@@ -1,4 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
+import {
+  useState, useMemo, useCallback, useEffect,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import LangContext from './LanguageContext';
 
@@ -8,11 +10,7 @@ const LangProvider = ({ children }) => {
 
   const getLocalLanguage = useCallback(() => JSON.parse(localStorage.getItem('currentLanguage')), []);
 
-  const setLocalLanguage = useCallback(() => {
-    localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
-  }, [activeLanguage]);
-
-  const changeLanguage = useCallback(() => {
+  const setNewLanguage = useCallback(() => {
     const currentLanguage = i18n.language;
     const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
     i18n.changeLanguage(updatedLanguage);
@@ -20,12 +18,17 @@ const LangProvider = ({ children }) => {
     localStorage.setItem('currentLanguage', JSON.stringify(updatedLanguage));
   }, [i18n, setActiveLanguage]);
 
+  useEffect(() => {
+    if (!getLocalLanguage()) {
+      setNewLanguage();
+    }
+  }, [getLocalLanguage, setNewLanguage]);
+
   const providedData = useMemo(() => ({
     getLocalLanguage,
-    setLocalLanguage,
     activeLanguage,
-    changeLanguage,
-  }), [getLocalLanguage, setLocalLanguage, activeLanguage, changeLanguage]);
+    setNewLanguage,
+  }), [getLocalLanguage, activeLanguage, setNewLanguage]);
 
   return (
     <LangContext.Provider value={providedData}>
