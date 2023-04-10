@@ -110,9 +110,9 @@ const Main = () => {
                 </PrivateRoute>
               )}
             />
-            <Route path="/login" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path={routes.loginPage()} element={<SignInPage />} />
+            <Route path={routes.signUpPage()} element={<SignUpPage />} />
+            <Route path={routes.errorPage()} element={<ErrorPage />} />
           </Routes>
           <Modals />
         </div>
