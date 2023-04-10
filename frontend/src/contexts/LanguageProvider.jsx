@@ -6,9 +6,7 @@ const LangProvider = ({ children }) => {
   const { i18n } = useTranslation();
   const [activeLanguage, setActiveLanguage] = useState(i18n.language);
 
-  const getLocalLanguage = useCallback(() => {
-    JSON.parse(localStorage.getItem('currentLanguage'));
-  }, []);
+  const getLocalLanguage = useCallback(() => JSON.parse(localStorage.getItem('currentLanguage')), []);
 
   const setLocalLanguage = useCallback(() => {
     localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
