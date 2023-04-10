@@ -31,7 +31,7 @@ const SignInPage = () => {
   }, []);
 
   const handleKeyDown = (event, inputRef) => {
-    if (event.key === 'ArrowDown') {
+    if (event.key === 'Enter') {
       event.preventDefault();
       inputRef.current.focus();
     }
