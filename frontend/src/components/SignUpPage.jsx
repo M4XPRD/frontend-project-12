@@ -45,7 +45,7 @@ const SignUpPage = () => {
   }, []);
 
   const handleKeyDown = (event, inputRef) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'ArrowDown') {
       event.preventDefault();
       inputRef.current.focus();
     }
