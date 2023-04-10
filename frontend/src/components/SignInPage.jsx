@@ -61,9 +61,8 @@ const SignInPage = () => {
           username: f.values.username,
           password: f.values.password,
         })
-        .then((responce) => {
-          const data = JSON.stringify(responce.data);
-          auth.logIn(data);
+        .then((response) => {
+          auth.logIn(response);
           navigate(routes.mainPage());
         })
         .catch((error) => {
