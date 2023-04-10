@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { setActiveChannel } from '../../slices/channelsSlice';
 import { onShow } from '../../slices/modalsSlice';
 
-const renderChannels = (channel, handleClick, showModal, activeChannelId, t) => {
+const renderChannel = (channel, handleClick, showModal, activeChannelId, t) => {
   const { id, name, removable } = channel;
   return (
     removable ? (
@@ -104,7 +104,7 @@ const Channels = () => {
           && channels
             .map((
               channel,
-            ) => renderChannels(channel, handleClick, showModal, activeChannelId, t))}
+            ) => renderChannel(channel, handleClick, showModal, activeChannelId, t))}
       </Nav>
     </Col>
   );
