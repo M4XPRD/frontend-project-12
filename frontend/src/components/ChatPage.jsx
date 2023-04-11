@@ -30,8 +30,8 @@ const ChatPage = () => {
         store.dispatch(addChannels(channels));
         store.dispatch(addMessages(messages));
       }).catch((err) => {
-        switch (err.code) {
-          case 'ERR_BAD_RESPONSE':
+        switch (err.status) {
+          case 401:
             auth.logOut();
             break;
           default:
