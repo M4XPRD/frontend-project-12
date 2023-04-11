@@ -25,8 +25,7 @@ const rollbarConfig = {
 };
 
 const Init = (socket) => {
-  // const defaultLanguage = JSON.parse(localStorage.getItem('currentLanguage')) || 'ru';
-  const defaultLanguage = 'ru';
+  const defaultLanguage = JSON.parse(localStorage.getItem('currentLanguage')) ?? 'ru';
 
   i18next
     .use(initReactI18next)
