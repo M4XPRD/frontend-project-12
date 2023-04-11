@@ -47,7 +47,7 @@ const Add = ({ onHide }) => {
           toast.success(t('toastify.add'));
           onHide();
         })
-        .catch(() => toast.error(t('toastify.error')));
+        .catch(() => toast.error(t('errors.toastifyAdd')));
     },
   });
 
