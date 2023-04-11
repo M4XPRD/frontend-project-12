@@ -2,10 +2,16 @@ import { useMemo, useCallback } from 'react';
 import ChatApiContext from './ChatApiContext';
 
 const ChatApiProvider = ({ socket, children }) => {
-  const sendMessage = useCallback((payload) => {
-    socket.emit('newMessage', payload);
-    // { body: "message text", channelId: 1, username: 'admin' }
-  }, [socket]);
+  const sendMessage = useCallback((payload) => new Promise((resolve, reject) => {
+    socket.emit('newMessage', payload, (response) => {
+      // { body: "message text", channelId: 1, username: 'admin' }
+      if (response.status === 'ok') {
+        resolve(response.data);
+      } else {
+        reject(response.error);
+      }
+    });
+  }), [socket]);
 
   const sendChannel = useCallback((payload) => new Promise((resolve, reject) => {
     socket.emit('newChannel', payload, (response) => {

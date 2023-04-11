@@ -6,6 +6,7 @@ import { Form, Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
+import { toast } from 'react-toastify';
 import useSocket from '../../hooks/chatApiHook';
 import useNetwork from '../../hooks/networkHook';
 import useAuth from '../../hooks/authHook';
@@ -34,8 +35,9 @@ const Messages = () => {
     },
     onSubmit: () => {
       const filteredMessage = filter.clean(f.values.currentMessage);
-      chatApi.sendMessage({ body: filteredMessage, channelId: activeChannelId, username });
-      f.resetForm({ currentMessage: '' });
+      chatApi.sendMessage({ body: filteredMessage, channelId: activeChannelId, username })
+        .then(() => f.resetForm({ currentMessage: '' }))
+        .catch(() => toast.error(t('errors.toastifyMessage')));
     },
   });
 
