@@ -10,6 +10,10 @@ const LangProvider = ({ children }) => {
 
   const getLocalLanguage = useCallback(() => JSON.parse(localStorage.getItem('currentLanguage')), []);
 
+  const setCurrentLanguage = useCallback(() => {
+    localStorage.setItem('currentLanguage', JSON.stringify(activeLanguage));
+  }, [activeLanguage]);
+
   const setNewLanguage = useCallback(() => {
     const currentLanguage = i18n.language;
     const updatedLanguage = currentLanguage === 'ru' ? 'en' : 'ru';
@@ -20,9 +24,10 @@ const LangProvider = ({ children }) => {
 
   useEffect(() => {
     if (!getLocalLanguage()) {
-      setNewLanguage();
+      console.log(activeLanguage);
+      setCurrentLanguage();
     }
-  }, [getLocalLanguage, setNewLanguage]);
+  }, [getLocalLanguage, setCurrentLanguage, activeLanguage]);
 
   const providedData = useMemo(() => ({
     getLocalLanguage,
