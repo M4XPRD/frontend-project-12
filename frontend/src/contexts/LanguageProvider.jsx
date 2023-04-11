@@ -20,14 +20,13 @@ const LangProvider = ({ children }) => {
     i18n.changeLanguage(updatedLanguage);
     setActiveLanguage(updatedLanguage);
     localStorage.setItem('currentLanguage', JSON.stringify(updatedLanguage));
-  }, [i18n, setActiveLanguage]);
+  }, [i18n]);
 
   useEffect(() => {
     if (!getLocalLanguage()) {
-      console.log(activeLanguage);
       setCurrentLanguage();
     }
-  }, [getLocalLanguage, setCurrentLanguage, activeLanguage]);
+  }, [getLocalLanguage, setCurrentLanguage]);
 
   const providedData = useMemo(() => ({
     getLocalLanguage,
