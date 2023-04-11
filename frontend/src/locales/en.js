@@ -14,6 +14,7 @@ export default {
       toastifyAdd: 'Channel adding failed',
       toastidyRemove: 'Channel removing failed',
       toastifyRename: 'Channel renaming failed',
+      toastifyMessage: 'Message sending failed',
       profanity: "Let's name it differently ;)",
     },
     toastify: {
